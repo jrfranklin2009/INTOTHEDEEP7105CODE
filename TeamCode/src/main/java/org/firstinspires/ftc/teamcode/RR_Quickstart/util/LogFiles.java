@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode.RoadRunner.RR_Quickstart.util;
+package org.firstinspires.ftc.teamcode.RR_Quickstart.util;
+
+import static org.firstinspires.ftc.teamcode.RR_Quickstart.drive.SampleMecanumDrive.TRANSLATIONAL_PID;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -66,12 +68,12 @@ public final class LogFiles {
         public double maxAngVel = DriveConstants.MAX_ANG_VEL;
         public double maxAngAccel = DriveConstants.MAX_ANG_ACCEL;
 
-        public double mecTransP = SampleMecanumDrive.TRANSLATIONAL_PID.kP;
-        public double mecTransI = SampleMecanumDrive.TRANSLATIONAL_PID.kI;
-        public double mecTransD = SampleMecanumDrive.TRANSLATIONAL_PID.kD;
-        public double mecHeadingP = SampleMecanumDrive.HEADING_PID.kP;
-        public double mecHeadingI = SampleMecanumDrive.HEADING_PID.kI;
-        public double mecHeadingD = SampleMecanumDrive.HEADING_PID.kD;
+        public double mecTransP = TRANSLATIONAL_PID.p;
+        public double mecTransI = TRANSLATIONAL_PID.i;
+        public double mecTransD = TRANSLATIONAL_PID.d;
+        public double mecHeadingP = SampleMecanumDrive.HEADING_PID.p;
+        public double mecHeadingI = SampleMecanumDrive.HEADING_PID.i;
+        public double mecHeadingD = SampleMecanumDrive.HEADING_PID.d;
         public double mecLateralMultiplier = SampleMecanumDrive.LATERAL_MULTIPLIER;
 
         public double tankAxialP = SampleTankDrive.AXIAL_PID.kP;

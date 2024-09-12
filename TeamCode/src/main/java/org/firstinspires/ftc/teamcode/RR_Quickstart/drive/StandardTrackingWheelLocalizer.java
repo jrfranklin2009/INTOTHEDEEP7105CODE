@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RoadRunner.RR_Quickstart.drive;
+package org.firstinspires.ftc.teamcode.RR_Quickstart.drive;
 
 import androidx.annotation.NonNull;
 
@@ -29,8 +29,6 @@ import java.util.List;
  */
 @Config
 public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
-
-    KalmanFilter kalmanFilter = new KalmanFilter(.6,.3,3);
 
 //    public static boolean kalmanfilterenable = false;
     public static double TICKS_PER_REV = 8192;
@@ -89,9 +87,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     @NonNull
     @Override
     public List<Double> getWheelVelocities() {
-        int leftVel = (int) kalmanFilter.estimate(leftEncoder.getCorrectedVelocity());
-        int rightVel = (int) kalmanFilter.estimate(rightEncoder.getCorrectedVelocity());
-        int frontVel = (int) kalmanFilter.estimate(frontEncoder.getCorrectedVelocity());
+        int leftVel = (int) leftEncoder.getCorrectedVelocity();
+        int rightVel = (int) rightEncoder.getCorrectedVelocity();
+        int frontVel = (int) frontEncoder.getCorrectedVelocity();
 
         lastEncVels.clear();
         lastEncVels.add(leftVel);
