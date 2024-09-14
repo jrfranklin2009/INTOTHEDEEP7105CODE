@@ -3,8 +3,9 @@ package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.Drivet
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.CommandFramework.Command;
-import org.firstinspires.ftc.teamcode.Robot.Subsystems.DriveTrain.DriveTrain;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DriveTrain.DriveTrain;
+
 
 public class LockPosition extends Command {
 

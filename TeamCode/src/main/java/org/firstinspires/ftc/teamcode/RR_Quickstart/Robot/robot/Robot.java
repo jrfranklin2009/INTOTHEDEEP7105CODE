@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.CommandSche
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
-import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.ScoringMechanism.Slides;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Slides;
 
 public class Robot {
     public Dashboard dashboard = new Dashboard();

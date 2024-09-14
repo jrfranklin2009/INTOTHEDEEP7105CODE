@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.linearOpMode;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -10,10 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
-import org.firstinspires.ftc.teamcode.CommandFramework.Subsystem;
-import org.firstinspires.ftc.teamcode.Robot.Robot;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
 
 public class Dashboard extends Subsystem {
     public static TelemetryPacket packet = new TelemetryPacket();

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake;
 
-import com.ThermalEquilibrium.homeostasis.Filters.FilterAlgorithms.LowPassFilter;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -8,15 +7,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.CommandFramework.Subsystem;
-import org.firstinspires.ftc.teamcode.Robot.Input;
-import org.firstinspires.ftc.teamcode.Robot.Subsystems.Dashboard;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
 
 @Config
 public class Intake extends Subsystem {
 
     public DcMotorEx intake;
-    LowPassFilter lowPassFilter = new LowPassFilter(.2);
 // motor and servo
     Servo intakeservo;
 //    public static double counter12 = 1;
@@ -63,9 +59,6 @@ public class Intake extends Subsystem {
         return intake.getCurrent(CurrentUnit.AMPS);
     }
 
-    public double getFilteredCurrent(){
-        return lowPassFilter.estimate(intake.getCurrent(CurrentUnit.AMPS));
-    }
 
     public void setIntakePower(IntakeStates intakeStates){
         // states for intake power
