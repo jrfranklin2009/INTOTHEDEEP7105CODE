@@ -19,20 +19,20 @@ public class Slides extends Subsystem {
     public static double counter = 1;
     PIDCoefficients coefficients = new PIDCoefficients(kp,ki,kd);
 
-    public DcMotorEx leftslide, rightslide;
+//    public DcMotorEx leftslide, rightslide;
     @Override
     public void initAuto(HardwareMap hwMap) {
-        leftslide = hwMap.get(DcMotorEx.class,"leftslide");
-        rightslide = hwMap.get(DcMotorEx.class,"rightslide");
-        touchslides = hwMap.get(TouchSensor.class,"touchslides");
-        leftslide.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftslide = hwMap.get(DcMotorEx.class,"leftslide");
+//        rightslide = hwMap.get(DcMotorEx.class,"rightslide");
+//        touchslides = hwMap.get(TouchSensor.class,"touchslides");
+//        leftslide.setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//        leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ref = 0;
         counter = 1;
     }
@@ -44,8 +44,8 @@ public class Slides extends Subsystem {
 
     @Override
     public void shutdown() {
-        leftslide.setPower(0);
-        rightslide.setPower(0);
+//        leftslide.setPower(0);
+//        rightslide.setPower(0);
     }
 
     public double setTarget(double target){
@@ -56,19 +56,21 @@ public class Slides extends Subsystem {
         return ref;
     }
 
-    public void resetSlides() {
-        leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
+    public void resetSlides() {}
+//        leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//    }
 
     public double getSlidePos(){
-        return (leftslide.getCurrentPosition() + rightslide.getCurrentPosition()) / 2;
+//        return (leftslide.getCurrentPosition() + rightslide.getCurrentPosition()) / 2;
+        return 0;
     }
 
     public double getLeftSlidePos(){
-        return leftslide.getCurrentPosition();
+//        return leftslide.getCurrentPosition();
+        return 0;
     }
 
     public double getError(double target){

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.DrivetrainCommands;
 
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DriveTrain.DriveTrain;
@@ -18,12 +20,14 @@ public class RobotRelative extends Command {
 
     @Override
     public void init() {
-
     }
 
     @Override
     public void periodic() {
-        driveTrain.RobotRelative(input);
+        driveTrain.mecanumDrive.setWeightedDrivePower(new Pose2d(
+                -input.getLeft_stick_y(),
+                -input.getLeft_stick_x(),
+                -input.getRight_stick_x()));
     }
 
     @Override
@@ -33,6 +37,6 @@ public class RobotRelative extends Command {
 
     @Override
     public void shutdown() {
-        driveTrain.RobotRelative(input);
+
     }
 }
