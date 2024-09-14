@@ -27,17 +27,17 @@ public class Red3WeekMiddleAuto {
                                 .lineToLinearHeading(new Pose2d(32, 0, Math.toRadians(0)))
                                 // clip specimen
                                 .lineToLinearHeading(new Pose2d(50,0, Math.toRadians(0)))
-                                .lineToLinearHeading(new Pose2d(23, 40, Math.toRadians(90)))
+                                .lineToLinearHeading(new Pose2d(23, -40, Math.toRadians(90)))
                                 // pick up first yellow sample
-                                .lineToLinearHeading(new Pose2d(53, 53, Math.toRadians(45)))
+                                .lineToLinearHeading(new Pose2d(53, -53, Math.toRadians(315)))
                                 // deposit sample
-                                .lineToLinearHeading(new Pose2d(23, 49, Math.toRadians(90)))
+                                .lineToLinearHeading(new Pose2d(23, -49, Math.toRadians(90)))
                                 // pick up second yellow sample
-                                .lineToLinearHeading(new Pose2d(53, 53, Math.toRadians(45)))
+                                .lineToLinearHeading(new Pose2d(53, -53, Math.toRadians(315)))
                                 // deposit second yellow sample
-                                .lineToLinearHeading(new Pose2d(23, 58, Math.toRadians(90)))
+                                .lineToLinearHeading(new Pose2d(23, -58, Math.toRadians(90)))
                                 // pick up third yellow sample
-                                .lineToLinearHeading(new Pose2d(53, 53, Math.toRadians(45)))
+                                .lineToLinearHeading(new Pose2d(53, -53, Math.toRadians(315)))
                                 // deposit third sample
                                 .lineToLinearHeading(new Pose2d(50, 0, Math.toRadians(0)))
                                 .lineToLinearHeading(new Pose2d(32, 0, Math.toRadians(0)))
