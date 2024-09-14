@@ -14,7 +14,7 @@ public class BaseTele extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2);
-        groups =new ScoringCommandGroups(robot.slides, robot.intake);
+        groups =new ScoringCommandGroups(robot.slides, robot.intake, robot.arm);
 
         waitForStart();
         while (opModeIsActive()){

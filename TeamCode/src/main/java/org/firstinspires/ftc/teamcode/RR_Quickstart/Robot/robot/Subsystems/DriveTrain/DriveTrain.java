@@ -42,7 +42,6 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void shutdown() {
-      //  mecanumDrive.setZeroPowerBehaviorAllMotors();
         mecanumDrive.setMotorPowers(0,0,0,0);
     }
 
@@ -56,60 +55,12 @@ public class DriveTrain extends Subsystem {
                    -input.getLeft_stick_x(),
                    -input.getRight_stick_x()));
        } else if (driveSpeed == DriveSpeed.Slow) {
-//           if ((colorSensor1.getNormalizedColors().red > 0.3 & colorSensor2.getNormalizedColors().red > 0.3) || (colorSensor1.getNormalizedColors().blue > 0.3 & colorSensor2.getNormalizedColors().blue > 0.3))  {
            mecanumDrive.setWeightedDrivePower(new Pose2d(
                    (-input.getLeft_stick_y() * .3),
                    (-input.getLeft_stick_x() * .3),
                    (-input.getRight_stick_x() * .3)));
            }
        }
-//    }
-
-//<<<<<<< HEAD
-//=======
-//    public void RobotRelativeExperimental(Input input){
-//        if (driveSpeed == DriveSpeed.Fast) {
-//            mecanumDrive.setWeightedDrivePower(new Pose2d(
-//                    -input.getLeft_stick_y(),
-//                    -input.getLeft_stick_x(),
-//                    -input.getRight_stick_x()));
-//        } else if (driveSpeed == DriveSpeed.Slow) {
-////            if ((colorSensor1.getNormalizedColors().red > 0.3 & colorSensor2.getNormalizedColors().red > 0.3) || (colorSensor1.getNormalizedColors().blue > 0.3 & colorSensor2.getNormalizedColors().blue > 0.3)) {
-//                mecanumDrive.setWeightedDrivePower(new Pose2d(
-//                        Math.abs(-input.getLeft_stick_y() * .3),
-//                        -input.getLeft_stick_x() * .3,
-//                        -input.getRight_stick_x() * .3));
-//            }
-//            else if ((colorSensor1.getNormalizedColors().red > 0.3) || (colorSensor1.getNormalizedColors().blue > 0.3))  {
-//                Pose2d positionPower = new Pose2d(Math.abs(-input.getLeft_stick_y()*0.3), -input.getLeft_stick_x()*0.3, -input.getRight_stick_x()*0.3);
-//                if (Math.abs(positionPower.getX())+Math.abs(positionPower.getY())+Math.abs(positionPower.getHeading())>1) {
-//                    positionPower = new Pose2d(mecanumDrive.VX_WEIGHT*positionPower.getX(), mecanumDrive.VY_WEIGHT*positionPower.getY(), mecanumDrive.OMEGA_WEIGHT*positionPower.getHeading()).div(mecanumDrive.VX_WEIGHT*Math.abs(positionPower.getX())+mecanumDrive.VY_WEIGHT*Math.abs(positionPower.getY())+mecanumDrive.OMEGA_WEIGHT*Math.abs(positionPower.getHeading()));
-//                }
-//
-//                List MotorPowers = MecanumKinematics.robotToWheelVelocities(positionPower, 1.0, 1.0, SampleMecanumDrive.LATERAL_MULTIPLIER);
-//
-//                mecanumDrive.leftFront.setPower(0);
-//                mecanumDrive.leftRear.setPower(0);
-//                mecanumDrive.rightRear.setPower((Double) MotorPowers.get(3));
-//                mecanumDrive.rightFront.setPower((Double) MotorPowers.get(4));
-//            }
-//            else if ((colorSensor2.getNormalizedColors().red > 0.3) || (colorSensor2.getNormalizedColors().blue > 0.3))  {
-//                Pose2d positionPower = new Pose2d(Math.abs(-input.getLeft_stick_y()*0.3), -input.getLeft_stick_x()*0.3, -input.getRight_stick_x()*0.3);
-//                if (Math.abs(positionPower.getX())+Math.abs(positionPower.getY())+Math.abs(positionPower.getHeading())>1) {
-//                    positionPower = new Pose2d(mecanumDrive.VX_WEIGHT*positionPower.getX(), mecanumDrive.VY_WEIGHT*positionPower.getY(), mecanumDrive.OMEGA_WEIGHT*positionPower.getHeading()).div(mecanumDrive.VX_WEIGHT*Math.abs(positionPower.getX())+mecanumDrive.VY_WEIGHT*Math.abs(positionPower.getY())+mecanumDrive.OMEGA_WEIGHT*Math.abs(positionPower.getHeading()));
-//                }
-//
-//                List MotorPowers = MecanumKinematics.robotToWheelVelocities(positionPower, 1.0, 1.0, SampleMecanumDrive.LATERAL_MULTIPLIER);
-//
-//                mecanumDrive.leftFront.setPower((Double) MotorPowers.get(2));
-//                mecanumDrive.leftRear.setPower((Double) MotorPowers.get(1));
-//                mecanumDrive.rightRear.setPower(0);
-//                mecanumDrive.rightFront.setPower(0);
-//            }
-//
-//        }
-//    }
-
     public void setStates(Input input){
        if (input.isCrossPressed() && slow){
            slow = false;

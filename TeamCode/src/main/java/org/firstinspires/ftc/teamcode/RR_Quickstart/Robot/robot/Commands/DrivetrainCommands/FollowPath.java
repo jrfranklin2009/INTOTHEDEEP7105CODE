@@ -8,9 +8,6 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Dashb
 
 
 public class FollowPath extends Command {
-
-   // DriveTrain driveTrain;
-
     Robot robot;
 
     Dashboard dashboard;
@@ -18,7 +15,6 @@ public class FollowPath extends Command {
     Trajectory traj;
 
     public FollowPath(Trajectory traj,Robot robot, Dashboard dashboard){
-       // super(robot.driveTrain);
         this.robot = robot;
         this.dashboard = dashboard;
         this.traj = traj;

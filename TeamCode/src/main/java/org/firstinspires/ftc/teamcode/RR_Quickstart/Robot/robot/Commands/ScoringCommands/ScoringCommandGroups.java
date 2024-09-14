@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.Scorin
 
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
 
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmPID;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntake;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Input;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Slides;
 
@@ -12,9 +14,12 @@ public class ScoringCommandGroups {
     Slides slides;
     Intake intake;
 
-    public ScoringCommandGroups(Slides slides, Intake intake) {
+    Arm arm;
+
+    public ScoringCommandGroups(Slides slides, Intake intake, Arm arm) {
         this.slides = slides;
         this.intake = intake;
+        this.arm = arm;
     }
 
     public Command intakeSample(Input input){
@@ -29,8 +34,16 @@ public class ScoringCommandGroups {
         return setIntake(Intake.IntakePower.Stop, Intake.Wrist.PlacingSpecimin, input);
     }
 
+    public Command moveArmWithPid(Arm.ArmStates armStates){
+        return moveArmPID(armStates);
+    }
+
     public MoveIntake setIntake(Intake.IntakePower intakePower, Intake.Wrist wrist, Input input){
         return new MoveIntake(intake,intakePower, wrist, input);
+    }
+
+    public MoveArmPID moveArmPID(Arm.ArmStates armStates){
+        return new MoveArmPID(arm,armStates);
     }
 
 }

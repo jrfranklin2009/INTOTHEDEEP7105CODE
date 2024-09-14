@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms;
 
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
+import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
+import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -9,15 +9,12 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
 
 public class Arm extends Subsystem {
 
+    public static int ref = 0;
     DcMotor arm;
 
-    public static PIDCoefficients pid = new PIDCoefficients();
+    public static PIDCoefficients pid = new PIDCoefficients(0,0,0);
 
-    PIDFController controller = new PIDFController(pid);
-
-    public Arm(DcMotor arm){
-        this.arm = arm;
-    }
+    BasicPID controller = new BasicPID(pid);
 
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -45,8 +42,23 @@ public class Arm extends Subsystem {
         return arm.getCurrentPosition();
     }
 
-    public void armPID(){
-        arm.setPower(controller.update(getArmPos()));
+    public void armPID(int ref){
+        arm.setPower(controller.calculate(ref,getArmPos()));
+    }
+
+    public void setArmStates(ArmStates armStates){
+        switch (armStates){
+            case Up:
+                armPID(ref);
+                break;
+            case Down:
+                armPID(0);
+                break;
+        }
+    }
+
+    public double getArmError(){
+        return ref - getArmPos();
     }
 
     public enum ArmStates{
