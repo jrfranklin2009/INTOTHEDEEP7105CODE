@@ -5,16 +5,17 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Robot;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Dashboard;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.trajectorysequence.TrajectorySequence;
 
 
-public class FollowPath extends Command {
+public class FollowPathSequence extends Command {
     Robot robot;
 
     Dashboard dashboard;
 
-    Trajectory traj;
+    TrajectorySequence traj;
 
-    public FollowPath(Trajectory traj,Robot robot, Dashboard dashboard){
+    public FollowPathSequence(TrajectorySequence traj, Robot robot, Dashboard dashboard){
         this.robot = robot;
         this.dashboard = dashboard;
         this.traj = traj;
@@ -27,8 +28,7 @@ public class FollowPath extends Command {
 
     @Override
     public void periodic() {
-        //TODO check to see if this was the issue.
-        robot.driveTrain.followTrajectory(traj);
+        robot.driveTrain.followTrajectorySequenceAsync(traj);
     }
 
     @Override

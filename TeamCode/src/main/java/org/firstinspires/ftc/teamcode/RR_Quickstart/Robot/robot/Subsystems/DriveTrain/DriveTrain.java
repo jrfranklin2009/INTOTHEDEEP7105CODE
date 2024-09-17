@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.trajectorysequence.TrajectorySequence;
 
 @Config
 public class DriveTrain extends Subsystem {
@@ -89,6 +90,11 @@ public class DriveTrain extends Subsystem {
     public void followTrajectoryAsync(Trajectory trajectory){
        mecanumDrive.followTrajectoryAsync(trajectory);
     }
+
+    public void followTrajectorySequenceAsync(TrajectorySequence trajectory){
+        mecanumDrive.followTrajectorySequenceAsync(trajectory);
+    }
+
 
     public void followTrajectory(Trajectory trajectory){
         mecanumDrive.followTrajectory(trajectory);

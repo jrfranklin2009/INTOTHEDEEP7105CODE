@@ -9,21 +9,22 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Dashb
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
-import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Slides;
 
 public class Robot {
     public Dashboard dashboard = new Dashboard();
     public Input gamepad1, gamepad2;
-    public Intake intake = new Intake();
-    public Slides slides = new Slides();
+    public Intake intake;
+//    public Slides slides = new Slides();
 
-    public Arm arm = new Arm();
+    public Arm arm;
     public DriveTrain driveTrain;
     protected CommandScheduler scheduler;
 
     public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
         driveTrain = new DriveTrain(hw);
-        scheduler = new CommandScheduler(hw,dashboard,intake, slides,driveTrain);
+        arm  = new Arm();
+        intake= new Intake();
+        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain);
         this.gamepad1 = new Input(gamepad1,scheduler);
         this.gamepad2 = new Input(gamepad2,scheduler);
         if (opMode.equals(OpMode.Auto)) {

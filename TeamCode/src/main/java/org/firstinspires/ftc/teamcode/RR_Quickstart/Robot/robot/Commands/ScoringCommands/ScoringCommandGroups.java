@@ -7,17 +7,13 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.Scoring
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
-import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Slides;
 
 public class ScoringCommandGroups {
-
-    Slides slides;
     Intake intake;
 
     Arm arm;
 
-    public ScoringCommandGroups(Slides slides, Intake intake, Arm arm) {
-        this.slides = slides;
+    public ScoringCommandGroups( Intake intake, Arm arm) {
         this.intake = intake;
         this.arm = arm;
     }
