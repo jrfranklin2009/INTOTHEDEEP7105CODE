@@ -21,11 +21,12 @@ public abstract class BaseAuto extends LinearOpMode {
 
         groups = new ScoringCommandGroups( robot.intake, robot.arm);
 
-        waitForStart();
         robot.driveTrain.mecanumDrive.setPoseEstimate(new Pose2d(63,0,Math.toRadians(0)));
 
+        waitForStart();
+        robot.getScheduler().forceCommand(runAuto(robot.getScheduler()));
+
         while (opModeIsActive() && !isStopRequested()){
-            robot.getScheduler().forceCommand(runAuto(robot.getScheduler()));
             robot.update();
             for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
                 module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
