@@ -54,11 +54,13 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         lastEncPositions = lastTrackingEncPositions;
         lastEncVels = lastTrackingEncVels;
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lf"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rf")); // this is port rb on the new bot but lb on the old one
-        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rb"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lb"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rb")); // this is port rb on the new bot but lb on the old one
+        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rf"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
+//        leftEncoder.setDirection(Encoder.Direction.REVERSE);
+//        rightEncoder.setDirection(Encoder.Direction.REVERSE);
     }
 
     public static double encoderTicksToInches(double ticks) {

@@ -6,22 +6,25 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.DrivetrainCommands.FollowPath;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.DrivetrainCommands.FollowPathSequence;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Robot;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.trajectorysequence.TrajectorySequence;
 
 public abstract class BaseAuto extends LinearOpMode {
     protected Robot robot;
     public ScoringCommandGroups groups;
     @Override
     public void runOpMode() throws InterruptedException {
-        groups = new ScoringCommandGroups(robot.slides, robot.intake, robot.arm);
 
+        setRobot();
 
-        while (opModeInInit()) {
+        groups = new ScoringCommandGroups( robot.intake, robot.arm);
 
-        }
+        robot.driveTrain.mecanumDrive.setPoseEstimate(new Pose2d(63,0,Math.toRadians(0)));
 
         waitForStart();
+        robot.getScheduler().forceCommand(runAuto(robot.getScheduler()));
 
         while (opModeIsActive() && !isStopRequested()){
             robot.update();
@@ -35,7 +38,13 @@ public abstract class BaseAuto extends LinearOpMode {
     public FollowPath RoadRunnerPath(Trajectory traj){
         return new FollowPath(traj,robot,robot.dashboard);
     }
+
+    public FollowPathSequence RoadRunnerPathSequence(TrajectorySequence traj){
+        return new FollowPathSequence(traj,robot,robot.dashboard);
+    }
+
     public void setRobot(){
         robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
     }
+
 }
