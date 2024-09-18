@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RR_Quickstart.Opmode;
+package org.firstinspires.ftc.teamcode.RR_Quickstart.Opmode.Autos;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
@@ -17,15 +17,13 @@ public class RedAuto extends BaseAuto {
 
         Trajectory trajectory = robot.driveTrain.mecanumDrive.trajectoryBuilder(new Pose2d(63, 0, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(32, 0, Math.toRadians(0)))
+                .build();
 
                 // clip specimen
-
-                .build();
 
         Trajectory trajectory1 = robot.driveTrain.mecanumDrive.trajectoryBuilder(trajectory.end())
                 .lineToLinearHeading(new Pose2d(50,0, Math.toRadians(0)))
                 .build();
-
 
         Trajectory trajectory2 = robot.driveTrain.mecanumDrive.trajectoryBuilder(trajectory1.end())
                 .lineToLinearHeading(new Pose2d(23, -40, Math.toRadians(90)))
