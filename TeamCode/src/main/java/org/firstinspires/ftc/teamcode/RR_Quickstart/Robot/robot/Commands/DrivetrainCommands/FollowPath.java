@@ -23,12 +23,12 @@ public class FollowPath extends Command {
 
     @Override
     public void init() {
+        robot.driveTrain.followTrajectory(traj);
     }
 
     @Override
     public void periodic() {
         //TODO check to see if this was the issue.
-        robot.driveTrain.followTrajectory(traj);
     }
 
     @Override

@@ -21,16 +21,16 @@ public class RedAuto extends BaseAuto {
 
                 // clip specimen
 
-        Trajectory trajectory1 = robot.driveTrain.mecanumDrive.trajectoryBuilder(trajectory.end())
+        Trajectory trajectory1 = robot.driveTrain.mecanumDrive.trajectoryBuilder(new Pose2d(32, 0, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(50,0, Math.toRadians(0)))
                 .build();
 
-        Trajectory trajectory2 = robot.driveTrain.mecanumDrive.trajectoryBuilder(trajectory1.end())
+        Trajectory trajectory2 = robot.driveTrain.mecanumDrive.trajectoryBuilder(new Pose2d(50,0, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(23, -40, Math.toRadians(90)))
                 .build();
 
                 // pick up first yellow sample
-        Trajectory trajectory3 = robot.driveTrain.mecanumDrive.trajectoryBuilder(trajectory2.end())
+        Trajectory trajectory3 = robot.driveTrain.mecanumDrive.trajectoryBuilder(new Pose2d(23, -40, Math.toRadians(90)))
                 .lineToLinearHeading(new Pose2d(53, -53, Math.toRadians(315)))
                 .build();
 
@@ -70,15 +70,14 @@ public class RedAuto extends BaseAuto {
                 // park
 
         runpath = new MultipleCommand(RoadRunnerPath(trajectory).addNext(RoadRunnerPath(trajectory1))
-                .addNext(RoadRunnerPath(trajectory2)))
+                .addNext(RoadRunnerPath(trajectory2))
                 .addNext(RoadRunnerPath(trajectory3))
                 .addNext(RoadRunnerPath(trajectory4))
                 .addNext(RoadRunnerPath(trajectory5))
                 .addNext(RoadRunnerPath(trajectory6))
                 .addNext(RoadRunnerPath(trajectory7))
                 .addNext(RoadRunnerPath(trajectory8))
-                .addNext(RoadRunnerPath(trajectory9));
-
+                .addNext(RoadRunnerPath(trajectory9)));
 
         // run the trajectories
         return runpath;

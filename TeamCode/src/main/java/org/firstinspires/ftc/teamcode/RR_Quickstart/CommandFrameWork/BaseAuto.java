@@ -28,9 +28,9 @@ public abstract class BaseAuto extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()){
             robot.update();
-            for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
-                module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-            }
+//            for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
+//                module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+//            }
         }
         robot.shutdown();
     }
