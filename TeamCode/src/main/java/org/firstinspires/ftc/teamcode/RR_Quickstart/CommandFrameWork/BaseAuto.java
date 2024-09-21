@@ -21,7 +21,8 @@ public abstract class BaseAuto extends LinearOpMode {
 
         groups = new ScoringCommandGroups( robot.intake, robot.arm);
 
-        robot.driveTrain.mecanumDrive.setPoseEstimate(new Pose2d(63,0,Math.toRadians(0)));
+        while (opModeInInit()){
+        }
 
         waitForStart();
         robot.getScheduler().forceCommand(runAuto(robot.getScheduler()));
