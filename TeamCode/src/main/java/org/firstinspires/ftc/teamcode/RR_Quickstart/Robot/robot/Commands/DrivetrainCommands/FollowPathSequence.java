@@ -24,11 +24,11 @@ public class FollowPathSequence extends Command {
 
     @Override
     public void init() {
+        robot.driveTrain.followTrajectorySequenceAsync(traj);
     }
 
     @Override
     public void periodic() {
-        robot.driveTrain.followTrajectorySequenceAsync(traj);
     }
 
     @Override

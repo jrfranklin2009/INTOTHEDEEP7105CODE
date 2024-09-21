@@ -44,6 +44,10 @@ public abstract class BaseAuto extends LinearOpMode {
         return new FollowPathSequence(traj,robot,robot.dashboard);
     }
 
+//    public Command RoadRunnerPathSequenceBet(TrajectorySequence traj){
+//        return robot.driveTrain.mecanumDrive.followTrajectorySequence(traj);
+//    }
+
     public void setRobot(){
         robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
     }
