@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot;
+package org.firstinspires.ftc.teamcode.RR_Quickstart.Opmode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
-public class Teleop extends LinearOpMode {
+public class TestHang extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
