@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RR_Quickstart.Opmode;
+package org.firstinspires.ftc.teamcode.RR_Quickstart.Opmode.Teleop;
 
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.BaseTele;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
