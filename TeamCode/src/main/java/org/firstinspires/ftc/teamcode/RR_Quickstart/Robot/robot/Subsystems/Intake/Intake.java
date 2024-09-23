@@ -15,9 +15,11 @@ import java.security.PublicKey;
 @Config
 public class Intake extends Subsystem {
 
-    public CRServo intake;
+    public CRServo intake;  // intake wheel
 
-    public Servo wrist;
+    public Servo twist; // the turning thing that rotates
+
+    public Servo wrist;  // flip-flop
 
 
 
@@ -25,12 +27,14 @@ public class Intake extends Subsystem {
     public void initAuto(HardwareMap hwMap) {
         wrist = hwMap.get(Servo.class, "wrist");
         intake = hwMap.get(CRServo.class,"intake");
+        twist = hwMap.get(Servo.class, "twist");
     }
 
     @Override
     public void initTeleop(HardwareMap hwMap) {
         wrist = hwMap.get(Servo.class, "wrist");
         intake = hwMap.get(CRServo.class,"intake");
+        twist = hwMap.get(Servo.class, "twist");
 
     }
     @Override
@@ -56,24 +60,50 @@ public class Intake extends Subsystem {
 
     public void setWrist(Wrist wriststates){
         switch(wriststates){
-            case Sample:
+            case Rest:
                 wrist.setPosition(0.0);
+            case IntakeSample:
+                wrist.setPosition(0.0);
+            case OuttakeSample:
+                wrist.setPosition(0.2);
             case PlacingSpecimin:
-                wrist.setPosition(0.25);
+                wrist.setPosition(0.0);
         }
 
+    }
+
+    public void setTwist(Twist twiststates){
+        switch(twiststates){
+            case Rest:
+                twist.setPosition(0.0);
+            case PlacingSpecimin:
+                twist.setPosition(0.25);
+            case IntakeSample:
+                twist.setPosition(0);
+            case OuttakeSample:
+                twist.setPosition(0);
+        }
     }
 
 
 
     public enum Wrist{
         PlacingSpecimin,
-        Sample
+        IntakeSample,
+        OuttakeSample,
+        Rest
     }
 
     public enum IntakePower{
         Intake,
         Outtake,
         Stop
+    }
+
+    public enum Twist{
+        PlacingSpecimin,
+        IntakeSample,
+        OuttakeSample,
+        Rest
     }
 }

@@ -14,6 +14,7 @@ public class TeleOp extends BaseTele {
         robot.gamepad1.whenRightBumperPressed(groups.intakeSample(robot.gamepad1));
         robot.gamepad1.whenLeftBumperPressed(groups.outtakeSample(robot.gamepad1));
         robot.gamepad1.whenSquarePressed(groups.outtakeSpecimen(robot.gamepad1));
+        robot.gamepad1.whenCirclePressed(groups.setIntakeRest(robot.gamepad1));
 
         return new MultipleCommand(new RobotRelative(robot.driveTrain,robot.gamepad1)); // drivetrain
     }

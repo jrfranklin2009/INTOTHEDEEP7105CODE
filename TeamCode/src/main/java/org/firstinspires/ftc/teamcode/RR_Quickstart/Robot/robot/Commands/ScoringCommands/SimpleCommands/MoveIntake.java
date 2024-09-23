@@ -15,23 +15,27 @@ public class MoveIntake extends Command {
 
     Intake.Wrist intakeWristStates;
 
+    Intake.Twist intakeTwistStates;
+
     Intake.IntakePower intakeStates;
 
     Input input;
     ElapsedTime timer = new ElapsedTime();
 
-    public MoveIntake(Intake intake, Intake.IntakePower intakeStates, Intake.Wrist intakeWristStates, Input input){
+    public MoveIntake(Intake intake, Intake.IntakePower intakeStates, Intake.Wrist intakeWristStates, Intake.Twist intakeTwistStates, Input input){
         this.intake = intake;
         this.intakeStates = intakeStates;
         this.intakeWristStates = intakeWristStates;
+        this.intakeTwistStates = intakeTwistStates;
         this.input = input;
     }
 
     @Override
     public void init() {
         intake.setIntakePower(intakeStates);
-        timer.reset();
         intake.setWrist(intakeWristStates);
+        intake.setTwist(intakeTwistStates);
+        timer.reset();
     }
 
     @Override
@@ -41,11 +45,20 @@ public class MoveIntake extends Command {
     // ||
     @Override
     public boolean completed() {
-        return !input.isSquarePressed() && !input.isRight_bumper() && !input.isLeft_bumper();
+        if (this.intakeTwistStates == Intake.Twist.PlacingSpecimin) {
+            return (timer.seconds() > 10.0);
+
+        } else {
+            return (timer.seconds() > 5.0);
+        }
+
+
     }
 
     @Override
     public void shutdown() {
         intake.setIntakePower(Intake.IntakePower.Stop);
+        intake.setTwist(Intake.Twist.Rest);
+        intake.setWrist(Intake.Wrist.Rest);
     }
 }
