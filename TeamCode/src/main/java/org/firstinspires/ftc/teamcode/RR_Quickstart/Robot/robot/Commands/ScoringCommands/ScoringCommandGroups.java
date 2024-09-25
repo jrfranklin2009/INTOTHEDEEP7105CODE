@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.Scorin
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
 
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmPID;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHang;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntake;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
 
 public class ScoringCommandGroups {
@@ -13,9 +15,13 @@ public class ScoringCommandGroups {
 
     Arm arm;
 
-    public ScoringCommandGroups( Intake intake, Arm arm) {
+    HangingMechanism hangingMechanism;
+
+    public ScoringCommandGroups( Intake intake, Arm arm, HangingMechanism hangingMechanism) {
         this.intake = intake;
         this.arm = arm;
+        this.hangingMechanism = hangingMechanism;
+
     }
 
     public Command intakeSample(Input input){
@@ -44,6 +50,26 @@ public class ScoringCommandGroups {
 
     public MoveArmPID moveArmPID(Arm.ArmStates armStates){
         return new MoveArmPID(arm,armStates);
+    }
+
+    public Command getReadyToHang(Input input){
+        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.Down, input);
+    }
+
+    public Command HookOnBar(Input input) {
+        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.HangFirstLevel, input);
+    }
+
+    public Command Hang(Input input){
+        return setHang(HangingMechanism.LeadScrewTurnStates.Coast, HangingMechanism.LeadScrewStates.Down, input);
+    }
+
+    public Command ResetHanging(Input input){
+        return setHang(HangingMechanism.LeadScrewTurnStates.Normal, HangingMechanism.LeadScrewStates.Down, input);
+    }
+
+    public Command setHang(HangingMechanism.LeadScrewTurnStates leadscrewturnstate, HangingMechanism.LeadScrewStates leadscrewstate, Input input){
+        return new MoveHang(hangingMechanism, leadscrewturnstate, leadscrewstate, input);
     }
 
 }
