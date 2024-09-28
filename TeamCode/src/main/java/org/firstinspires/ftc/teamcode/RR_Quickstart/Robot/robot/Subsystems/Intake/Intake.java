@@ -12,6 +12,9 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
 
 import java.security.PublicKey;
 
+/**Code for the intake claw.
+ */
+
 @Config
 public class Intake extends Subsystem {
 
@@ -26,14 +29,14 @@ public class Intake extends Subsystem {
     @Override
     public void initAuto(HardwareMap hwMap) {
         wrist = hwMap.get(Servo.class, "wrist");
-        intake = hwMap.get(CRServo.class,"intake");
+        intake = hwMap.get(CRServo.class,"intake");  // hardware map
         twist = hwMap.get(Servo.class, "twist");
     }
 
     @Override
     public void initTeleop(HardwareMap hwMap) {
         wrist = hwMap.get(Servo.class, "wrist");
-        intake = hwMap.get(CRServo.class,"intake");
+        intake = hwMap.get(CRServo.class,"intake");  // hardware map
         twist = hwMap.get(Servo.class, "twist");
 
     }
@@ -42,64 +45,68 @@ public class Intake extends Subsystem {
 
     }
 
+    //TODO add something for shutdown
     @Override
     public void shutdown() {
 
     }
 
     public void setIntakePower(IntakePower intakePower){
+        // set the intake power (the intake wheel)
         switch(intakePower){
             case Intake:
-                intake.setPower(1);
+                intake.setPower(1);  // intake
             case Outtake:
-                intake.setPower(-1);
+                intake.setPower(-1);  // outtake
             case Stop:
-                intake.setPower(0);
+                intake.setPower(0);  // stop
         }
     }
 
     public void setWrist(Wrist wriststates){
+        // set the wrist's position
         switch(wriststates){
             case Rest:
-                wrist.setPosition(0.0);
+                wrist.setPosition(0.0);  // set the wrist to rest
             case IntakeSample:
-                wrist.setPosition(0.0);
+                wrist.setPosition(0.0);  // set the wrist for intaking a sample.  Note that it is hte same position as Rest, but we have different names for easy reading and debugging.
             case OuttakeSample:
-                wrist.setPosition(0.2);
+                wrist.setPosition(0.2);  // outtake a sample
             case PlacingSpecimin:
-                wrist.setPosition(0.0);
+                wrist.setPosition(0.0);  // place a specimen
         }
 
     }
 
     public void setTwist(Twist twiststates){
+        // twist the intake to positions
         switch(twiststates){
             case Rest:
-                twist.setPosition(0.0);
+                twist.setPosition(0.0);  // rest
             case PlacingSpecimin:
-                twist.setPosition(0.25);
+                twist.setPosition(0.25);  // place a specimen
             case IntakeSample:
-                twist.setPosition(0);
+                twist.setPosition(0);  // intake a sample
             case OuttakeSample:
-                twist.setPosition(0);
+                twist.setPosition(0); // outake a sample
         }
     }
 
 
-
+// names for wrist positions
     public enum Wrist{
         PlacingSpecimin,
         IntakeSample,
         OuttakeSample,
         Rest
     }
-
+// names for intake powers
     public enum IntakePower{
         Intake,
         Outtake,
         Stop
     }
-
+// names for twist positions
     public enum Twist{
         PlacingSpecimin,
         IntakeSample,
