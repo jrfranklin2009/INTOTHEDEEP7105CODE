@@ -37,23 +37,23 @@ public class HangingMechanism extends Subsystem {
 
         LeadScrewOne = hwMap.get(DcMotor.class, "LeadScrewOne");  // hardware mapping lead screw motors
         LeadScrewTwo = hwMap.get(DcMotor.class, "LeadScrewTwo");
+        TurnScrewOne = hwMap.get(ServoImplEx.class, "TurnScrewOne");  // hardware map lead screw servos
+        TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");
 
         LeadScrewTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeadScrewTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         // make it so they can use encoders
         LeadScrewOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeadScrewOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        TurnScrewOne = hwMap.get(ServoImplEx.class, "TurnScrewOne");  // hardware map lead screw servos
-        TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");
 
     }
 
     @Override
     public void initTeleop(HardwareMap hwMap){
-
         LeadScrewOne = hwMap.get(DcMotor.class, "LeadScrewOne");
         LeadScrewTwo = hwMap.get(DcMotor.class, "LeadScrewTwo");  // hardware mapping lead screw motors
+        TurnScrewOne = hwMap.get(ServoImplEx.class, "TurnScrewOne");
+        TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");  // hardware mapping lead screw servos
 
         LeadScrewTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeadScrewTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -61,8 +61,6 @@ public class HangingMechanism extends Subsystem {
         LeadScrewOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeadScrewOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        TurnScrewOne = hwMap.get(ServoImplEx.class, "TurnScrewOne");
-        TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");  // hardware mapping lead screw servos
 
     }
 

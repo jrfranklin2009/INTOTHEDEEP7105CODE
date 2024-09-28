@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.CommandSche
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DriveTrain.DriveTrain;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
 
 public class Robot {
@@ -18,12 +19,14 @@ public class Robot {
 
     public Arm arm;
     public DriveTrain driveTrain;
+    public HangingMechanism hanging;
     protected CommandScheduler scheduler;
 
     public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
         driveTrain = new DriveTrain(hw);
         arm  = new Arm();
         intake= new Intake();
+        hanging = new HangingMechanism();
         scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain);
         this.gamepad1 = new Input(gamepad1,scheduler);
         this.gamepad2 = new Input(gamepad2,scheduler);
@@ -33,6 +36,7 @@ public class Robot {
             scheduler.initTeleop();
         }
     }
+
     public void update() {
         updateGamepads();
         driveTrain.mecanumDrive.update();

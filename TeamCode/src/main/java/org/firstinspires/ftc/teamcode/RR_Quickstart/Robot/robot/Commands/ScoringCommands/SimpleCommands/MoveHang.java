@@ -24,6 +24,7 @@ public class MoveHang extends Command {
     @Override
     public void init() {
         hangingMechanism.setLeadScrewTurnStates(leadScrewTurnStates);
+
         hangingMechanism.setLeadScrewStates(leadScrewStates);
         timer.reset();
     }
