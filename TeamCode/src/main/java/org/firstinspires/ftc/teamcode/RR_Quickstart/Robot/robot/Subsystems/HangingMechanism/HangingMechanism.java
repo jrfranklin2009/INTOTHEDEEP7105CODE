@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.COUNTS_PER_REVOLUTION;
 import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.GEAR_RATIO;
 import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.maxarmconstraint;
@@ -14,6 +15,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
 
 /** This is code for the hanging mechanism.
@@ -34,6 +36,12 @@ public class HangingMechanism extends Subsystem {
     public ServoImplEx TurnScrewOne;  // the servos for turning the lead screws
     public ServoImplEx TurnScrewTwo;
 
+    Telemetry telemetry;
+
+    public HangingMechanism(Telemetry telemetry){
+        this.telemetry = telemetry;
+    }
+
     @Override
     public void initAuto(HardwareMap hwMap) {
 
@@ -41,7 +49,10 @@ public class HangingMechanism extends Subsystem {
         LeadScrewTwo = hwMap.get(DcMotor.class, "LeadScrewTwo");
         TurnScrewOne = hwMap.get(ServoImplEx.class, "TurnScrewOne");  // hardware map lead screw servos
         TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");
-
+        if (LeadScrewOne == null) {
+            telemetry.addData("Error", "LeadScrewOne is null");
+            telemetry.update();
+        }
         LeadScrewTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeadScrewTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         // make it so they can use encoders
@@ -50,23 +61,23 @@ public class HangingMechanism extends Subsystem {
 
     }
 
-    @Override
-    public void initTeleop(HardwareMap hwMap){
-        LeadScrewOne = hwMap.get(DcMotor.class, "LeadScrewOne");
-        LeadScrewTwo = hwMap.get(DcMotor.class, "LeadScrewTwo");  // hardware mapping lead screw motors
-        TurnScrewOne = hwMap.get(ServoImplEx.class, "TurnScrewOne");
-        TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");  // hardware mapping lead screw servos
-
-        LeadScrewTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeadScrewTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        // make it so they can use encoders
-        LeadScrewOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeadScrewOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-
-
-    }
+//    @Override
+//    public void initTeleop(HardwareMap hwMap){
+//        LeadScrewOne = hwMap.get(DcMotor.class, "LeadScrewOne");
+//        LeadScrewTwo = hwMap.get(DcMotor.class, "LeadScrewTwo");  // hardware mapping lead screw motors
+//        TurnScrewOne = hwMap.get(ServoImplEx.class, "TurnScrewOne");
+//        TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");  // hardware mapping lead screw servos
+//
+//        LeadScrewTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        LeadScrewTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        // make it so they can use encoders
+//        LeadScrewOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        LeadScrewOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//
+//
+//
+//
+//    }
 
     @Override
     public void periodicAuto() {

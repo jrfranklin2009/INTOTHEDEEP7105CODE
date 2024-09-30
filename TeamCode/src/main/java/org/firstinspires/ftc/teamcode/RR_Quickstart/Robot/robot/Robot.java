@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.CommandScheduler;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
@@ -20,12 +21,12 @@ public class Robot {
     public HangingMechanism hanging;
     protected CommandScheduler scheduler;
 
-    public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
+    public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         driveTrain = new DriveTrain(hw);
         arm  = new Arm();
         intake= new Intake();
-        hanging = new HangingMechanism();
-        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain);
+        hanging = new HangingMechanism(telemetry);
+        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain,hanging,arm);
         this.gamepad1 = new Input(gamepad1,scheduler);
         this.gamepad2 = new Input(gamepad2,scheduler);
         if (opMode.equals(OpMode.Auto)) {

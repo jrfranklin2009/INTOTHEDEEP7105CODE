@@ -16,7 +16,7 @@ public abstract class BaseTele extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2);
+        robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2, telemetry);
         groups =new ScoringCommandGroups( robot.intake, robot.arm, robot.hanging);
 //        ScoringCommandGroups groups = new ScoringCommandGroups(robot.slides, robot.intake, robot.arm);
 //        RobotRelative robotRelative = new RobotRelative(robot.driveTrain,robot.gamepad1);
@@ -24,7 +24,7 @@ public abstract class BaseTele extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()){;
-            telemetry.addData("hang position", HangingMechanism.getLeadScrewOnePos());
+         //   telemetry.addData("hang position", HangingMechanism.getLeadScrewOnePos());
             robot.driveTrain.mecanumDrive.setWeightedDrivePower(new Pose2d(
                     -robot.gamepad1.getLeft_stick_y(),
                     -robot.gamepad1.getLeft_stick_x(),
