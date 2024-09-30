@@ -32,7 +32,6 @@ public class RedAuto extends BaseAuto {
                 .lineToLinearHeading(new Pose2d(-59,-61, Math.toRadians(270)))
                 .build();
 
-
         runpath = new MultipleCommand(RoadRunnerPathSequence(trajectory))
                 .addNext(new Delay(1));
 //                .addNext(RoadRunnerPath(trajectory3))
