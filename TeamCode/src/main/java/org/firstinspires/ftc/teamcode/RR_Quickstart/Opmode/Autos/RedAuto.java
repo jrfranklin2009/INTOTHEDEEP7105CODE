@@ -17,9 +17,9 @@ public class RedAuto extends BaseAuto {
     public Command runAuto(CommandScheduler scheduler) {
         Command runpath;
 
-        robot.driveTrain.mecanumDrive.setPoseEstimate(new Pose2d(0,-63,Math.toRadians(270)));
+        robot.driveTrain.mecanumDrive.setPoseEstimate(new Pose2d(-25,-63,Math.toRadians(270)));
 
-        TrajectorySequence trajectory = robot.driveTrain.mecanumDrive.trajectorySequenceBuilder(new Pose2d(0, -63, Math.toRadians(270)))
+        TrajectorySequence trajectory = robot.driveTrain.mecanumDrive.trajectorySequenceBuilder(new Pose2d(-25, -63, Math.toRadians(270)))
                 .lineToLinearHeading(new Pose2d(0, -32, Math.toRadians(270)))
                 .lineToLinearHeading(new Pose2d(0,-50, Math.toRadians(270)))
                 .lineToLinearHeading(new Pose2d(-45, -30, Math.toRadians(155)))
