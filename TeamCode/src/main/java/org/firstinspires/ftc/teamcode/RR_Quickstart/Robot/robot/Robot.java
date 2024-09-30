@@ -15,8 +15,6 @@ public class Robot {
     public Dashboard dashboard = new Dashboard();
     public Input gamepad1, gamepad2;
     public Intake intake;
-//    public Slides slides = new Slides();
-
     public Arm arm;
     public DriveTrain driveTrain;
     public HangingMechanism hanging;

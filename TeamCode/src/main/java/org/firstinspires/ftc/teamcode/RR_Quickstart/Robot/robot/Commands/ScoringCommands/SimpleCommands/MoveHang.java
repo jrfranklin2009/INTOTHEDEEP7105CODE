@@ -31,13 +31,15 @@ public class MoveHang extends Command {
 
     @Override
     public void periodic() {
-        hangingMechanism.setLeadScrewStates(leadScrewStates);
+
+//        hangingMechanism.setLeadScrewStates(leadScrewStates);
 
     }
 
     @Override
     public boolean completed() {
-        return hangingMechanism.getLeadScrewOneError() < 15 && hangingMechanism.getLeadScrewTwoError() < 15;
+        return !input.isSquare() && !input.isCircle();
+//                hangingMechanism.getLeadScrewOneError() < 15 && hangingMechanism.getLeadScrewTwoError() < 15;
     }
 
     @Override

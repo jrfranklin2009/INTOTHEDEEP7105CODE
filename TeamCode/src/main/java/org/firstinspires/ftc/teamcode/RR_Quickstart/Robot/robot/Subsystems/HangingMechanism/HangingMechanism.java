@@ -8,9 +8,9 @@ import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystem
 import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.ref;
 
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
+import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
@@ -25,12 +25,14 @@ public class HangingMechanism extends Subsystem {
     //TODO test this position for the first level hang
     public static int hangFirstLevel = 500;
 
+    public static PIDCoefficients pid = new PIDCoefficients(0,0,0);
+
     BasicPID controller = new BasicPID(pid);  // PID controller
 
-    DcMotor LeadScrewOne;  // motors for lead screws
-    DcMotor LeadScrewTwo;
-    ServoImplEx TurnScrewOne;  // the servos for turning the lead screws
-    ServoImplEx TurnScrewTwo;
+    static DcMotor LeadScrewOne;  // motors for lead screws
+    static DcMotor LeadScrewTwo;
+    public ServoImplEx TurnScrewOne;  // the servos for turning the lead screws
+    public ServoImplEx TurnScrewTwo;
 
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -62,6 +64,8 @@ public class HangingMechanism extends Subsystem {
         LeadScrewOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
+
+
     }
 
     @Override
@@ -79,9 +83,9 @@ public class HangingMechanism extends Subsystem {
 
     }
 
-    public double getLeadScrewOnePos() {return LeadScrewOne.getCurrentPosition();}  // get the position of the first lead screw motor
+    public static double getLeadScrewOnePos() {return LeadScrewOne.getCurrentPosition();}  // get the position of the first lead screw motor
 
-    public double getLeadScrewTwoPos() {return LeadScrewTwo.getCurrentPosition();}  // get the position fo the second lead screw motor
+    public static double getLeadScrewTwoPos() {return LeadScrewTwo.getCurrentPosition();}  // get the position fo the second lead screw motor
 
     public static double ticksToDegrees(int ticks) {
         // Calculate the degrees per tick
@@ -112,7 +116,7 @@ public class HangingMechanism extends Subsystem {
 
     }
 
-    public void LeadSrewOnePIDTicks(int ref) {
+    public void LeadScrewOnePIDTicks(int ref) {
         LeadScrewOne.setPower(controller.calculate(ref, getLeadScrewOnePos()));
         // use PID to set first lead screw to a position.  No constraints on what the position will be
     }

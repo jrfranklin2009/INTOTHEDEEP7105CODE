@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.DrivetrainCommands.RobotRelative;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Robot;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
 
 
 public abstract class BaseTele extends LinearOpMode {
@@ -23,7 +24,7 @@ public abstract class BaseTele extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()){;
-//            robotRelative.periodic();
+            telemetry.addData("hang position", HangingMechanism.getLeadScrewOnePos());
             robot.driveTrain.mecanumDrive.setWeightedDrivePower(new Pose2d(
                     -robot.gamepad1.getLeft_stick_y(),
                     -robot.gamepad1.getLeft_stick_x(),
