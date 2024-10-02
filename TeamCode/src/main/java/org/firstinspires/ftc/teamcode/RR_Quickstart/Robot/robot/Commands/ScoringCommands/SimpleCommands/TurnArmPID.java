@@ -3,35 +3,28 @@ package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.Scorin
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
 
-public class MoveArmPID extends Command {
+public class TurnArmPID extends Command {
 
     Arm arm;
-
-    Arm.ArmStates armStates;
-
-
-
-    public MoveArmPID (Arm arm,Arm.ArmStates armStates){
+    Arm.TurnStates turnStates;
+    public TurnArmPID (Arm arm, Arm.TurnStates turnStates){
         this.arm = arm;
-        this.armStates = armStates;
-
+        this.turnStates = turnStates;
     }
 
     @Override
     public void init() {
-        arm.setArmStates(armStates);
-
+        arm.setRotateStates(turnStates);
     }
 
     @Override
     public void periodic() {
-        arm.setArmStates(armStates);
-
+        arm.setRotateStates(turnStates);
     }
 
     @Override
     public boolean completed() {
-        return arm.getArmError() < 15;
+        return arm.getRotateError() < 15;
     }
 
     @Override

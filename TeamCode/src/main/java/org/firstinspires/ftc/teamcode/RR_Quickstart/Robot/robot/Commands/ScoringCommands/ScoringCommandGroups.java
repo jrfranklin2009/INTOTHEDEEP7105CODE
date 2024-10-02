@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmPID;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHang;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntake;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.TurnArmPID;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
@@ -43,6 +44,9 @@ public class ScoringCommandGroups {
     public Command setIntakeRest(Input input){  // set the intake to its default
         return setIntake(Intake.IntakePower.Stop, Intake.Wrist.Rest, Intake.Twist.Rest, input);
     }
+    public Command turnArmWithPID(Arm.TurnStates turnStates){
+        return turnArmPID(turnStates);
+    }
 
     public Command moveArmWithPid(Arm.ArmStates armStates){  // move the arm.  Uses a PID controller
         return moveArmPID(armStates);
@@ -54,6 +58,10 @@ public class ScoringCommandGroups {
 
     public MoveArmPID moveArmPID(Arm.ArmStates armStates){  // move the arm w/ PID.
         return new MoveArmPID(arm,armStates);
+    }
+
+    public TurnArmPID turnArmPID(Arm.TurnStates turnStates) {
+        return new TurnArmPID(arm, turnStates);
     }
 
     public Command getReadyToHang(Input input){

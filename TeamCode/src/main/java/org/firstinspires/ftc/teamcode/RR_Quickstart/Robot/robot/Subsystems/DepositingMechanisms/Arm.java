@@ -17,20 +17,30 @@ public class Arm extends Subsystem {
     public static final double COUNTS_PER_REVOLUTION = 751.8; // Adjust as needed
 
     // Define the gear ratio (output gear teeth / input gear teeth)
-    public static final int GEAR_RATIO = 3, minarmconstraint = 0, maxarmconstraint = 600; // Adjust as needed
+    public static final int GEAR_RATIO = 3, minarmconstraint = 0, maxarmconstraint = 600, turnminarmconstraint =0, turnmaxarmconstraint = 600; // Adjust as needed
 
     public static int ref = 0, lowbasket = 300, highbasket = 500;
+
+    public static int turnref = 0, testturn = 200;
+
     DcMotor arm;  // define arm
+    DcMotor rotate;
 
     public static PIDCoefficients pid = new PIDCoefficients(0,0,0);
+    public static PIDCoefficients pidturn = new PIDCoefficients(0,0,0);
 
     BasicPID controller = new BasicPID(pid);  // create aPID controller
+    BasicPID turncontroller = new BasicPID(pidturn);
 
     @Override
     public void initAuto(HardwareMap hwMap) {
         arm = hwMap.get(DcMotor.class, "arm"); // hardware map arm
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);  // set modes for arm
+
+        rotate = hwMap.get(DcMotor.class, "rotate");
+        rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     @Override
@@ -41,16 +51,23 @@ public class Arm extends Subsystem {
     @Override
     public void shutdown() {
         arm.setPower(0);  // shutdown
+        rotate.setPower(0);
 
     }
     public void resetArm(){
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);  // reset the arm's modes
     }
+
+    public void resetRotation() {
+        rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     public double getArmPos(){
         return arm.getCurrentPosition();  // return the arm's position
     }
     // Method to convert encoder ticks to degrees
+    public double getRotatePos(){return rotate.getCurrentPosition();}
 
 //    TODO: Check to make sure this method works.
     public static double ticksToDegrees(int ticks) {
@@ -71,6 +88,13 @@ public class Arm extends Subsystem {
     public void armPIDTicks(int ref){  // has arm go to position but no constraints on if the position is good
         arm.setPower(controller.calculate(ref,getArmPos()));
     }
+    public void rotatePID(int ref){
+        if (ref < turnmaxarmconstraint && ref > turnminarmconstraint){
+            rotate.setPower(turncontroller.calculate(ticksToDegrees(ref), getRotatePos()));
+        } else{
+            shutdown();
+        }
+    }
 
     public void setArmStates(ArmStates armStates){  // set all the arm states for the arm
         switch (armStates){
@@ -85,8 +109,24 @@ public class Arm extends Subsystem {
                 break;
         }
     }
+
+    public void setRotateStates(TurnStates turnStates){
+        switch (turnStates){
+            case Normal:
+                rotatePID(turnref);
+                break;
+            case Test:
+                rotatePID(testturn);
+                break;
+        }
+    }
+
     public double getArmError(){  // find the difference between the arm's current position and 0.  Used to determine if the arm is at a resting position
         return ref - getArmPos();
+    }
+
+    public double getRotateError() {
+        return turnref - getRotatePos();
     }
 
     // name for the arm's states
@@ -94,5 +134,10 @@ public class Arm extends Subsystem {
         ScoreHighBasket,
         ScoreLowBasket,
         Down
+    }
+
+    public enum TurnStates{
+        Normal,
+        Test
     }
 }
