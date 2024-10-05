@@ -10,6 +10,7 @@ import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystem
 
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -21,13 +22,16 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
 /** This is code for the hanging mechanism.
  * Includes turning of the lead screws and the lead screws themselves
  */
-
+@Config
 public class HangingMechanism extends Subsystem {
 
     //TODO test this position for the first level hang
     public static int hangFirstLevel = 500;
+    public static double Kp = 0;
+    public static double Ki = 0;
+    public static double Kd = 0;
 
-    public static PIDCoefficients pid = new PIDCoefficients(0,0,0);
+    public static PIDCoefficients pid = new PIDCoefficients(Kp,Ki,Kd);
 
     BasicPID controller = new BasicPID(pid);  // PID controller
 
@@ -51,21 +55,21 @@ public class HangingMechanism extends Subsystem {
         TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");
         TurnScrewTwo.setDirection(Servo.Direction.REVERSE);
 
-        if (LeadScrewOne == null) {
-            telemetry.addData("Error", "LeadScrewOne is null");
-            telemetry.update();
-        }
+
         LeadScrewTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeadScrewTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         // make it so they can use encoders
         LeadScrewOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeadScrewOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        TurnScrewTwo.setDirection(Servo.Direction.REVERSE);
+        TurnScrewOne.setDirection(Servo.Direction.REVERSE);
         setLeadScrewStates(LeadScrewStates.Down);
         setLeadScrewTurnStates(LeadScrewTurnStates.Normal);
 
         TurnScrewOne.setPwmEnable();
         TurnScrewTwo.setPwmEnable();
+
+
 
     }
 
