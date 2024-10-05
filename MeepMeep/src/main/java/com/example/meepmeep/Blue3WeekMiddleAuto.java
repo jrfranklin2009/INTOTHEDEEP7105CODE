@@ -44,6 +44,7 @@ public class Blue3WeekMiddleAuto {
                                 // park
                                 .build()
                 );
+        meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK);
 
         meepMeep.addEntity(myBot).start();
 
