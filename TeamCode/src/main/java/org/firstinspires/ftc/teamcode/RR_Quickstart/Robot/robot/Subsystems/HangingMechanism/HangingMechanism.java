@@ -49,6 +49,8 @@ public class HangingMechanism extends Subsystem {
         LeadScrewTwo = hwMap.get(DcMotor.class, "LeadScrewTwo");
         TurnScrewOne = hwMap.get(ServoImplEx.class, "TurnScrewOne");  // hardware map lead screw servos
         TurnScrewTwo = hwMap.get(ServoImplEx.class, "TurnScrewTwo");
+        TurnScrewTwo.setDirection(Servo.Direction.REVERSE);
+
         if (LeadScrewOne == null) {
             telemetry.addData("Error", "LeadScrewOne is null");
             telemetry.update();
@@ -58,6 +60,12 @@ public class HangingMechanism extends Subsystem {
         // make it so they can use encoders
         LeadScrewOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LeadScrewOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        setLeadScrewStates(LeadScrewStates.Down);
+        setLeadScrewTurnStates(LeadScrewTurnStates.Normal);
+
+        TurnScrewOne.setPwmEnable();
+        TurnScrewTwo.setPwmEnable();
 
     }
 
