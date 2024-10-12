@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Depo
 
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
 /** This is code for the arm
  * Currently is just kooky arm.
  */
-
+@Config
 public class Arm extends Subsystem {
 
     // Define the counts per revolution for your encoder
@@ -21,26 +22,29 @@ public class Arm extends Subsystem {
 
     public static int ref = 0, lowbasket = 300, highbasket = 500;
 
-    public static int turnref = 0, testturn = 200;
+    public static int turnref = 0, vertical = 200;
 
     DcMotor arm;  // define arm
     DcMotor rotate;
-
-    public static PIDCoefficients pid = new PIDCoefficients(0,0,0);
-    public static PIDCoefficients pidturn = new PIDCoefficients(0,0,0);
+    public static double Kppid, Kipid, Kdpid, Kppidturn, Kipidturn, Kdpidturn;
+    public static PIDCoefficients pid = new PIDCoefficients(0.2,0.2,0.2);
+    public static PIDCoefficients pidturn = new PIDCoefficients(0.2,0.2,0.2);
 
     BasicPID controller = new BasicPID(pid);  // create aPID controller
     BasicPID turncontroller = new BasicPID(pidturn);
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        arm = hwMap.get(DcMotor.class, "arm"); // hardware map arm
+        arm = hwMap.get(DcMotor.class, "ExendTridentArm"); // hardware map arm
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);  // set modes for arm
 
-        rotate = hwMap.get(DcMotor.class, "rotate");
+        rotate = hwMap.get(DcMotor.class, "TurnTridentArm");
         rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rotate.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rotate.setTargetPosition(turnref);
+        arm.setTargetPosition(ref);
+
     }
 
     @Override
@@ -115,8 +119,8 @@ public class Arm extends Subsystem {
             case Normal:
                 rotatePID(turnref);
                 break;
-            case Test:
-                rotatePID(testturn);
+            case Vertical:
+                rotatePID(vertical);
                 break;
         }
     }
@@ -138,6 +142,6 @@ public class Arm extends Subsystem {
 
     public enum TurnStates{
         Normal,
-        Test
+        Vertical
     }
 }

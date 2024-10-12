@@ -30,8 +30,7 @@ public abstract class BaseTele extends LinearOpMode {
                     -robot.gamepad1.getLeft_stick_x(),
                     -robot.gamepad1.getRight_stick_x()));
             robot.updateTele();
-            robot.gamepad1.whenCrossPressed(groups.HookOnBar(robot.gamepad1));
-            robot.gamepad1.whenTrianglePressed(groups.ResetHanging(robot.gamepad1));
+
 
         }
 
