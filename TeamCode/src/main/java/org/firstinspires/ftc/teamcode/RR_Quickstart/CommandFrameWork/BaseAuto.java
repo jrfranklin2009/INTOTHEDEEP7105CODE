@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.DrivetrainCommands.FollowPath;
@@ -19,7 +17,7 @@ public abstract class BaseAuto extends LinearOpMode {
 
         setRobot();
 
-        groups = new ScoringCommandGroups(robot.intake, robot.arm, robot.hanging);
+        groups = new ScoringCommandGroups(robot.intake, robot.armExtension, robot.armRotation);
 
         while (opModeInInit()){
         }

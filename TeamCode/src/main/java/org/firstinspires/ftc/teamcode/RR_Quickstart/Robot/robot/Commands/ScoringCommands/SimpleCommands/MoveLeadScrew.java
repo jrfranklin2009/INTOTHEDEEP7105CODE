@@ -19,7 +19,7 @@ public class MoveLeadScrew extends Command {
 
     @Override
     public void init() {
-        hang.setLeadScrewStates(HangingMechanism.LeadScrewStates.Down);
+//        hang.setLeadScrewStates(HangingMechanism.LeadScrewStates.Down);
     }
 
     @Override

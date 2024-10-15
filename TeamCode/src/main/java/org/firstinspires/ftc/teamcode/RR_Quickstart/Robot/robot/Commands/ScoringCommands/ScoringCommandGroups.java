@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.Scorin
 
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Command;
 
-import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmPID;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmExtensionPID;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHang;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntake;
-import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.TurnArmPID;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmRotation;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Input;
-import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
 
@@ -18,14 +19,17 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intak
 public class ScoringCommandGroups {
     Intake intake;  // intake
 
-    Arm arm;  // scoring mechanism
+    ArmExtension armExtension;  // scoring mechanism
 
-    HangingMechanism hangingMechanism;  // hanging
+    ArmRotation armRotation;
 
-    public ScoringCommandGroups( Intake intake, Arm arm, HangingMechanism hangingMechanism) {
+//    HangingMechanism hangingMechanism;  // hanging
+
+    public ScoringCommandGroups( Intake intake, ArmExtension armExtension, ArmRotation armRotation) {
         this.intake = intake;
-        this.arm = arm;
-        this.hangingMechanism = hangingMechanism;
+        this.armExtension = armExtension;
+        this.armRotation = armRotation;
+//        this.hangingMechanism = hangingMechanism;
 
     }
 
@@ -44,44 +48,38 @@ public class ScoringCommandGroups {
     public Command setIntakeRest(Input input){  // set the intake to its default
         return setIntake(Intake.IntakePower.Stop, Intake.Wrist.Rest, Intake.Twist.Rest, input);
     }
-    public Command turnArmWithPID(Arm.TurnStates turnStates){
-        return turnArmPID(turnStates);
-    }
 
-    public Command moveArmWithPid(Arm.ArmStates armStates){  // move the arm.  Uses a PID controller
-        return moveArmPID(armStates);
-    }
 
     public MoveIntake setIntake(Intake.IntakePower intakePower, Intake.Wrist wrist, Intake.Twist twist, Input input){  // set the intake based on inputs
         return new MoveIntake(intake,intakePower, wrist, twist, input);
     }
 
-    public MoveArmPID moveArmPID(Arm.ArmStates armStates){  // move the arm w/ PID.
-        return new MoveArmPID(arm,armStates);
+    public MoveArmExtensionPID moveArmExtensionPID(ArmExtension.ArmExtensionStates armExtension){  // move the arm w/ PID.
+        return new MoveArmExtensionPID(this.armExtension,armExtension);
     }
 
-    public TurnArmPID turnArmPID(Arm.TurnStates turnStates) {
-        return new TurnArmPID(arm, turnStates);
+    public MoveArmRotation moveArmRotationPID(ArmRotation.ArmRotationStates turnStates) {
+        return new MoveArmRotation(this.armRotation, turnStates);
     }
 
-    public Command getReadyToHang(Input input){
-        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.Down, input);  // get ready to hang by turning the lead screws
-    }
+//    public Command getReadyToHang(Input input){
+//        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.Down, input);  // get ready to hang by turning the lead screws
+//    }
+//
+//    public Command HookOnBar(Input input) {
+//        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.HangFirstLevel, input);  // hook on the first level bar by moving the hooks on the lead screws up
+//    }
+//
+//    public Command Hang(Input input){
+//        return setHang(HangingMechanism.LeadScrewTurnStates.Coast, HangingMechanism.LeadScrewStates.Down, input);  // hang by pulling them back down.  Also set the servos to coast
+//    }
+//
+//    public Command ResetHanging(Input input){
+//        return setHang(HangingMechanism.LeadScrewTurnStates.Normal, HangingMechanism.LeadScrewStates.Down, input);  // reset the hanging in case we do something wrong
+//    }
 
-    public Command HookOnBar(Input input) {
-        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.HangFirstLevel, input);  // hook on the first level bar by moving the hooks on the lead screws up
-    }
-
-    public Command Hang(Input input){
-        return setHang(HangingMechanism.LeadScrewTurnStates.Coast, HangingMechanism.LeadScrewStates.Down, input);  // hang by pulling them back down.  Also set the servos to coast
-    }
-
-    public Command ResetHanging(Input input){
-        return setHang(HangingMechanism.LeadScrewTurnStates.Normal, HangingMechanism.LeadScrewStates.Down, input);  // reset the hanging in case we do something wrong
-    }
-
-    public Command setHang(HangingMechanism.LeadScrewTurnStates leadscrewturnstate, HangingMechanism.LeadScrewStates leadscrewstate, Input input){  // set the hanging position
-        return new MoveHang(hangingMechanism, leadscrewturnstate, leadscrewstate, input);
-    }
+//    public Command setHang(HangingMechanism.LeadScrewTurnStates leadscrewturnstate, HangingMechanism.LeadScrewStates leadscrewstate, Input input){  // set the hanging position
+//        return new MoveHang(hangingMechanism, leadscrewturnstate, leadscrewstate, input);
+//    }
 
 }

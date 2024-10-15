@@ -1,12 +1,5 @@
 package org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.COUNTS_PER_REVOLUTION;
-import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.GEAR_RATIO;
-import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.maxarmconstraint;
-import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.minarmconstraint;
-import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.pid;
-import static org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.Arm.ref;
 
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
@@ -63,7 +56,7 @@ public class HangingMechanism extends Subsystem {
         LeadScrewOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         TurnScrewTwo.setDirection(Servo.Direction.REVERSE);
         TurnScrewOne.setDirection(Servo.Direction.REVERSE);
-        setLeadScrewStates(LeadScrewStates.Down);
+//        setLeadScrewStates(LeadScrewStates.Down);
         setLeadScrewTurnStates(LeadScrewTurnStates.Normal);
 
         TurnScrewOne.setPwmEnable();
@@ -110,34 +103,34 @@ public class HangingMechanism extends Subsystem {
 
     public static double getLeadScrewTwoPos() {return LeadScrewTwo.getCurrentPosition();}  // get the position fo the second lead screw motor
 
-    public static double ticksToDegrees(int ticks) {
-        // Calculate the degrees per tick
-        double degreesPerTick = 360.0 / (COUNTS_PER_REVOLUTION * GEAR_RATIO);
-        // Convert ticks to degrees
-        return ticks * degreesPerTick;
-    }
+//    public static double ticksToDegrees(int ticks) {
+//        // Calculate the degrees per tick
+////        double degreesPerTick = 360.0 / (COUNTS_PER_REVOLUTION * GEAR_RATIO);
+//        // Convert ticks to degrees
+//        return ticks * degreesPerTick;
+//    }
 
-    public void LeadScrewTwoPID(int ref) {
-        // use PID for the second lead screw
-        if (ref < maxarmconstraint && ref > minarmconstraint) {
-            LeadScrewTwo.setPower(controller.calculate(ticksToDegrees(ref), getLeadScrewTwoPos()));
-            // go to the reference position if it is within acceptable boundaries
-        } else {
-            LeadScrewTwo.setPower(0);  // otherwise don't do anything
-        }
-    }
+//    public void LeadScrewTwoPID(int ref) {
+//        // use PID for the second lead screw
+//        if (ref < maxarmconstraint && ref > minarmconstraint) {
+//            LeadScrewTwo.setPower(controller.calculate(ticksToDegrees(ref), getLeadScrewTwoPos()));
+//            // go to the reference position if it is within acceptable boundaries
+//        } else {
+//            LeadScrewTwo.setPower(0);  // otherwise don't do anything
+//        }
+//    }
 
-    public void LeadScrewOnePID(int ref){
-        // use PID for the first lead screw
-        if (ref < maxarmconstraint && ref > minarmconstraint){
-            LeadScrewOne.setPower(controller.calculate(ticksToDegrees(ref), getLeadScrewOnePos()));
-            // go to the reference position if it is within acceptable boundaries
-        }
-        else {
-            LeadScrewOne.setPower(0);  // otherwise don't do anything
-        }
-
-    }
+//    public void LeadScrewOnePID(int ref){
+//        // use PID for the first lead screw
+//        if (ref < maxarmconstraint && ref > minarmconstraint){
+//            LeadScrewOne.setPower(controller.calculate(ticksToDegrees(ref), getLeadScrewOnePos()));
+//            // go to the reference position if it is within acceptable boundaries
+//        }
+//        else {
+//            LeadScrewOne.setPower(0);  // otherwise don't do anything
+//        }
+//
+//    }
 
     public void LeadScrewOnePIDTicks(int ref) {
         LeadScrewOne.setPower(controller.calculate(ref, getLeadScrewOnePos()));
@@ -149,21 +142,21 @@ public class HangingMechanism extends Subsystem {
         // use PID to set second lead screw to a position.  No constraints on what the position will be
     }
 
-    public void setLeadScrewStates(LeadScrewStates leadscrewstates){
-        // lead screw states
-        switch(leadscrewstates){
-            case Down:
-                // when not hanging
-                LeadScrewOnePID(0);
-                LeadScrewTwoPID(0);
-                break;
-            case HangFirstLevel:
-                // position for hanging
-                LeadScrewTwoPID(hangFirstLevel);
-                LeadScrewOnePID(hangFirstLevel);
-                break;
-        }
-    }
+//    public void setLeadScrewStates(LeadScrewStates leadscrewstates){
+//        // lead screw states
+//        switch(leadscrewstates){
+//            case Down:
+//                // when not hanging
+//                LeadScrewOnePID(0);
+//                LeadScrewTwoPID(0);
+//                break;
+//            case HangFirstLevel:
+//                // position for hanging
+//                LeadScrewTwoPID(hangFirstLevel);
+//                LeadScrewOnePID(hangFirstLevel);
+//                break;
+//        }
+//    }
 
     public void setLeadScrewTurnStates(LeadScrewTurnStates leadscrewturnstates){
         // states for the rotating of the lead screw
@@ -183,9 +176,9 @@ public class HangingMechanism extends Subsystem {
         }
     }
 
-    public double getLeadScrewOneError() {return ref-getLeadScrewOnePos();}  // get the difference between the first lead screw's position and zero.  Used to check completion of movement
+//    public double getLeadScrewOneError() {return ref-getLeadScrewOnePos();}  // get the difference between the first lead screw's position and zero.  Used to check completion of movement
 
-    public double getLeadScrewTwoError() {return ref - getLeadScrewTwoPos();}  // get the difference between the second lead screw's position and zero.  Used to check completion of movement
+//    public double getLeadScrewTwoError() {return ref - getLeadScrewTwoPos();}  // get the difference between the second lead screw's position and zero.  Used to check completion of movement
 
     // names for lead screw states
     public enum LeadScrewStates{
