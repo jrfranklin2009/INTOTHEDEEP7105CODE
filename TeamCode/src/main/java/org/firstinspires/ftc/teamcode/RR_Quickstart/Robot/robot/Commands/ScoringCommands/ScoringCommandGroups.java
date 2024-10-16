@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.Scoring
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
-import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
 
 /** This contains all of the commands used in our robot.
