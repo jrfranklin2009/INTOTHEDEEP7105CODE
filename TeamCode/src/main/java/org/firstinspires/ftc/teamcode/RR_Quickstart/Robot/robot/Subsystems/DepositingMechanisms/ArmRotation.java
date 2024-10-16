@@ -20,7 +20,7 @@ public class ArmRotation extends Subsystem {
     // Define the gear ratio (output gear teeth / input gear teeth)
     public static final int GEAR_RATIO = 3, turnminarmconstraint =0, turnmaxarmconstraint = 600; // Adjust as needed
 
-    public static int ref = 0, ninetydegrees = 200;
+    public static int ref = 0, uprightninetydegrees = 200;
 
     DcMotor armrotation;
 
@@ -72,31 +72,31 @@ public class ArmRotation extends Subsystem {
     public void setArmRotateStates(ArmRotationStates armRotationStates){
         switch (armRotationStates){
             case HighBucket_Back:
-                ref = ninetydegrees;
+                ref = uprightninetydegrees;
                 armRotationPID(ref);
                 break;
             case LowBucket_Back:
-                ref = ninetydegrees;
+                ref = uprightninetydegrees;
                 armRotationPID(ref);
                 break;
             case HighBucket_Front:
-                ref = ninetydegrees;
+                ref = uprightninetydegrees;
                 armRotationPID(ref);
                 break;
             case LowBucket_Front:
-                ref = ninetydegrees;
+                ref = uprightninetydegrees;
                 armRotationPID(ref);
                 break;
             case HighChamber:
-                ref = ninetydegrees;
+                ref = uprightninetydegrees;
                 armRotationPID(ref);
                 break;
             case Low_Chamber:
-                ref = ninetydegrees;
+                ref = uprightninetydegrees;
                 armRotationPID(ref);
                 break;
             case PrePickUp:
-                ref = ninetydegrees;
+                ref = uprightninetydegrees;
                 armRotationPID(ref);
                 break;
             case PickUp:
