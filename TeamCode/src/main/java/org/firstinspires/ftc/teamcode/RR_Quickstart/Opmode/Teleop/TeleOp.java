@@ -13,10 +13,6 @@ public class TeleOp extends BaseTele {
     @Override
     public Command setUpTele(CommandScheduler commandScheduler) {// this is where the meat of the code is
 
-        robot.gamepad1.whenRightBumperPressed(groups.moveArmExtensionPID(ArmExtension.ArmExtensionStates.MaxExtension));
-        robot.gamepad1.whenLeftBumperPressed(groups.moveArmExtensionPID(ArmExtension.ArmExtensionStates.FullyContracted));
-        robot.gamepad1.whenTrianglePressed(groups.moveArmRotationPID(ArmRotation.ArmRotationStates.HighBucket_Back));
-        robot.gamepad1.whenTrianglePressed(groups.moveArmRotationPID(ArmRotation.ArmRotationStates.PickUp));
 
         return new MultipleCommand(new RobotRelative(robot.driveTrain,robot.gamepad1)); // drivetrain
     }

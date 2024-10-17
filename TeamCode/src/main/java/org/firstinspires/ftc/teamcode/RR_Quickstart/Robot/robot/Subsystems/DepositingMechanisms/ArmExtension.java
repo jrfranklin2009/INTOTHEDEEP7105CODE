@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Dashboard;
 
 public class ArmExtension extends Subsystem {
 
@@ -22,13 +23,14 @@ public class ArmExtension extends Subsystem {
 
     @Override
     public void initAuto(HardwareMap hwMap) {
+        ref = 0;
         armextension = hwMap.get(DcMotor.class, "ExendTridentArm"); // hardware map arm
         resetArmExtension();
     }
 
     @Override
     public void periodicAuto() {
-
+        Dashboard.addData("armextensionpos",armextension.getCurrentPosition());
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Robot;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
 
 
 public abstract class BaseTele extends LinearOpMode {
@@ -27,6 +29,11 @@ public abstract class BaseTele extends LinearOpMode {
                     -robot.gamepad1.getLeft_stick_y(),
                     -robot.gamepad1.getLeft_stick_x(),
                     -robot.gamepad1.getRight_stick_x()));
+
+            robot.gamepad1.whenRightBumperPressed(groups.moveArmExtensionPID(ArmExtension.ArmExtensionStates.MaxExtension));
+            robot.gamepad1.whenLeftBumperPressed(groups.moveArmExtensionPID(ArmExtension.ArmExtensionStates.FullyContracted));
+            robot.gamepad1.whenTrianglePressed(groups.moveArmRotationPID(ArmRotation.ArmRotationStates.HighBucket_Back));
+            robot.gamepad1.whenSquarePressed(groups.moveArmRotationPID(ArmRotation.ArmRotationStates.PickUp));
             robot.updateTele();
 
 

@@ -36,6 +36,7 @@ public class PinPoint_Odo extends Subsystem {
         telemetry.addData("Y_Pos",odo.getPosY());
         telemetry.addData("Heading",Math.toRadians(odo.getHeading()));
         telemetry.update();
+        odo.update();
     }
 
     @Override
