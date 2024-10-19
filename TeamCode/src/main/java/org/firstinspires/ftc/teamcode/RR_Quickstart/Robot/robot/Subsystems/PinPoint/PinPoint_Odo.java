@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.drive.PinPoint_MecanumDrive;
 
 public class PinPoint_Odo extends Subsystem {
@@ -24,12 +25,17 @@ public class PinPoint_Odo extends Subsystem {
         odo = hwMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odo.setEncoderResolution(GoBildaPinpointDriver.OdometryPods.opTii_ODOMETRY);
-        odo.setOffsets(5,0);
+        odo.setOffsets(171.25336,0);
         this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo);
     }
 
     @Override
     public void periodicAuto() {
+        Dashboard.addData("Status", odo.getDeviceStatus());
+        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
+        Dashboard.addData("X_Pos",odo.getPosX());
+        Dashboard.addData("Y_Pos",odo.getPosY());
+        Dashboard.addData("Heading",Math.toRadians(odo.getHeading()));
         telemetry.addData("Status", odo.getDeviceStatus());
         telemetry.addData("Pinpoint Frequency", odo.getFrequency());
         telemetry.addData("X_Pos",odo.getPosX());

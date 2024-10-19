@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Depos
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
 import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.Intake.Intake;
+import org.firstinspires.ftc.teamcode.RR_Quickstart.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
 /** sets up the framework for the robt
  */
@@ -24,11 +25,13 @@ public class Robot {
     public ArmRotation armRotation;
     public DriveTrain driveTrain;  // set up the drivetrain
 //    public HangingMechanism hanging;  // set up hanging
+    PinPoint_Odo odo;
     protected CommandScheduler scheduler;  // set up the command scheduler
 
     public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
         // init robot
         driveTrain = new DriveTrain(hw);  // drivetrain
+        odo = new PinPoint_Odo(telemetry);
         armExtension = new ArmExtension();  // arm
         armRotation = new ArmRotation();
         intake= new Intake();  // intake
