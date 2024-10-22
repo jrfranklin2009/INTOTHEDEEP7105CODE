@@ -32,7 +32,7 @@ public class ArmRotation extends Subsystem {
     @Override
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
-        armrotation = hwMap.get(DcMotor.class, "TurnTridentArm");
+        armrotation = hwMap.get(DcMotor.class, "turntridentarm");
         resetArmRotation();
     }
     @Override

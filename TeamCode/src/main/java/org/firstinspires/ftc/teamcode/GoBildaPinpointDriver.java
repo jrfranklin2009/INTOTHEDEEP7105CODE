@@ -61,8 +61,9 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynchSi
     private float yVelocity    = 0;
     private float hVelocity    = 0;
 
-    private static final float goBILDA_SWINGARM_POD = 13.26291192f; //ticks-per-mm for the goBILDA Swingarm Pod
-    private static final float goBILDA_4_BAR_POD    = 19.89436789f; //ticks-per-mm for the goBILDA 4-Bar Pod
+    public static final float opTii_ODOMETRY_POD    = 37.25135125168f;
+//    private static final float goBILDA_SWINGARM_POD = 13.26291192f; //ticks-per-mm for the goBILDA Swingarm Pod
+//    private static final float goBILDA_4_BAR_POD    = 19.89436789f; //ticks-per-mm for the goBILDA 4-Bar Pod
 
     //i2c address of the device
     public static final byte DEFAULT_ADDRESS = 0x31;
@@ -145,8 +146,9 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynchSi
 
     //enum that captures the kind of goBILDA odometry pods, if goBILDA pods are used
     public enum GoBildaOdometryPods {
-        goBILDA_SWINGARM_POD,
-        goBILDA_4_BAR_POD;
+//        goBILDA_SWINGARM_POD,
+//        goBILDA_4_BAR_POD;
+        optii
     }
     //enum that captures a limited scope of read data. More options may be added in future update
     public enum readData {
@@ -333,12 +335,12 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynchSi
      * @param pods goBILDA_SWINGARM_POD or goBILDA_4_BAR_POD
      */
     public void setEncoderResolution(GoBildaOdometryPods pods){
-        if (pods == GoBildaOdometryPods.goBILDA_SWINGARM_POD) {
-            writeByteArray(Register.MM_PER_TICK, (floatToByteArray(goBILDA_SWINGARM_POD, ByteOrder.LITTLE_ENDIAN)));
+        if (pods == GoBildaOdometryPods.optii) {
+            writeByteArray(Register.MM_PER_TICK, (floatToByteArray(opTii_ODOMETRY_POD, ByteOrder.LITTLE_ENDIAN)));
         }
-        if (pods == GoBildaOdometryPods.goBILDA_4_BAR_POD){
-            writeByteArray(Register.MM_PER_TICK,(floatToByteArray(goBILDA_4_BAR_POD, ByteOrder.LITTLE_ENDIAN)));
-        }
+//        if (pods == GoBildaOdometryPods.goBILDA_4_BAR_POD){
+//            writeByteArray(Register.MM_PER_TICK,(floatToByteArray(goBILDA_4_BAR_POD, ByteOrder.LITTLE_ENDIAN)));
+//        }
     }
 
     /**

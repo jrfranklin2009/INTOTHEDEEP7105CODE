@@ -8,7 +8,8 @@ import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
-import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver_Sus_Maybe;
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +47,9 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double PERPENDICULAR_X = -6;
     public static double PERPENDICULAR_Y = 0;
 
-    GoBildaPinpointDriver_Sus_Maybe odo;
+    GoBildaPinpointDriver odo;
+
+    PinPoint_Odo pinPointOdo;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
@@ -55,7 +58,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     private PinPoint_MecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, PinPoint_MecanumDrive drive, GoBildaPinpointDriver_Sus_Maybe odo) {
+    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, PinPoint_Odo pinPointOdo) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
@@ -63,6 +66,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
         this.odo = odo;
         this.drive = drive;
+        this.pinPointOdo = pinPointOdo;
 
 //        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
 //        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftback"));
@@ -102,8 +106,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(odo.getCorrectedVelocity(odo.getVelX())),
-                encoderTicksToInches(odo.getCorrectedVelocity(odo.getVelY()))
+                encoderTicksToInches(pinPointOdo.getCorrectedVelocity(odo.getVelX())),
+                encoderTicksToInches(pinPointOdo.getCorrectedVelocity(odo.getVelY()))
         );
     }
 }

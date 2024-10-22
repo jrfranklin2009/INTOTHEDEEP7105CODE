@@ -24,7 +24,7 @@ public class ArmExtension extends Subsystem {
     @Override
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
-        armextension = hwMap.get(DcMotor.class, "ExendTridentArm"); // hardware map arm
+        armextension = hwMap.get(DcMotor.class, "extendtridentarm"); // hardware map arm
         resetArmExtension();
     }
 

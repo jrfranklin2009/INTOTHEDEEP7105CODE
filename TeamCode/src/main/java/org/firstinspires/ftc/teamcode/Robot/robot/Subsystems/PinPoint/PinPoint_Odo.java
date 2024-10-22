@@ -5,15 +5,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
-import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver_Sus_Maybe;
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
 
 public class PinPoint_Odo extends Subsystem {
 
-    GoBildaPinpointDriver_Sus_Maybe odo;
+    GoBildaPinpointDriver odo;
 
     PinPoint_MecanumDrive mecanumDrive;
+
+    private final static int CPS_STEP = 0x10000;
+
+    private double[] velocityEstimates;
 
     Telemetry telemetry;
 
@@ -23,11 +27,12 @@ public class PinPoint_Odo extends Subsystem {
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        odo = hwMap.get(GoBildaPinpointDriver_Sus_Maybe.class,"pinpointodo");
-        odo.setEncoderDirections(GoBildaPinpointDriver_Sus_Maybe.EncoderDirection.FORWARD, GoBildaPinpointDriver_Sus_Maybe.EncoderDirection.FORWARD);
-        odo.setEncoderResolution(GoBildaPinpointDriver_Sus_Maybe.OdometryPods.opTii_ODOMETRY);
+        odo = hwMap.get(GoBildaPinpointDriver.class,"pinpointodo");
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.optii);
         odo.setOffsets(171.25336,0);
-        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo);
+        resetPosAndHeading();
+        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo, this);
     }
 
     @Override
@@ -36,13 +41,14 @@ public class PinPoint_Odo extends Subsystem {
         Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
         Dashboard.addData("X_Pos",odo.getPosX());
         Dashboard.addData("Y_Pos",odo.getPosY());
-        Dashboard.addData("Heading",Math.toRadians(odo.getHeading()));
-        telemetry.addData("Status", odo.getDeviceStatus());
-        telemetry.addData("Pinpoint Frequency", odo.getFrequency());
-        telemetry.addData("X_Pos",odo.getPosX());
-        telemetry.addData("Y_Pos",odo.getPosY());
-        telemetry.addData("Heading",Math.toRadians(odo.getHeading()));
-        telemetry.update();
+        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
+        Dashboard.addData("Heading_Radians?",odo.getHeading());
+//        telemetry.addData("Status", odo.getDeviceStatus());
+//        telemetry.addData("Pinpoint Frequency", odo.getFrequency());
+//        telemetry.addData("X_Pos",odo.getPosX());
+//        telemetry.addData("Y_Pos",odo.getPosY());
+//        telemetry.addData("Heading",Math.toRadians(odo.getHeading()));
+//        telemetry.update();
         odo.update();
     }
 
@@ -61,6 +67,24 @@ public class PinPoint_Odo extends Subsystem {
 
     public void resetPosAndHeading(){
         odo.resetPosAndIMU();
+    }
+
+    public double getCorrectedVelocity(double input) {
+        double median = velocityEstimates[0] > velocityEstimates[1]
+                ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
+                : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
+        return inverseOverflow(input, median);
+    }
+
+    private static double inverseOverflow(double input, double estimate) {
+        // convert to uint16
+        int real = (int) input & 0xffff;
+        // initial, modulo-based correction: it can recover the remainder of 5 of the upper 16 bits
+        // because the velocity is always a multiple of 20 cps due to Expansion Hub's 50ms measurement window
+        real += ((real % 20) / 4) * CPS_STEP;
+        // estimate-based correction: it finds the nearest multiple of 5 to correct the upper bits by
+        real += Math.round((estimate - real) / (5 * CPS_STEP)) * 5 * CPS_STEP;
+        return real;
     }
 
 }
