@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
 import java.util.Arrays;
@@ -49,7 +50,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     GoBildaPinpointDriver odo;
 
-    PinPoint_Odo pinPointOdo;
+    DriveTrain driveTrain;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
@@ -58,7 +59,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     private PinPoint_MecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, PinPoint_Odo pinPointOdo) {
+    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, DriveTrain driveTrain) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
@@ -66,7 +67,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
         this.odo = odo;
         this.drive = drive;
-        this.pinPointOdo = pinPointOdo;
+        this.driveTrain = driveTrain;
 
 //        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
 //        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftback"));
@@ -106,8 +107,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(pinPointOdo.getCorrectedVelocity(odo.getVelX())),
-                encoderTicksToInches(pinPointOdo.getCorrectedVelocity(odo.getVelY()))
+                encoderTicksToInches(odo.getVelX()),
+                encoderTicksToInches(odo.getVelY())
         );
     }
 }
