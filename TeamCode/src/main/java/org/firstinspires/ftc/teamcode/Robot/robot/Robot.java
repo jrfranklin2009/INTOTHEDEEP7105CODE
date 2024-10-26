@@ -25,18 +25,18 @@ public class Robot {
     public ArmRotation armRotation;
     public DriveTrain driveTrain;  // set up the drivetrain
 //    public HangingMechanism hanging;  // set up hanging
-    public PinPoint_Odo odo;
+//    public PinPoint_Odo odo;
     protected CommandScheduler scheduler;  // set up the command scheduler
 
-    public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
+    public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
         // init robot
         driveTrain = new DriveTrain(hw);  // drivetrain
-        odo = new PinPoint_Odo(telemetry);
+//        odo = new PinPoint_Odo();
         armExtension = new ArmExtension();  // arm
         armRotation = new ArmRotation();
         intake= new Intake();  // intake
 //        hanging = new HangingMechanism(telemetry);  // hanging
-        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain, armExtension, armRotation,odo);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
+        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain, armExtension, armRotation);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
         this.gamepad1 = new Input(gamepad1,scheduler);
         this.gamepad2 = new Input(gamepad2,scheduler);  // gamepads
         if (opMode.equals(OpMode.Auto)) {  // if auto init the auto
