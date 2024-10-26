@@ -58,7 +58,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     private PinPoint_MecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, PinPoint_Odo pinPointOdo) {
+    public TwoWheelTrackingLocalizer(PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, PinPoint_Odo pinPointOdo) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))

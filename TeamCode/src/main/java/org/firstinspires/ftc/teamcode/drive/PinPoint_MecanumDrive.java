@@ -131,7 +131,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         List<Integer> lastTrackingEncVels = new ArrayList<>();
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap, PinPoint_MecanumDrive.this, odo, pinPointOdo));
+        setLocalizer(new TwoWheelTrackingLocalizer(PinPoint_MecanumDrive.this, odo, pinPointOdo));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
                 follower, HEADING_PID, batteryVoltageSensor,
