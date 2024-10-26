@@ -24,7 +24,7 @@ public class JohnsIntake extends Subsystem {
         leftarm = hwMap.get(Servo.class,"leftarm");
 
         leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftarm.setDirection(Servo.Direction.REVERSE);
+        rightarm.setDirection(Servo.Direction.REVERSE);
 
         colorsensor = hwMap.get(ColorSensor.class,"colorsensor");
     }
@@ -42,12 +42,12 @@ public class JohnsIntake extends Subsystem {
     public void setIntake(IntakeStates intakeStates){
         switch (intakeStates){
             case intake:
-                rightintake.setPower(0);
-                leftintake.setPower(0);
+                rightintake.setPower(1);
+                leftintake.setPower(1);
                 break;
             case outtake:
-                rightintake.setPower(0);
-                leftintake.setPower(0);
+                rightintake.setPower(-1);
+                leftintake.setPower(-1);
                 break;
             case stop:
                 rightintake.setPower(0);
@@ -62,7 +62,7 @@ public class JohnsIntake extends Subsystem {
                 gripper.setPosition(.1);
                 break;
             case clamp:
-                gripper.setPosition(.6);
+                gripper.setPosition(.73);
                 break;
         }
     }
@@ -74,8 +74,8 @@ public class JohnsIntake extends Subsystem {
                 leftarm.setPosition(.1);
                 break;
             case outback:
-                rightarm.setPosition(.3);
-                leftarm.setPosition(.3);
+                rightarm.setPosition(1);
+                leftarm.setPosition(1);
                 break;
         }
     }

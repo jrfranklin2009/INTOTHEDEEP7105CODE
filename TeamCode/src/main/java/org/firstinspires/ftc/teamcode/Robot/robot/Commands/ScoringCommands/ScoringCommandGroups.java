@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmJohn;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
@@ -11,56 +14,71 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.Simpl
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmRotation;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntake;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
 
 /** This contains all of the commands used in our robot.
  * Most commands are used in tele.
  */
 
 public class ScoringCommandGroups {
-    Intake intake;  // intake
+    JohnsIntake intake;  // intake
 
-    ArmExtension armExtension;  // scoring mechanism
+//    ArmExtension armExtension;  // scoring mechanism
 
-    ArmRotation armRotation;
+//    ArmRotation armRotation;
 
 //    HangingMechanism hangingMechanism;  // hanging
 
-    public ScoringCommandGroups( Intake intake, ArmExtension armExtension, ArmRotation armRotation) {
+    public ScoringCommandGroups( JohnsIntake intake) {
         this.intake = intake;
-        this.armExtension = armExtension;
-        this.armRotation = armRotation;
+//        this.armExtension = armExtension;
+//        this.armRotation = armRotation;
 //        this.hangingMechanism = hangingMechanism;
 
     }
 
-    public Command intakeSample(Input input){ // intake a sample
-        return setIntake(Intake.IntakePower.Intake, Intake.Wrist.IntakeSample, Intake.Twist.IntakeSample, input);
+    public Command moveArmJohn(JohnsIntake.ArmStates armStates){
+        return new MoveArmJohn(this.intake, armStates);
     }
 
-    public Command outtakeSample(Input input){  // outtake sample
-        return setIntake(Intake.IntakePower.Outtake, Intake.Wrist.OuttakeSample, Intake.Twist.OuttakeSample, input);
+    public Command moveIntakeJohn(Input input){
+        return new MoveIntakeJohn(input,this.intake);
     }
 
-    public Command outtakeSpecimen(Input input){  // outtake specimen (place on bar)
-        return setIntake(Intake.IntakePower.Stop, Intake.Wrist.PlacingSpecimin, Intake.Twist.PlacingSpecimin, input);
+    public Command moveGripper(JohnsIntake.GripperStates gripperStates){
+        return new MoveGripper(this.intake, gripperStates);
     }
 
-    public Command setIntakeRest(Input input){  // set the intake to its default
-        return setIntake(Intake.IntakePower.Stop, Intake.Wrist.Rest, Intake.Twist.Rest, input);
-    }
+//    public Command intakeSample(Input input){ // intake a sample
+//        return setIntake(Intake.IntakePower.Intake, Intake.Wrist.IntakeSample, Intake.Twist.IntakeSample, input);
+//    }
+//
+//    public Command outtakeSample(Input input){  // outtake sample
+//        return setIntake(Intake.IntakePower.Outtake, Intake.Wrist.OuttakeSample, Intake.Twist.OuttakeSample, input);
+//    }
+//
+//    public Command outtakeSpecimen(Input input){  // outtake specimen (place on bar)
+//        return setIntake(Intake.IntakePower.Stop, Intake.Wrist.PlacingSpecimin, Intake.Twist.PlacingSpecimin, input);
+//    }
+//
+//    public Command setIntakeRest(Input input){  // set the intake to its default
+//        return setIntake(Intake.IntakePower.Stop, Intake.Wrist.Rest, Intake.Twist.Rest, input);
+//    }
 
 
-    public MoveIntake setIntake(Intake.IntakePower intakePower, Intake.Wrist wrist, Intake.Twist twist, Input input){  // set the intake based on inputs
-        return new MoveIntake(intake,intakePower, wrist, twist, input);
-    }
+//    public MoveIntake setIntake(Intake.IntakePower intakePower, Intake.Wrist wrist, Intake.Twist twist, Input input){  // set the intake based on inputs
+//        return new MoveIntake(intake,intakePower, wrist, twist, input);
+//    }
 
-    public MoveArmExtensionPID moveArmExtensionPID(ArmExtension.ArmExtensionStates armExtension){  // move the arm w/ PID.
-        return new MoveArmExtensionPID(this.armExtension,armExtension);
-    }
+//    public MoveArmExtensionPID moveArmExtensionPID(ArmExtension.ArmExtensionStates armExtension){  // move the arm w/ PID.
+//        return new MoveArmExtensionPID(this.armExtension,armExtension);
+//    }
+//
+//    public MoveArmRotation moveArmRotationPID(ArmRotation.ArmRotationStates turnStates) {
+//        return new MoveArmRotation(this.armRotation, turnStates);
+//    }
 
-    public MoveArmRotation moveArmRotationPID(ArmRotation.ArmRotationStates turnStates) {
-        return new MoveArmRotation(this.armRotation, turnStates);
-    }
+//    public Command moveJohn
 
 //    public Command getReadyToHang(Input input){
 //        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.Down, input);  // get ready to hang by turning the lead screws
