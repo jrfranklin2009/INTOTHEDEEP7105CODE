@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
 /** sets up the framework for the robt
@@ -20,12 +21,14 @@ public class Robot {
     public JohnsIntake intake;  // set up intake
     public DriveTrain driveTrain;  // set up the drivetrain
     protected CommandScheduler scheduler;  // set up the command scheduler
+    public LimeLight limelight;
 
     public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
         // init robot
         driveTrain = new DriveTrain(hw);  // drivetrain
+        limelight = new LimeLight(driveTrain);
         intake= new JohnsIntake();  // intake
-        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
+        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain,limelight);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
         this.gamepad1 = new Input(gamepad1,scheduler);
         this.gamepad2 = new Input(gamepad2,scheduler);  // gamepads
         if (opMode.equals(OpMode.Auto)) {  // if auto init the auto

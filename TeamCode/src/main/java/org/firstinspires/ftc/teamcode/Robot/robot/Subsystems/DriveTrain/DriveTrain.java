@@ -6,15 +6,11 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
@@ -24,13 +20,9 @@ public class DriveTrain extends Subsystem {
    public static double headingP = 1;
    public static double xyP = 1;
 
-    GoBildaPinpointDriver odo;
+    public GoBildaPinpointDriver odo;
 
     public PinPoint_MecanumDrive mecanumDrive;
-
-    private final static int CPS_STEP = 0x10000;
-
-    private double[] velocityEstimates;
 
    DriveSpeed driveSpeed = DriveSpeed.Fast;
 
@@ -116,24 +108,6 @@ public class DriveTrain extends Subsystem {
 
     public void resetPosAndHeading(){
         odo.resetPosAndIMU();
-    }
-
-    public double getCorrectedVelocity(double input) {
-        double median = velocityEstimates[0] > velocityEstimates[1]
-                ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
-                : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
-        return inverseOverflow(input, median);
-    }
-
-    private static double inverseOverflow(double input, double estimate) {
-        // convert to uint16
-        int real = (int) input & 0xffff;
-        // initial, modulo-based correction: it can recover the remainder of 5 of the upper 16 bits
-        // because the velocity is always a multiple of 20 cps due to Expansion Hub's 50ms measurement window
-        real += ((real % 20) / 4) * CPS_STEP;
-        // estimate-based correction: it finds the nearest multiple of 5 to correct the upper bits by
-        real += Math.round((estimate - real) / (5 * CPS_STEP)) * 5 * CPS_STEP;
-        return real;
     }
 
     public void followTrajectorySequenceAsync(TrajectorySequence trajectory){
