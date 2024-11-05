@@ -7,11 +7,11 @@ public class MoveVerticalSlides extends Command {
 
     VerticalSlides verticalSlides;
 
-    double ref;
+//    double ref;
 
-    public MoveVerticalSlides(VerticalSlides verticalSlides, double ref){
+    public MoveVerticalSlides(VerticalSlides verticalSlides){
         this.verticalSlides = verticalSlides;
-        this.ref = ref;
+//        this.ref = ref;
     }
 
     @Override
@@ -21,12 +21,12 @@ public class MoveVerticalSlides extends Command {
 
     @Override
     public void periodic() {
-        verticalSlides.pidController(ref);
+        verticalSlides.pidController();
     }
 
     @Override
     public boolean completed() {
-        return verticalSlides.getSlidesError(ref) > 10;
+        return verticalSlides.getSlidesError() > 10;
     }
 
     @Override

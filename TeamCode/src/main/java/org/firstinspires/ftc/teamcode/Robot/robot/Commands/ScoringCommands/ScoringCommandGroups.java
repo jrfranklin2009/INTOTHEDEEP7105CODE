@@ -5,9 +5,13 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmJohn;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmExtensionPID;
@@ -29,8 +33,14 @@ public class ScoringCommandGroups {
 
 //    HangingMechanism hangingMechanism;  // hanging
 
-    public ScoringCommandGroups( JohnsIntake intake) {
+    HorizontalSlides horizontalSlides;
+
+    VerticalSlides verticalslides;
+
+    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides) {
         this.intake = intake;
+        this.verticalslides = verticalslides;
+        this.horizontalSlides = horizontalslides;
 //        this.armExtension = armExtension;
 //        this.armRotation = armRotation;
 //        this.hangingMechanism = hangingMechanism;
@@ -47,6 +57,14 @@ public class ScoringCommandGroups {
 
     public Command moveGripper(JohnsIntake.GripperStates gripperStates){
         return new MoveGripper(this.intake, gripperStates);
+    }
+
+    public Command movevertSlides(){
+        return new MoveVerticalSlides(this.verticalslides);
+    }
+
+    public Command moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates horizontalslidestates){
+        return new MoveHorizontalSlides(this.horizontalSlides,horizontalslidestates);
     }
 
 //    public Command intakeSample(Input input){ // intake a sample
