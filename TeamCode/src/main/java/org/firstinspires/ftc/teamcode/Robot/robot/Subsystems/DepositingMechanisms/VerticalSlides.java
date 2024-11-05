@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanis
 
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
 
+@Config
 public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
@@ -25,7 +27,7 @@ public class VerticalSlides extends Subsystem {
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
 
-        leftslide.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightslide.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
     }

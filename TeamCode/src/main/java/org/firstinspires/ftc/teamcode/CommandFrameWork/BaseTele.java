@@ -30,8 +30,9 @@ public abstract class BaseTele extends LinearOpMode {
         while (opModeIsActive()){
             moveIntakeJohn.periodic();
 
-            robot.gamepad2.whenRightBumperPressed(moveVerticalSlides);
-            robot.gamepad2.whenLeftBumperPressed(moveVerticalSlides);
+            moveVerticalSlides.periodic();
+//            robot.gamepad2.whenRightBumperPressed(moveVerticalSlides);
+//            robot.gamepad2.whenLeftBumperPressed(moveVerticalSlides);
 
             robot.driveTrain.RobotRelative(robot.gamepad1);
 
