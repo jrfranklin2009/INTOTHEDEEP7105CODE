@@ -52,7 +52,6 @@ public class Robot {
 
     public void updateTele() {  // update everything but tele specific
         updateGamepads();  // update gamepads
-        verticalslides.updatePos(gamepad2);
         scheduler.runAuto(); // it says run auto but this really just updates the scheduler and runs everything there
     }
 

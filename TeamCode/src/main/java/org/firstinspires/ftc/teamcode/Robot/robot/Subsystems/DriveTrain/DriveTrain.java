@@ -45,12 +45,12 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void periodicAuto() {
-        Dashboard.addData("Status", odo.getDeviceStatus());
-        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
-        Dashboard.addData("X_Pos",odo.getPosX());
-        Dashboard.addData("Y_Pos",odo.getPosY());
-        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
-        Dashboard.addData("Heading_Radians?",odo.getHeading());
+//        Dashboard.addData("Status", odo.getDeviceStatus());
+//        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
+//        Dashboard.addData("X_Pos",odo.getPosX());
+//        Dashboard.addData("Y_Pos",odo.getPosY());
+//        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
+//        Dashboard.addData("Heading_Radians?",odo.getHeading());
 
         mecanumDrive.update();
         odo.update();

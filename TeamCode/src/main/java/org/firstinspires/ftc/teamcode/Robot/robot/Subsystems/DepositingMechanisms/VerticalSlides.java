@@ -9,13 +9,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 
 @Config
 public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static PIDCoefficients coefficients = new PIDCoefficients(0,0,0);
+    double kp,ki,kd;
+
+    public static PIDCoefficients coefficients = new PIDCoefficients(.014,0,.000002);
 
     public static double ref;
 
@@ -29,12 +32,14 @@ public class VerticalSlides extends Subsystem {
 
         rightslide.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        resetSlides();
 
     }
 
     @Override
     public void periodicAuto() {
-
+        Dashboard.addData("verticalslidepos",getSlidesPos());
+        Dashboard.addData("reference",ref);
     }
 
     @Override
@@ -52,9 +57,9 @@ public class VerticalSlides extends Subsystem {
     }
 
     public void updatePos(Input input){
-        if (input.isRightBumperPressed() && getSlidesPos() <= 800){
+        if (input.isRightBumperPressed() && getSlidesPos() <= 2400){
             ref = ref + 200;
-        } else if (input.isLeftBumperPressed() && getSlidesPos() >= 200){
+        } else if (input.isLeftBumperPressed() && getSlidesPos() >= 150){
             ref = ref - 200;
         }
     }
@@ -63,7 +68,14 @@ public class VerticalSlides extends Subsystem {
         return leftslide.getCurrentPosition();
     }
 
-    public enum VerticalSlidesStates{
+    public void resetSlides(){
+        leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+public enum VerticalSlidesStates{
         Up,
         Down
     }
