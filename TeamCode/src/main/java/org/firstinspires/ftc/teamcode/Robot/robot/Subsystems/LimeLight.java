@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
@@ -38,17 +39,33 @@ public class LimeLight extends Subsystem {
 
     @Override
     public void periodicAuto() {
+//        LLResult result = limelight.getLatestResult();
+
+
+//        YawPitchRollAngles orientation = odo.;
+
+//        telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
+
+        limelight.updateRobotOrientation(odo.odo.getHeading());
         LLResult result = limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
-                Pose3D botpose = result.getBotpose();
+                Pose3D botpose = result.getBotpose_MT2();
+//                odo.mecanumDrive.setPoseEstimate(botpose.getPosition().);
                 Dashboard.addData("tx", result.getTx());
                 Dashboard.addData("ty", result.getTy());
-                Dashboard.addData("Botpose", botpose.toString());
+                Dashboard.addData("Botpose", botpose.toString()); }
+//        if (result != null) {
+//            if (result.isValid()) {
+//                Pose3D botpose = result.getBotpose();
+//                Dashboard.addData("tx", result.getTx());
+//                Dashboard.addData("ty", result.getTy());
+//                Dashboard.addData("Botpose", botpose.toString());
 //                odo.mecanumDrive.setPoseEstimate(new Pose2d(result.getBotpose().getPosition().x,result.getBotpose().getPosition().y,result.getBotpose().getOrientation().getYaw()));
 //                odo.odo.setPosition(new Pose2D(METER,result.getBotpose().getPosition().x,result.getBotpose().getPosition().y, AngleUnit.DEGREES,result.getBotpose().getOrientation().getYaw()));
+//            }
+//        }
             }
-        }
 
     }
     @Override

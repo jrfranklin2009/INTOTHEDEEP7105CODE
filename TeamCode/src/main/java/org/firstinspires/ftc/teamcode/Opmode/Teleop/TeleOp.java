@@ -11,11 +11,8 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "\uD83D\uDE08")
 public class TeleOp extends BaseTele {
-
-    public String Team;
     @Override
     public Command setUpTele(CommandScheduler commandScheduler) {// this is where the meat of the code is
-        Team = "red";
         robot.gamepad1.whenCrossPressed(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_Out));
         robot.gamepad1.whenSquarePressed(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In));
 
