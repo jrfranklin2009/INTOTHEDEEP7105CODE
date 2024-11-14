@@ -23,7 +23,7 @@ public class Robot {
     public JohnsIntake intake;  // set up intake
     public DriveTrain driveTrain;  // set up the drivetrain
     protected CommandScheduler scheduler;  // set up the command scheduler
-//    public LimeLight limelight;
+    public LimeLight limelight;
     public VerticalSlides verticalslides;
     public HorizontalSlides horizontalslides;
 
@@ -32,11 +32,12 @@ public class Robot {
         driveTrain = new DriveTrain(hw);  // drivetrain
         verticalslides = new VerticalSlides();
         horizontalslides = new HorizontalSlides();
-//        limelight = new LimeLight(driveTrain);
+        limelight = new LimeLight(driveTrain);
         intake= new JohnsIntake();  // intake
-        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain,verticalslides,horizontalslides);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
+        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain,verticalslides,horizontalslides,limelight);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
         this.gamepad1 = new Input(gamepad1,scheduler);
-        this.gamepad2 = new Input(gamepad2,scheduler);  // gamepads
+        this.gamepad2 = new Input(gamepad2,scheduler);
+        // gamepads
         if (opMode.equals(OpMode.Auto)) {  // if auto init the auto
             scheduler.initAuto();
         } else if (opMode.equals(OpMode.Teleop)) {  // if tele init the tele

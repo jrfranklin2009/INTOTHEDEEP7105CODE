@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.INCH;
 import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.METER;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
@@ -21,8 +23,13 @@ public class LimeLight extends Subsystem {
 
     DriveTrain odo;
 
+    double x,y;
+
+//    Input input;
+
     public LimeLight(DriveTrain odo){
         this.odo = odo;
+//        this.input = input;
     }
 
     @Override
@@ -50,24 +57,37 @@ public class LimeLight extends Subsystem {
         LLResult result = limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
-                Pose3D botpose = result.getBotpose_MT2();
+                Pose3D botpose = result.getBotpose();
 //                odo.mecanumDrive.setPoseEstimate(botpose.getPosition().);
                 Dashboard.addData("tx", result.getTx());
                 Dashboard.addData("ty", result.getTy());
-                Dashboard.addData("Botpose", botpose.toString()); }
+                Dashboard.addData("Botpose", botpose.toString());
 //        if (result != null) {
 //            if (result.isValid()) {
 //                Pose3D botpose = result.getBotpose();
+//            if (input.isDpad_right()) {
 //                Dashboard.addData("tx", result.getTx());
 //                Dashboard.addData("ty", result.getTy());
 //                Dashboard.addData("Botpose", botpose.toString());
-//                odo.mecanumDrive.setPoseEstimate(new Pose2d(result.getBotpose().getPosition().x,result.getBotpose().getPosition().y,result.getBotpose().getOrientation().getYaw()));
+                converter(result);
+                odo.mecanumDrive.setPoseEstimate(new Pose2d(x,y,botpose.getOrientation().getYaw()));
 //                odo.odo.setPosition(new Pose2D(METER,result.getBotpose().getPosition().x,result.getBotpose().getPosition().y, AngleUnit.DEGREES,result.getBotpose().getOrientation().getYaw()));
 //            }
 //        }
+//                }
+            }
             }
 
     }
+
+    public void converter(LLResult llResult){
+        x = llResult.getBotpose().getPosition().x * -36.15384; //35.9375
+        y = llResult.getBotpose().getPosition().y * -36.15384;
+
+      //  -23 -47 rr cordinates
+        //        .64 1.30 ll cordinates
+    }
+
     @Override
     public void shutdown() {
         limelight.shutdown();
