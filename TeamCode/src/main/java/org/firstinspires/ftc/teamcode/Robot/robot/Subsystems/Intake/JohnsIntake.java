@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,10 +9,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 
+@Config
 public class JohnsIntake extends Subsystem {
 
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
+
+    public static double outback = .78;
 
     ColorSensor colorsensor;
 
@@ -74,8 +78,8 @@ public class JohnsIntake extends Subsystem {
                 leftarm.setPosition(.1);
                 break;
             case outback:
-                rightarm.setPosition(1);
-                leftarm.setPosition(1);
+                rightarm.setPosition(outback);
+                leftarm.setPosition(outback);
                 break;
         }
     }

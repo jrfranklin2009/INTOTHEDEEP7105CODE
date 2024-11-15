@@ -37,8 +37,15 @@ public abstract class BaseTele extends LinearOpMode {
 
             robot.gamepad1.whenCrossPressed(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_Out));
             robot.gamepad1.whenSquarePressed(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In));
+            robot.gamepad1.whenTrianglePressed(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Zero_Power));
 
             robot.driveTrain.RobotRelative(robot.gamepad1);
+
+            robot.gamepad1.whenDPadUpPressed(groups.moveArmJohn(JohnsIntake.ArmStates.outback));
+            robot.gamepad1.whenDPadDownPressed(groups.moveArmJohn(JohnsIntake.ArmStates.forward));
+
+            robot.gamepad1.whenLeftBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.unclamp));
+            robot.gamepad1.whenRightBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.clamp));
 
 //            robot.gamepad1.whenDPadUpPressed(groups.moveArmJohn(JohnsIntake.ArmStates.outback));
 //            robot.gamepad1.whenDPadDownPressed(groups.moveArmJohn(JohnsIntake.ArmStates.forward));

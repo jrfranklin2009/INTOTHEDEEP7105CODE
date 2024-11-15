@@ -71,7 +71,7 @@ public class LimeLight extends Subsystem {
 //                Dashboard.addData("Botpose", botpose.toString());
                 converter(result);
                 odo.mecanumDrive.setPoseEstimate(new Pose2d(x,y,botpose.getOrientation().getYaw()));
-//                odo.odo.setPosition(new Pose2D(METER,result.getBotpose().getPosition().x,result.getBotpose().getPosition().y, AngleUnit.DEGREES,result.getBotpose().getOrientation().getYaw()));
+                odo.odo.setPosition(new Pose2D(INCH,x,y, AngleUnit.DEGREES,result.getBotpose().getOrientation().getYaw()));
 //            }
 //        }
 //                }

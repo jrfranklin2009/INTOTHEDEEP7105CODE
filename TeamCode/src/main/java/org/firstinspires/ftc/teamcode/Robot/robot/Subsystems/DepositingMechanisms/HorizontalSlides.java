@@ -4,20 +4,21 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 
 @Config
 public class HorizontalSlides extends Subsystem {
 
-    Servo leftservoslide, rightservoslide;
+    ServoImplEx leftservoslide, rightservoslide;
 
     public static double rightpos = .72, leftpos = .72;
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        leftservoslide = hwMap.get(Servo.class,"leftservoslide");
-        rightservoslide = hwMap.get(Servo.class,"rightservoslide");
+        leftservoslide = hwMap.get(ServoImplEx.class,"leftservoslide");
+        rightservoslide = hwMap.get(ServoImplEx.class,"rightservoslide");
         leftservoslide.setDirection(Servo.Direction.REVERSE);
     }
 
@@ -41,11 +42,16 @@ public class HorizontalSlides extends Subsystem {
                 leftservoslide.setPosition(leftpos);
                 rightservoslide.setPosition(rightpos);
                 break;
+            case Zero_Power:
+                leftservoslide.setPwmDisable();
+                rightservoslide.setPwmDisable();
+                break;
         }
     }
 
     public enum HorizontalSlideStates {
         Fully_Out,
-        Fully_In
+        Fully_In,
+        Zero_Power
     }
 }
