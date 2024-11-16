@@ -34,11 +34,15 @@ public class HorizontalSlides extends Subsystem {
 
     public void setHorizontalSlides(HorizontalSlideStates horizontalslidestates){
         switch (horizontalslidestates){
-            case Fully_Out:
-                leftservoslide.setPosition(.17);
-                rightservoslide.setPosition(.17);
-                break;
             case Fully_In:
+                leftservoslide.setPosition(.15);
+                rightservoslide.setPosition(.15);
+                break;
+            case Half_Out:
+                leftservoslide.setPosition(.445);
+                rightservoslide.setPosition(.445);
+                break;
+            case Fully_Out:
                 leftservoslide.setPosition(leftpos);
                 rightservoslide.setPosition(rightpos);
                 break;
@@ -51,6 +55,7 @@ public class HorizontalSlides extends Subsystem {
 
     public enum HorizontalSlideStates {
         Fully_Out,
+        Half_Out,
         Fully_In,
         Zero_Power
     }

@@ -70,9 +70,9 @@ public class VerticalSlides extends Subsystem {
 
     public void resetSlides(){
         leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 public enum VerticalSlidesStates{

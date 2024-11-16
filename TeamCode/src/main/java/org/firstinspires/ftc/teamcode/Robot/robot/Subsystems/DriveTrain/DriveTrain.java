@@ -38,22 +38,22 @@ public class DriveTrain extends Subsystem {
         odo = hwMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.optii);
-        odo.setOffsets(171.25336,0);
+        odo.setOffsets(171.45,0);
         resetPosAndHeading();
         this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,this);
+        mecanumDrive.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
     }
 
     @Override
     public void periodicAuto() {
-//        Dashboard.addData("Status", odo.getDeviceStatus());
-//        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
-//        Dashboard.addData("X_Pos",odo.getPosX());
-//        Dashboard.addData("Y_Pos",odo.getPosY());
-//        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
-//        Dashboard.addData("Heading_Radians?",odo.getHeading());
+        Dashboard.addData("Status", odo.getDeviceStatus());
+        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
+        Dashboard.addData("X_Pos",odo.getPosX());
+        Dashboard.addData("Y_Pos",odo.getPosY());
+        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
 
         mecanumDrive.update();
-        odo.update();
+        odo.update_LessStuff();
     }
 
     @Override

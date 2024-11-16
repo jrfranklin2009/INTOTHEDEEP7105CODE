@@ -43,9 +43,9 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
     public static double PARALLEL_X = 0; // X is the up and down direction
-    public static double PARALLEL_Y = 6.25; // Y is the strafe direction
+    public static double PARALLEL_Y = 6.75; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = -6;
+    public static double PERPENDICULAR_X = 0;
     public static double PERPENDICULAR_Y = 0;
 
 
@@ -84,12 +84,12 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     @Override
     public double getHeading() {
-        return drive.getRawExternalHeading();
+        return odo.getHeading();
     }
 
     @Override
     public Double getHeadingVelocity() {
-        return drive.getExternalHeadingVelocity();
+        return odo.getHeadingVelocity();
     }
 
     @NonNull
