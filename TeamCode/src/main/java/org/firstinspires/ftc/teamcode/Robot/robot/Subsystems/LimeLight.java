@@ -40,6 +40,9 @@ public class LimeLight extends Subsystem {
          * Starts polling for data.
          */
         limelight.start();
+
+        x = odo.odo.getPosX();
+
     }
 
     @Override
