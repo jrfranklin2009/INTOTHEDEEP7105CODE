@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Opmode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -12,6 +13,10 @@ public class TestTridentArm extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DcMotor TurnTridentArm;
         DcMotor ExtendTridentArm;
+        CRServoImplEx Intake;
+
+        DcMotor LeftHang;
+        DcMotor RightHang;
 
         Boolean isReverse = false;
 
@@ -19,6 +24,10 @@ public class TestTridentArm extends LinearOpMode {
 
         TurnTridentArm =hardwareMap.get(DcMotor.class, "TurnTridentArm");
         ExtendTridentArm = hardwareMap.get(DcMotor.class, "ExendTridentArm");
+        Intake = hardwareMap.get(CRServoImplEx.class, "Intake");
+
+        LeftHang = hardwareMap.get(DcMotor.class, "LeftHang");
+        RightHang=hardwareMap.get(DcMotor.class, "RightHang");
 
         waitForStart();
         while(opModeIsActive()){
@@ -39,6 +48,10 @@ public class TestTridentArm extends LinearOpMode {
                 TurnTridentArm.setDirection(DcMotorSimple.Direction.REVERSE);
                 ExtendTridentArm.setPower(0.3*gamepad1.left_trigger+0.05);
                 TurnTridentArm.setPower(0.3*gamepad1.right_trigger+0.05);;
+            }
+
+            if (gamepad1.right_bumper){
+                Intake.setPower(0.75);
             }
         }
     }
