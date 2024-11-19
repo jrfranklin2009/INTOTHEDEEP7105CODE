@@ -15,7 +15,8 @@ public class TestTridentArm extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DcMotor TurnTridentArm;
         DcMotor ExtendTridentArm;
-        CRServoImplEx Intake;
+        CRServoImplEx IntakeOne;
+        CRServoImplEx IntakeTwo;
 
         DcMotor LeftHang;
         DcMotor RightHang;
@@ -26,8 +27,9 @@ public class TestTridentArm extends LinearOpMode {
 
         TurnTridentArm =hardwareMap.get(DcMotor.class, "TurnTridentArm");
         ExtendTridentArm = hardwareMap.get(DcMotor.class, "ExendTridentArm");
-        Intake = hardwareMap.get(CRServoImplEx.class, "Intake");
-
+        IntakeOne = hardwareMap.get(CRServoImplEx.class, "IntakeLeft");
+        IntakeTwo =hardwareMap.get(CRServoImplEx.class, "IntakeRight");
+        IntakeTwo.setDirection(DcMotorSimple.Direction.REVERSE);
         LeftHang = hardwareMap.get(DcMotor.class, "LeftHang");
         RightHang=hardwareMap.get(DcMotor.class, "RightHang");
 
@@ -53,8 +55,16 @@ public class TestTridentArm extends LinearOpMode {
             }
 
             if (gamepad1.right_bumper){
-                Intake.setPower(0.75);
+                IntakeOne.setPower(0.75);
+                IntakeTwo.setPower(0.75);
+            }
+
+
+            if (gamepad1.left_bumper){
+                IntakeOne.setPower(-0.75);
+                IntakeTwo.setPower(-0.75);
             }
         }
+
     }
 }
