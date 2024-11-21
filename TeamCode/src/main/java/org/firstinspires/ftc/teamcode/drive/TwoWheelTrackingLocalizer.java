@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
 import java.util.Arrays;
@@ -58,7 +59,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     private PinPoint_MecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, PinPoint_Odo pinPointOdo) {
+    public TwoWheelTrackingLocalizer(PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, DriveTrain drivetrain) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))

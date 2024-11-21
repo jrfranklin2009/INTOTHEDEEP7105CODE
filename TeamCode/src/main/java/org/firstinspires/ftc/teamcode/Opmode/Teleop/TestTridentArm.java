@@ -42,14 +42,14 @@ public class TestTridentArm extends LinearOpMode {
             }
 
             if (!isReverse){
-                ExtendTridentArm.setPower(0.3*gamepad1.left_trigger+0.05);
-                TurnTridentArm.setPower(0.3*gamepad1.right_trigger+0.05);
+                ExtendTridentArm.setPower(0.3*gamepad1.left_trigger);
+                TurnTridentArm.setPower(0.3*gamepad1.right_trigger);
             }
             if (isReverse){
                 ExtendTridentArm.setDirection(DcMotorSimple.Direction.REVERSE);
                 TurnTridentArm.setDirection(DcMotorSimple.Direction.REVERSE);
-                ExtendTridentArm.setPower(0.3*gamepad1.left_trigger+0.05);
-                TurnTridentArm.setPower(0.3*gamepad1.right_trigger+0.05);;
+                ExtendTridentArm.setPower(0.3*gamepad1.left_trigger);
+                TurnTridentArm.setPower(0.3*gamepad1.right_trigger);;
             }
 
             if (gamepad1.right_bumper){
