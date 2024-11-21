@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.ClipMech;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
@@ -20,6 +21,7 @@ public class Robot {
     public Dashboard dashboard = new Dashboard();  // set up dashboard
     public Input gamepad1, gamepad2;  // set up gamepads
     public JohnsIntake intake;  // set up intake
+    public ClipMech clipmech;
     public DriveTrain driveTrain;  // set up the drivetrain
     protected CommandScheduler scheduler;  // set up the command scheduler
     public LimeLight limelight;
@@ -29,11 +31,12 @@ public class Robot {
     public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
         // init robot
         driveTrain = new DriveTrain(hw);  // drivetrain
+        clipmech = new ClipMech();
         verticalslides = new VerticalSlides();
         horizontalslides = new HorizontalSlides();
         limelight = new LimeLight(driveTrain);
         intake= new JohnsIntake();  // intake
-        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain,verticalslides,horizontalslides,limelight);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
+        scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain,verticalslides,horizontalslides,limelight,clipmech);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
         this.gamepad1 = new Input(gamepad1,scheduler);
         this.gamepad2 = new Input(gamepad2,scheduler);
         // gamepads
