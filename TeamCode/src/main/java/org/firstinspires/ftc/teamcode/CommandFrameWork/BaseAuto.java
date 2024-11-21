@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Commands.DrivetrainCommands.Fo
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.DrivetrainCommands.FollowPathSequence;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.Robot.robot.Robot;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 public abstract class BaseAuto extends LinearOpMode {

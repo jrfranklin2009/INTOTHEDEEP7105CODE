@@ -6,6 +6,10 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
@@ -29,7 +33,7 @@ public class DriveTrain extends Subsystem {
    boolean slow = false;
 
    public DriveTrain(HardwareMap hwMap){
-       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,this);
+       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo);
    }
 
     @Override
@@ -39,18 +43,18 @@ public class DriveTrain extends Subsystem {
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.optii);
         odo.setOffsets(171.45,0);
-        resetPosAndHeading();
-        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,this);
-        mecanumDrive.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
+//        resetPosAndHeading();
+        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo);
+//        mecanumDrive.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
     }
 
     @Override
     public void periodicAuto() {
-        Dashboard.addData("Status", odo.getDeviceStatus());
-        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
-        Dashboard.addData("X_Pos",odo.getPosX());
-        Dashboard.addData("Y_Pos",odo.getPosY());
-        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
+//        Dashboard.addData("Status", odo.getDeviceStatus());
+//        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
+        Dashboard.addData("X_Pos",getXPos());
+        Dashboard.addData("Y_Pos",getYPos());
+        Dashboard.addData("Heading",getHeading());
 
         mecanumDrive.update();
         odo.update_LessStuff();
@@ -87,6 +91,31 @@ public class DriveTrain extends Subsystem {
        } else if (!slow) {
            driveSpeed = DriveSpeed.Fast;
        }
+    }
+
+    public void setRR_PinPoint(double x, double y, double heading){
+        odo.setPosition(new Pose2D(DistanceUnit.INCH,x,y, AngleUnit.DEGREES,heading));
+        mecanumDrive.setPoseEstimate(new Pose2d(x,y,heading));
+    }
+
+    public void setRR(double x, double y, double heading){
+        mecanumDrive.setPoseEstimate(new Pose2d(x,y,heading));
+    }
+
+    public void setPinPoint(double x, double y, double heading){
+        odo.setPosition(new Pose2D(DistanceUnit.INCH,x,y, AngleUnit.DEGREES,heading));
+    }
+
+    public double getXPos(){
+        return odo.getPosX();
+    }
+
+    public double getYPos(){
+        return odo.getPosY();
+    }
+
+    public double getHeading(){
+        return Math.toDegrees(odo.getHeading());
     }
 
     public void setStatesJohn(Input input){

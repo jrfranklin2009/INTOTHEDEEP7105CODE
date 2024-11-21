@@ -24,4 +24,19 @@ public class TeleOp extends BaseTele {
 
         return new MultipleCommand(new RobotRelative(robot.driveTrain,robot.gamepad1)); // drivetrain
     }
+
+    @Override
+    public double setYPos() {
+        return -46;
+    }
+
+    @Override
+    public double setXPos() {
+        return -23;
+    }
+
+    @Override
+    public double setHeading() {
+        return 270;
+    }
 }

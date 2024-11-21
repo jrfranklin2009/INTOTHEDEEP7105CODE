@@ -39,9 +39,6 @@ public class TeleOpHang extends LinearOpMode {
             righthang.setPower(gamepad1.left_stick_y);
             lefthang.setPower(gamepad1.left_stick_y);
 
-
-
-
         }
 
 

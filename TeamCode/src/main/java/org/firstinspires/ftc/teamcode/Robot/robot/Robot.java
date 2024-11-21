@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanism
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.LimeLight;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
 /** sets up the framework for the robt
  */

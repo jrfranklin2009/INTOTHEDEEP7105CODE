@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,24 +54,24 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     GoBildaPinpointDriver odo;
 
-    DriveTrain driveTrain;
+//    DriveTrain driveTrain;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis
 //    private Encoder parallelEncoder, perpendicularEncoder; // The parallel wheel is the X wheel. The perpendicular wheel measures the Y;
 
-    private PinPoint_MecanumDrive drive;
+//    private PinPoint_MecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, DriveTrain driveTrain) {
+    public TwoWheelTrackingLocalizer(GoBildaPinpointDriver odo) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
         ));
 
         this.odo = odo;
-        this.drive = drive;
-        this.driveTrain = driveTrain;
+//        this.drive = drive;
+//        this.driveTrain = driveTrain;
         velocityEstimates = new double[3];
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
