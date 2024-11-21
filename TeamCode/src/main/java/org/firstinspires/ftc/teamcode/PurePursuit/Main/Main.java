@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.PurePursuit.Main;
-
-import com.company.ComputerDebugging;
-import com.company.FloatPoint;
-import com.company.Robot;
-
-import treamcode.MyOpMode;
-import treamcode.OpMode;
-
+import org.firstinspires.ftc.teamcode.PurePursuit.company.ComputerDebugging;
+import org.firstinspires.ftc.teamcode.PurePursuit.company.FloatPoint;
+import org.firstinspires.ftc.teamcode.PurePursuit.company.Robot;
+import org.firstinspires.ftc.teamcode.PurePursuit.treamcode.MyOpMode;
+import org.firstinspires.ftc.teamcode.PurePursuit.treamcode.OpMode;
 public class Main {
 
 

@@ -5,7 +5,22 @@ import static org.firstinspires.ftc.teamcode.PurePursuit.company.Robot.worldXPos
 import static org.firstinspires.ftc.teamcode.PurePursuit.company.Robot.worldYPosition;
 import static org.firstinspires.ftc.teamcode.PurePursuit.treamcode.MathFunctions.AngleWrap;
 
+import org.firstinspires.ftc.teamcode.PurePursuit.core.Point;
+
+import java.util.ArrayList;
+
 public class RobotMovement {
+
+    public static CurvePoint getFollowPointPath(ArrayList<CurvePoint> pathPoints, Point robotLocation, double followRadius){
+        CurvePoint followMe = new CurvePoint(pathPoints.get(0));
+
+        for (int i = 0; i < pathPoints.size() - 1; i++){
+            CurvePoint startLine = pathPoints.get(i);
+            CurvePoint endLine = pathPoints.get()
+        }
+    }
+
+
     public static void goToPosition(double x, double y, double movementSpeed){
 
         double distanceToTarget = Math.hypot(x-worldXPosition,y-worldYPosition);
