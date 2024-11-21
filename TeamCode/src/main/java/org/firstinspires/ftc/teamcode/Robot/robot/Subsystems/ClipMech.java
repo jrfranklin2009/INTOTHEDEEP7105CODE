@@ -11,7 +11,7 @@ public class ClipMech extends Subsystem {
 
     Servo rightmagarm,leftmagarm;
 
-    public static double fully_up = .4,ready = .3, down = .1;
+    public static double fully_up = .4,ready = .3,outtheway = .2, down = .1;
 
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -31,13 +31,17 @@ public class ClipMech extends Subsystem {
     }
     public void setArmStates(ArmStates armStates){
         switch (armStates){
-            case Fully_Up:
+            case Clippity_Clappity_Clickity_Click:
                 rightmagarm.setPosition(fully_up);
                 leftmagarm.setPosition(fully_up);
                 break;
             case READY:
                 rightmagarm.setPosition(ready);
                 leftmagarm.setPosition(ready);
+                break;
+            case Out_The_Way:
+                rightmagarm.setPosition(outtheway);
+                leftmagarm.setPosition(outtheway);
                 break;
             case Down:
                 rightmagarm.setPosition(down);
@@ -47,8 +51,9 @@ public class ClipMech extends Subsystem {
     }
 
     public enum ArmStates{
-        Fully_Up,
+        Clippity_Clappity_Clickity_Click, // This states is for fully engaging the clips
         READY,
+        Out_The_Way,
         Down
     }
 }
