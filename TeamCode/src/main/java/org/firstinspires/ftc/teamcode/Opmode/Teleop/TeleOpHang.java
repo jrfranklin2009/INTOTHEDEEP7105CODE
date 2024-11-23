@@ -7,21 +7,27 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
+import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp
 public class TeleOpHang extends LinearOpMode {
 
+    GoBildaPinpointDriver odo;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
-        SampleMecanumDrive mecanumDrive = new SampleMecanumDrive(hardwareMap);
 
         DcMotor righthang,lefthang;
 
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         righthang = hardwareMap.get(DcMotor.class,"righthang");
         lefthang = hardwareMap.get(DcMotor.class,"lefthang");
 
+        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap,odo);
         righthang.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();

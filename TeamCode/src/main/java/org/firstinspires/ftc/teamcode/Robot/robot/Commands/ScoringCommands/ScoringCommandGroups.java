@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeGirls;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
@@ -38,8 +37,8 @@ public class ScoringCommandGroups {
     }
 
 
-    public Command moveIntakeJohn(Input input){
-        return new MoveIntakeGirls(input,this.intake);
+    //public Command moveIntakeJohn(Input input){
+     //   return new MoveIntakeGirls(input,this.intake);
     }
 
 
@@ -97,4 +96,3 @@ public class ScoringCommandGroups {
 //        return new MoveHang(hangingMechanism, leadscrewturnstate, leadscrewstate, input);
 //    }
 
-}

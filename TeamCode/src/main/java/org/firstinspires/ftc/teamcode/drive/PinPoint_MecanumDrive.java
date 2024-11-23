@@ -79,7 +79,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
     private List<Integer> lastEncPositions = new ArrayList<>();
     private List<Integer> lastEncVels = new ArrayList<>();
 
-    public PinPoint_MecanumDrive(HardwareMap hardwareMap, GoBildaPinpointDriver odo, DriveTrain driveTrain) {
+    public PinPoint_MecanumDrive(HardwareMap hardwareMap, GoBildaPinpointDriver odo) {
         super(DriveConstants.kV, DriveConstants.kA, DriveConstants.kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
@@ -130,7 +130,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         List<Integer> lastTrackingEncVels = new ArrayList<>();
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        setLocalizer(new TwoWheelTrackingLocalizer(PinPoint_MecanumDrive.this, odo, driveTrain));
+        setLocalizer(new TwoWheelTrackingLocalizer( odo));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
                 follower, HEADING_PID, batteryVoltageSensor,

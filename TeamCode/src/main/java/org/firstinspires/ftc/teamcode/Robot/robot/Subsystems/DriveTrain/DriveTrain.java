@@ -29,7 +29,7 @@ public class DriveTrain extends Subsystem {
    boolean slow = false;
 
    public DriveTrain(HardwareMap hwMap){
-       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,this);
+       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo);
    }
 
     @Override
@@ -40,7 +40,7 @@ public class DriveTrain extends Subsystem {
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.optii);
         odo.setOffsets(171.45,0);
         resetPosAndHeading();
-        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,this);
+        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo);
         mecanumDrive.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
     }
 
