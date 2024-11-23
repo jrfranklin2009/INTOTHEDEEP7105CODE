@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.Simp
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
 public class MoveVerticalSlides extends Command {
 

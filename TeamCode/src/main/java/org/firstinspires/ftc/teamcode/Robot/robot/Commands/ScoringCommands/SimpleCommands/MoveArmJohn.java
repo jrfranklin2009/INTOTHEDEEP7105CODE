@@ -3,25 +3,26 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.Simp
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.GirlsIntake;
+
 
 
 public class MoveArmJohn extends Command {
 
     ElapsedTime timer = new ElapsedTime();
 
-    JohnsIntake johnsIntake;
+    GirlsIntake girlsIntake;
 
-    JohnsIntake.ArmStates armStates;
+    girlsIntake.ArmStates armStates;
 
-    public MoveArmJohn(JohnsIntake johnsIntake, JohnsIntake.ArmStates armStates){
-        this.johnsIntake = johnsIntake;
+    public MoveArmJohn(GirlsIntake johnsIntake, GirlsIntake.ArmStates armStates){
+        this.girlsIntake = johnsIntake;
         this.armStates = armStates;
     }
     @Override
     public void init() {
         timer.reset();
-        johnsIntake.setArmStates(armStates);
+        GirlsIntake.setArmStates(armStates);
     }
 
     @Override

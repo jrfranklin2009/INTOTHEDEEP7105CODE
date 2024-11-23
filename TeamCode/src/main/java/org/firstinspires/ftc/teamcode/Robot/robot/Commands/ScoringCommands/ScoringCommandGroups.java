@@ -3,62 +3,48 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmJohn;
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlides;
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlides;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeGirls;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.ViperSlidesHanging;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.GirlsIntake;
+
 
 /** This contains all of the commands used in our robot.
  * Most commands are used in tele.
  */
 
 public class ScoringCommandGroups {
-    JohnsIntake intake;  // intake
+    GirlsIntake intake;  // intake
 
-//    ArmExtension armExtension;  // scoring mechanism
+   ArmExtension extension;  // scoring mechanism
 
-//    ArmRotation armRotation;
+   ArmRotation rotation;
 
-//    HangingMechanism hangingMechanism;  // hanging
+   ViperSlidesHanging hang;  // hanging
 
-    HorizontalSlides horizontalSlides;
 
-    VerticalSlides verticalslides;
-
-    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides) {
+    public ScoringCommandGroups(GirlsIntake intake, ArmExtension extention, ArmRotation rotation) {
         this.intake = intake;
-        this.verticalslides = verticalslides;
-        this.horizontalSlides = horizontalslides;
-//        this.armExtension = armExtension;
-//        this.armRotation = armRotation;
-//        this.hangingMechanism = hangingMechanism;
+        this.extension = extension;
+        this.rotation = this.rotation;
+        this.hang = hang;
 
     }
 
-    public Command moveArmJohn(JohnsIntake.ArmStates armStates){
-        return new MoveArmJohn(this.intake, armStates);
+    public ScoringCommandGroups(GirlsIntake intake, ArmExtension extention, ArmRotation rotation, ViperSlidesHanging hanging) {
+
     }
+
 
     public Command moveIntakeJohn(Input input){
-        return new MoveIntakeJohn(input,this.intake);
+        return new MoveIntakeGirls(input,this.intake);
     }
 
-    public Command moveGripper(JohnsIntake.GripperStates gripperStates){
-        return new MoveGripper(this.intake, gripperStates);
-    }
 
-    public Command movevertSlides(){
-        return new MoveVerticalSlides(this.verticalslides);
-    }
 
-    public Command moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates horizontalslidestates){
-        return new MoveHorizontalSlides(this.horizontalSlides,horizontalslidestates);
-    }
+
 
 //    public Command intakeSample(Input input){ // intake a sample
 //        return setIntake(Intake.IntakePower.Intake, Intake.Wrist.IntakeSample, Intake.Twist.IntakeSample, input);

@@ -2,18 +2,18 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.Simp
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.GirlsIntake;
 
 
-public class MoveIntakeJohn extends Command {
+public class MoveIntakeGirls extends Command {
 
     Input input;
 
-    JohnsIntake johnsIntake;
+    GirlsIntake GirlsIntake;
 
-    public MoveIntakeJohn(Input input, JohnsIntake johnsIntake){
+    public MoveIntakeGirls(Input input, Input GirlsIntake){
       this.input = input;
-      this.johnsIntake = johnsIntake;
+      this.GirlsIntake = GirlsIntake;
     }
     @Override
     public void init() {
@@ -22,11 +22,11 @@ public class MoveIntakeJohn extends Command {
     @Override
     public void periodic() {
         if (input.isLeft_trigger_press()){
-            johnsIntake.setIntake(JohnsIntake.IntakeStates.outtake);
+            GirlsIntake.setIntake(org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.GirlsIntake.IntakeStates.outtake);
         } else if (input.isRight_trigger_press()) {
-            johnsIntake.setIntake(JohnsIntake.IntakeStates.intake);
+            GirlsIntake.setIntake(org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.GirlsIntake.IntakeStates.intake);
         }else {
-            johnsIntake.setIntake(JohnsIntake.IntakeStates.stop);
+            GirlsIntake.setIntake(org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.GirlsIntake.IntakeStates.stop);
         }
     }
 
