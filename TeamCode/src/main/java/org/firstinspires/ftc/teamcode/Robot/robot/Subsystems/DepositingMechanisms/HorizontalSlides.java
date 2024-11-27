@@ -14,10 +14,14 @@ public class HorizontalSlides extends Subsystem {
 
     ServoImplEx leftservoslide, rightservoslide;
 
-    public static double rightpos = .72, leftpos = .72;
+    public static double rightpos = .72, leftpos = .72,
+    //TODO max and min constrains must be fixed
+            maxconstraint = 21.5, minconstraint = 8.49;
 
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
+
+    //13 inches
 
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -40,14 +44,23 @@ public class HorizontalSlides extends Subsystem {
     public double getSlidePos(){
         return slideAnalog.getVoltage() / 3.3 * 360;
     }
+
+    public double getVoltage(){
+        return slideAnalog.getVoltage();
+    }
+
     public double getSlideError(double ref){
         return ref - getSlidePos();
+    }
+
+    public double ticksToInches(){
+        return getSlidePos() / 16.84;
     }
 
     public void setHorizontalSlides(HorizontalSlideStates horizontalslidestates){
         switch (horizontalslidestates){
             case Fully_In:
-                leftservoslide.setPosition(.15);
+                leftservoslide.setPosition(.15); //143
                 rightservoslide.setPosition(.15);
                 break;
             case Half_Out:
@@ -55,7 +68,7 @@ public class HorizontalSlides extends Subsystem {
                 rightservoslide.setPosition(.445);
                 break;
             case Fully_Out:
-                leftservoslide.setPosition(leftpos);
+                leftservoslide.setPosition(leftpos); // 219
                 rightservoslide.setPosition(rightpos);
                 break;
             case Zero_Power:

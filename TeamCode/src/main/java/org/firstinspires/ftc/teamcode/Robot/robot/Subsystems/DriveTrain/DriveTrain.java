@@ -38,7 +38,6 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-//       mecanumDrive = new SampleMecanumDrive(hwMap);
         odo = hwMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.optii);
@@ -50,14 +49,12 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void periodicAuto() {
-//        Dashboard.addData("Status", odo.getDeviceStatus());
-//        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
         Dashboard.addData("X_Pos",getXPos());
         Dashboard.addData("Y_Pos",getYPos());
         Dashboard.addData("Heading",getHeading());
 
         mecanumDrive.update();
-        odo.update_LessStuff();
+        odo.update();
     }
 
     @Override

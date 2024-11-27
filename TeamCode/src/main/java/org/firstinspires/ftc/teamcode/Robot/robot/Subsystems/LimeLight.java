@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems;
 
+import static com.ThermalEquilibrium.homeostasis.Utils.MathUtils.AngleWrap;
 import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.INCH;
 import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.METER;
 
+import com.ThermalEquilibrium.homeostasis.Utils.MathUtils;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.util.MathUtil;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,7 +23,11 @@ public class LimeLight extends Subsystem {
 
     DriveTrain odo;
 
-    public static double x,y;
+    Pose3D botpose;
+
+//    LLResult result;
+
+    public static double x,y, heading;
 
     public static double robotx,roboty,robotH;
 
@@ -42,33 +49,45 @@ public class LimeLight extends Subsystem {
          * Starts polling for data.
          */
         limelight.start();
-
-//        x = odo.odo.getPosX();
     }
 
     @Override
     public void periodicAuto() {
-        limelight.updateRobotOrientation(odo.odo.getHeading());
         LLResult result = limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
-                Pose3D botpose = result.getBotpose_MT2();
-//                Dashboard.addData("Botpose", botpose.toString());
-                converter(result);
-                odo.mecanumDrive.setPoseEstimate(new Pose2d(x,y,botpose.getOrientation().getYaw()));
-                odo.odo.setPosition(new Pose2D(INCH,x,y, AngleUnit.DEGREES,result.getBotpose().getOrientation().getYaw()));
+                botpose = result.getBotpose_MT2();
+                limelight.updateRobotOrientation(odo.getHeading());
+                converter();
+                odo.mecanumDrive.setPoseEstimate(new Pose2d(x, y, getBotHeading()));
+                odo.odo.setPosition(new Pose2D(INCH, x, y, AngleUnit.DEGREES, getBotHeading()));
             }
         }
     }
 
-    public void converter(LLResult llResult){
-        x = (llResult.getBotpose().getPosition().x * -35.95384); //35.9375
-        y = (llResult.getBotpose().getPosition().y * -37.15384);
-
+    public void converter(){
+        x = (getBotX() * -7.8692); //35.9375
+        y = (getBotY() * -37.4898);
+//        heading = AngleWrap(getBotHeading(),180);
       //  -23 -47 rr cordinates
         //        .64 1.30 ll cordinates
     }
 
+    public double AngleWrap(double pos,double offset){
+        return MathUtils.AngleWrap(pos+offset);
+    }
+
+    public double getBotHeading(){
+        return botpose.getOrientation().getYaw();
+    }
+
+    public double getBotX(){
+        return botpose.getPosition().x;
+    }
+
+    public double getBotY(){
+        return botpose.getPosition().y;
+    }
 
 //    public void setOdo(double x,double y, double heading){
 //        robotx = x + odo.getXPos();

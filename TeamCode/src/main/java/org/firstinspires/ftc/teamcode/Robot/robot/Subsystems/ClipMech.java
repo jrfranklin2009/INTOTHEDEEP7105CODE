@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,23 +12,33 @@ public class ClipMech extends Subsystem {
 
     Servo rightmagarm,leftmagarm;
 
-    public static double fully_up = 0.385,ready = .3,outtheway = .2, down = 0;
+    public static double fully_up = .8,ready = .7,outtheway = .5, down = 0;
+
+    AnalogInput clipAnalog;
 
     @Override
     public void initAuto(HardwareMap hwMap) {
         rightmagarm = hwMap.get(Servo.class,"rightmagarm");
         leftmagarm = hwMap.get(Servo.class,"leftmagarm");
         rightmagarm.setDirection(Servo.Direction.REVERSE);
+        clipAnalog = hwMap.get(AnalogInput.class, "clipanalog");
     }
 
     @Override
     public void periodicAuto() {
+        Dashboard.addData("clipmagpos",getClipMagPos());
+    }
 
+    public double getClipMagPos(){
+        return clipAnalog.getVoltage() / 3.3 * 360;
+    }
+
+    public double getVoltage(){
+        return clipAnalog.getVoltage();
     }
 
     @Override
     public void shutdown() {
-
     }
     public void setArmStates(ArmStates armStates){
         switch (armStates){
@@ -44,8 +55,8 @@ public class ClipMech extends Subsystem {
                 leftmagarm.setPosition(outtheway);
                 break;
             case Almost_Down:
-                rightmagarm.setPosition(.094);
-                leftmagarm.setPosition(.094);
+                rightmagarm.setPosition(.19);
+                leftmagarm.setPosition(.19);
                 break;
             case Down:
                 rightmagarm.setPosition(down);

@@ -74,15 +74,15 @@ public class JohnsIntake extends Subsystem {
     public void setArmStates(ArmStates armStates){
         switch (armStates){
             case forward:
-                rightarm.setPosition(down);
+                rightarm.setPosition(down); // 121
                 leftarm.setPosition(down);
                 break;
             case parallel:
                 rightarm.setPosition(.27);
-                leftarm.setPosition(.27);
+                leftarm.setPosition(.27); //143
                 break;
             case outback:
-                rightarm.setPosition(outback);
+                rightarm.setPosition(outback);//227
                 leftarm.setPosition(outback);
                 break;
         }
