@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
 
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalwithEncoder;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Robot;
@@ -37,6 +38,9 @@ public abstract class BaseTele extends LinearOpMode {
         while (opModeIsActive()){
             robot.getScheduler().forceCommand(setUpTele(robot.getScheduler()));
             moveIntakeJohn.periodic();
+//            robot.gamepad1.whenCrossPressed(new MoveHorizontalwithEncoder(robot.horizontalslides, 0));
+//            robot.gamepad1.whenCirclePressed(new MoveHorizontalwithEncoder(robot.horizontalslides, 7));
+//            robot.gamepad1.whenTrianglePressed(new MoveHorizontalwithEncoder(robot.horizontalslides, 13));
             robot.verticalslides.updatePos(robot.gamepad2);
 
             robot.gamepad2.whenRightBumperPressed(moveVerticalSlides);

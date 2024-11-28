@@ -3,11 +3,14 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 
+import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmJohn;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlides;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.ClipMech;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
@@ -33,14 +36,17 @@ public class ScoringCommandGroups {
 
 //    HangingMechanism hangingMechanism;  // hanging
 
+    ClipMech clipmech;
+
     HorizontalSlides horizontalSlides;
 
     VerticalSlides verticalslides;
 
-    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides) {
+    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides,ClipMech clipmech) {
         this.intake = intake;
         this.verticalslides = verticalslides;
         this.horizontalSlides = horizontalslides;
+        this.clipmech = clipmech;
 //        this.armExtension = armExtension;
 //        this.armRotation = armRotation;
 //        this.hangingMechanism = hangingMechanism;
@@ -67,9 +73,22 @@ public class ScoringCommandGroups {
         return new MoveHorizontalSlides(this.horizontalSlides,horizontalslidestates);
     }
 
-//    public Command intakeSample(Input input){ // intake a sample
-//        return setIntake(Intake.IntakePower.Intake, Intake.Wrist.IntakeSample, Intake.Twist.IntakeSample, input);
-//    }
+    public Command autoCLIP(){
+        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY));
+    }
+
+    public Command moveClipMag(ClipMech.ArmStates armstates){
+        return new MoveClipMech(clipmech,armstates);
+    }
+
+    public Command moveHorizontalSLides(HorizontalSlides.HorizontalSlideStates slidestates){
+        return new MoveHorizontalSlides(horizontalSlides,slidestates);
+    }
+
+    public Command movePivotArm(JohnsIntake.ArmStates armstates){
+        return new MoveArmJohn(intake,armstates);
+    }
+
 //
 //    public Command outtakeSample(Input input){  // outtake sample
 //        return setIntake(Intake.IntakePower.Outtake, Intake.Wrist.OuttakeSample, Intake.Twist.OuttakeSample, input);

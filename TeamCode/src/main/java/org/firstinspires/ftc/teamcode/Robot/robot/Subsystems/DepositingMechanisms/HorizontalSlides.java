@@ -16,7 +16,7 @@ public class HorizontalSlides extends Subsystem {
 
     public static double rightpos = .72, leftpos = .72,
     //TODO max and min constrains must be fixed
-            maxconstraint = 21.5, minconstraint = 8.49;
+            maxconstraint = 13, minconstraint = 0;
 
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
@@ -53,9 +53,20 @@ public class HorizontalSlides extends Subsystem {
         return ref - getSlidePos();
     }
 
-    public double ticksToInches(){
-        return getSlidePos() / 16.84;
+    public double getSlideErrorInches(double ref){
+        return ref - ticksToInches();
     }
+
+
+    public double ticksToInches(){
+        return (getSlidePos() - 143) / 5.846;
+    }
+
+    public void setPosition(double ref){
+        leftservoslide.setPosition(ref);
+        rightservoslide.setPosition(ref);
+    }
+
 
     public void setHorizontalSlides(HorizontalSlideStates horizontalslidestates){
         switch (horizontalslidestates){
