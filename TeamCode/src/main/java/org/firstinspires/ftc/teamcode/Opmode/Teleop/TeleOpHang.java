@@ -8,9 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp
 public class TeleOpHang extends LinearOpMode {
@@ -27,7 +25,8 @@ public class TeleOpHang extends LinearOpMode {
         righthang = hardwareMap.get(DcMotor.class,"righthang");
         lefthang = hardwareMap.get(DcMotor.class,"lefthang");
 
-        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap,odo);
+        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap, odo);
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         righthang.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();

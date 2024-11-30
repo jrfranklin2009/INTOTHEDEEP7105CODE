@@ -12,9 +12,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.Objects;
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 
 /**
  * This routine is designed to calculate the maximum velocity your bot can achieve under load. It
@@ -33,11 +35,12 @@ public class MaxVelocityTuner extends LinearOpMode {
     private double maxVelocity = 0.0;
 
     private VoltageSensor batteryVoltageSensor;
+    GoBildaPinpointDriver odo;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();

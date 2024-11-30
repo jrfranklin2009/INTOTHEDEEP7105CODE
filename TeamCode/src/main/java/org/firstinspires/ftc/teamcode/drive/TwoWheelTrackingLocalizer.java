@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -75,7 +77,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 //        this.drive = drive;
 //        this.pinPointOdo = pinPointOdo;
 
-//        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
+       // this.odo = hardwareMap.get(GoBildaP.class,"pinpointodo");
 //        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftback"));
 //        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightback"));
 
@@ -96,7 +98,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         return odo.getHeadingVelocity();
     }
 
-    @NonNull
+
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
