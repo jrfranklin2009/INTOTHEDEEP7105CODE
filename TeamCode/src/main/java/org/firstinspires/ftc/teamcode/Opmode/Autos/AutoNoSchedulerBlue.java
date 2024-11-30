@@ -29,7 +29,7 @@ public class AutoNoSchedulerBlue extends LinearOpMode {
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         righthang = hardwareMap.get(DcMotor.class,"righthang");
         lefthang = hardwareMap.get(DcMotor.class,"lefthang");
-        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap,odo);
+        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap, odo);
         righthang.setDirection(DcMotorSimple.Direction.REVERSE);        init();
 
         mecanumDrive.setPoseEstimate(new Pose2d(-25, 63, Math.toRadians(90)));

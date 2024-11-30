@@ -37,7 +37,6 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner;
@@ -55,7 +54,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(12, 0, .3);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, .2);
     GoBildaPinpointDriver odo;
-    DriveTrain driveTrain;
+//    DriveTrain driveTrain;
 
     public static double LATERAL_MULTIPLIER = 1;
 
@@ -88,7 +87,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
         this.odo = odo;
-        this.driveTrain = driveTrain;
+//        this.driveTrain = driveTrain;
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 

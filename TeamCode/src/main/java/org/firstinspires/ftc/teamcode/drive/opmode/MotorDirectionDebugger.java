@@ -8,7 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 
 /**
  * This is a simple teleop routine for debugging your motor configuration.
@@ -43,13 +45,13 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @TeleOp(group = "drive")
 public class MotorDirectionDebugger extends LinearOpMode {
     public static double MOTOR_POWER = 0.7;
-
+    GoBildaPinpointDriver odo;
     @Override
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         telemetry.addLine("Press play to begin the debugging opmode");
         telemetry.update();
 

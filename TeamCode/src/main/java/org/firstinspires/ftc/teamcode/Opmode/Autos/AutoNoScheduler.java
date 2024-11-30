@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Opmode.Autos;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
@@ -10,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
@@ -31,7 +29,7 @@ public class AutoNoScheduler extends LinearOpMode {
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         righthang = hardwareMap.get(DcMotor.class,"righthang");
         lefthang = hardwareMap.get(DcMotor.class,"lefthang");
-        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap,odo);
+        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap, odo);
         righthang.setDirection(DcMotorSimple.Direction.REVERSE);        init();
 
         mecanumDrive.setPoseEstimate(new Pose2d(-9, 61, Math.toRadians(90)));
