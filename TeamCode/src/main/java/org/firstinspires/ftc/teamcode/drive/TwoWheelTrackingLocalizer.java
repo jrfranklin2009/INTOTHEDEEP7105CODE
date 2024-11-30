@@ -50,24 +50,30 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     GoBildaPinpointDriver odo;
 
-    PinPoint_Odo pinPointOdo;
+//    PinPoint_Odo pinPointOdo;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis
 //    private Encoder parallelEncoder, perpendicularEncoder; // The parallel wheel is the X wheel. The perpendicular wheel measures the Y;
 
-    private PinPoint_MecanumDrive drive;
+//    private PinPoint_MecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(PinPoint_MecanumDrive drive, GoBildaPinpointDriver odo, DriveTrain drivetrain) {
+    private final static int CPS_STEP = 0x10000;
+
+    private double[] velocityEstimates;
+
+    public TwoWheelTrackingLocalizer(GoBildaPinpointDriver odo) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
         ));
 
+        velocityEstimates = new double[3];
+
         this.odo = odo;
-        this.drive = drive;
-        this.pinPointOdo = pinPointOdo;
+//        this.drive = drive;
+//        this.pinPointOdo = pinPointOdo;
 
 //        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
 //        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftback"));
@@ -82,12 +88,12 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     @Override
     public double getHeading() {
-        return drive.getRawExternalHeading();
+        return odo.getHeading();
     }
 
     @Override
     public Double getHeadingVelocity() {
-        return drive.getExternalHeadingVelocity();
+        return odo.getHeadingVelocity();
     }
 
     @NonNull
@@ -99,6 +105,24 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         );
     }
 
+    public double getCorrectedVelocity(double input) {
+        double median = velocityEstimates[0] > velocityEstimates[1]
+                ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
+                : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
+        return inverseOverflow(input, median);
+    }
+
+    private static double inverseOverflow(double input, double estimate) {
+        // convert to uint16
+        int real = (int) input & 0xffff;
+        // initial, modulo-based correction: it can recover the remainder of 5 of the upper 16 bits
+        // because the velocity is always a multiple of 20 cps due to Expansion Hub's 50ms measurement window
+        real += ((real % 20) / 4) * CPS_STEP;
+        // estimate-based correction: it finds the nearest multiple of 5 to correct the upper bits by
+        real += Math.round((estimate - real) / (5 * CPS_STEP)) * 5 * CPS_STEP;
+        return real;
+    }
+
     @NonNull
     @Override
     public List<Double> getWheelVelocities() {
@@ -107,8 +131,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(pinPointOdo.getCorrectedVelocity(odo.getVelX())),
-                encoderTicksToInches(pinPointOdo.getCorrectedVelocity(odo.getVelY()))
+                encoderTicksToInches(getCorrectedVelocity(odo.getVelX())),
+                encoderTicksToInches(getCorrectedVelocity(odo.getVelY()))
         );
     }
 }

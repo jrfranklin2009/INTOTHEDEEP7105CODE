@@ -7,37 +7,40 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.CommandFrameWork.BaseTele;
-import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
-import org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler;
-import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.DrivetrainCommands.RobotRelative;
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
+import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp
 public class TeleOpHang extends LinearOpMode {
 
+    GoBildaPinpointDriver odo;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
-        SampleMecanumDrive mecanumDrive = new SampleMecanumDrive(hardwareMap);
 
         DcMotor righthang,lefthang;
 
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         righthang = hardwareMap.get(DcMotor.class,"righthang");
         lefthang = hardwareMap.get(DcMotor.class,"lefthang");
 
+        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap,odo);
         righthang.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
         while (opModeIsActive()){
 
-            mecanumDrive.setWeightedDrivePower(new Pose2d(gamepad1.right_stick_y,gamepad1.left_stick_x,
-                    gamepad1.right_stick_x));
+            mecanumDrive.setWeightedDrivePower(
+                    new Pose2d(-gamepad1.left_stick_y,
+                    -gamepad1.right_stick_x,
+                    -gamepad1.left_stick_x));
 
-            righthang.setPower(gamepad1.left_stick_y);
-            lefthang.setPower(gamepad1.left_stick_y);
+            righthang.setPower(gamepad1.right_stick_y);
+            lefthang.setPower(gamepad1.right_stick_y);
 
 
 
