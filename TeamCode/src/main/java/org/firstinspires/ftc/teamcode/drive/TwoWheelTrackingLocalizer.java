@@ -98,7 +98,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         return odo.getHeadingVelocity();
     }
 
-    @NonNull
+
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
