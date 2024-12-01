@@ -9,20 +9,20 @@ public class MoveHorizontalwithEncoder extends Command {
 
     HorizontalSlides horizontalslides;
 
-//    HorizontalSlides.HorizontalSlideStates horizontalslidestates;
+    HorizontalSlides.HorizontalSlideStates horizontalslidestates;
 
     double target;
 
-    public MoveHorizontalwithEncoder(HorizontalSlides horizontalslides,double target){
+    public MoveHorizontalwithEncoder(HorizontalSlides horizontalslides, HorizontalSlides.HorizontalSlideStates horizontalslidestates, double target){
         this.horizontalslides = horizontalslides;
-//        this.horizontalslidestates = horizontalslidestates;
+        this.horizontalslidestates = horizontalslidestates;
         this.target = target;
     }
 
     @Override
     public void init() {
-//        horizontalslides.setHorizontalSlides(horizontalslidestates);
-        horizontalslides.setPosition(target);
+        horizontalslides.setHorizontalSlides(horizontalslidestates);
+//        horizontalslides.setPosition(target);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MoveHorizontalwithEncoder extends Command {
 
     @Override
     public boolean completed() {
-        return horizontalslides.getSlideErrorInches(target) < .2;
+        return horizontalslides.getSlidePos() <= target;
     }
 
     @Override

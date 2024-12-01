@@ -18,7 +18,7 @@ public abstract class BaseAuto extends LinearOpMode {
 
         setRobot();
 
-        groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides);
+        groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides,robot.clipmech);
 
         while (opModeInInit()){
         }

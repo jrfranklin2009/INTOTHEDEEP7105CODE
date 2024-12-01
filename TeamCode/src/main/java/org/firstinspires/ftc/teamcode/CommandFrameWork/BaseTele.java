@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.Scori
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalwithEncoder;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlides;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesMultiThread;
 import org.firstinspires.ftc.teamcode.Robot.robot.Robot;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
@@ -23,9 +24,9 @@ public abstract class BaseTele extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2);
-        groups =new ScoringCommandGroups(robot.intake, robot.verticalslides,robot.horizontalslides);
+        groups =new ScoringCommandGroups(robot.intake, robot.verticalslides,robot.horizontalslides, robot.clipmech);
         MoveIntakeJohn moveIntakeJohn = new MoveIntakeJohn(robot.gamepad1, robot.intake);
-        MoveVerticalSlides moveVerticalSlides = new MoveVerticalSlides(robot.verticalslides);
+//        MoveVerticalSlides moveVerticalSlides = new MoveVerticalSlides(robot.verticalslides);
 
 //        while (opModeInInit()){
 //            setStartYOffSet();
@@ -38,15 +39,13 @@ public abstract class BaseTele extends LinearOpMode {
         while (opModeIsActive()){
             robot.getScheduler().forceCommand(setUpTele(robot.getScheduler()));
             moveIntakeJohn.periodic();
-//            robot.gamepad1.whenCrossPressed(new MoveHorizontalwithEncoder(robot.horizontalslides, 0));
-//            robot.gamepad1.whenCirclePressed(new MoveHorizontalwithEncoder(robot.horizontalslides, 7));
-//            robot.gamepad1.whenTrianglePressed(new MoveHorizontalwithEncoder(robot.horizontalslides, 13));
+
             robot.verticalslides.updatePos(robot.gamepad2);
 
-            robot.gamepad2.whenRightBumperPressed(moveVerticalSlides);
-            robot.gamepad2.whenLeftBumperPressed(moveVerticalSlides);
+            robot.gamepad2.whenRightBumperPressed(new MoveVerticalSlidesMultiThread(robot.verticalslides, this));
+            robot.gamepad2.whenLeftBumperPressed(new MoveVerticalSlidesMultiThread(robot.verticalslides, this));
 
-            robot.driveTrain.RobotRelative(robot.gamepad1);
+//            robot.driveTrain.RobotRelative(robot.gamepad1);//2880 1530
             robot.updateTele();
 
 

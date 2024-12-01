@@ -25,7 +25,7 @@ public class LimeLight extends Subsystem {
 
     Pose3D botpose;
 
-//    LLResult result;
+    LLResult result;
 
     public static double x,y, heading;
 
@@ -53,14 +53,14 @@ public class LimeLight extends Subsystem {
 
     @Override
     public void periodicAuto() {
-        LLResult result = limelight.getLatestResult();
+        result = limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
                 botpose = result.getBotpose_MT2();
                 limelight.updateRobotOrientation(odo.getHeading());
-                converter();
-                odo.mecanumDrive.setPoseEstimate(new Pose2d(x, y, getBotHeading()));
-                odo.odo.setPosition(new Pose2D(INCH, x, y, AngleUnit.DEGREES, getBotHeading()));
+//                converter();
+                odo.mecanumDrive.setPoseEstimate(new Pose2d(getBotX(), getBotY(), getBotHeading()));
+                odo.odo.setPosition(new Pose2D(INCH, getBotX(), getBotY(), AngleUnit.DEGREES, getBotHeading()));
             }
         }
     }

@@ -15,7 +15,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double outback = .78, down = .14;
+    public static double outback = .78, down = .2;
 
     ColorSensor colorsensor;
 
@@ -78,8 +78,12 @@ public class JohnsIntake extends Subsystem {
                 leftarm.setPosition(down);
                 break;
             case parallel:
-                rightarm.setPosition(.27);
-                leftarm.setPosition(.27); //143
+                rightarm.setPosition(.3);
+                leftarm.setPosition(.3);
+                break;
+            case snapclip:
+                rightarm.setPosition(.25);
+                leftarm.setPosition(.25); //143
                 break;
             case outback:
                 rightarm.setPosition(outback);//227
@@ -99,6 +103,7 @@ public class JohnsIntake extends Subsystem {
     }
     public enum ArmStates{
         outback,
+        snapclip,
         parallel,
         forward
     }
