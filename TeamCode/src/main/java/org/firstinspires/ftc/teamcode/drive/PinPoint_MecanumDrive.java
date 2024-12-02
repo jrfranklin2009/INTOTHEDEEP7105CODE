@@ -54,7 +54,6 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(12, 0, .3);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, .2);
     GoBildaPinpointDriver odo;
-//    DriveTrain driveTrain;
 
     public static double LATERAL_MULTIPLIER = 1;
 
@@ -129,7 +128,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         List<Integer> lastTrackingEncVels = new ArrayList<>();
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        setLocalizer(new TwoWheelTrackingLocalizer( odo));
+        setLocalizer(new TwoWheelTrackingLocalizer(odo));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
                 follower, HEADING_PID, batteryVoltageSensor,
@@ -314,7 +313,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     @Override
     public Double getExternalHeadingVelocity() {
-        return (double) odo.getHeadingVelocity();
+        return odo.getHeadingVelocity();
 //        return null;
     }
 

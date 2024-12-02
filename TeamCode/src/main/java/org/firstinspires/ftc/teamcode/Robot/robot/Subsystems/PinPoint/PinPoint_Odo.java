@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
 
+@Disabled
 public class PinPoint_Odo extends Subsystem {
 
     GoBildaPinpointDriver odo;
@@ -37,12 +39,12 @@ public class PinPoint_Odo extends Subsystem {
 
     @Override
     public void periodicAuto() {
-        Dashboard.addData("Status", odo.getDeviceStatus());
-        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
-        Dashboard.addData("X_Pos",odo.getPosX());
-        Dashboard.addData("Y_Pos",odo.getPosY());
-        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
-        Dashboard.addData("Heading_Radians?",odo.getHeading());
+//        Dashboard.addData("Status", odo.getDeviceStatus());
+//        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
+//        Dashboard.addData("X_Pos",odo.getPosX());
+//        Dashboard.addData("Y_Pos",odo.getPosY());
+//        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
+//        Dashboard.addData("Heading_Radians?",odo.getHeading());
         mecanumDrive.update();
         odo.update();
     }

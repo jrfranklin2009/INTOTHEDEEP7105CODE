@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.drive;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -12,7 +10,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.PinPoint.PinPoint_Odo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,14 +42,19 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
     public static double PARALLEL_X = 0; // X is the up and down direction
-    public static double PARALLEL_Y = 6.25; // Y is the strafe direction
+    public static double PARALLEL_Y = 6.75; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = -6;
+    public static double PERPENDICULAR_X = 0;
     public static double PERPENDICULAR_Y = 0;
+
+
+    private final static int CPS_STEP = 0x10000;
+
+    public double[] velocityEstimates;
 
     GoBildaPinpointDriver odo;
 
-//    PinPoint_Odo pinPointOdo;
+//    DriveTrain driveTrain;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
@@ -61,25 +63,16 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
 //    private PinPoint_MecanumDrive drive;
 
-    private final static int CPS_STEP = 0x10000;
-
-    private double[] velocityEstimates;
-
     public TwoWheelTrackingLocalizer(GoBildaPinpointDriver odo) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
         ));
 
-        velocityEstimates = new double[3];
-
         this.odo = odo;
 //        this.drive = drive;
-//        this.pinPointOdo = pinPointOdo;
-
-       // this.odo = hardwareMap.get(GoBildaP.class,"pinpointodo");
-//        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftback"));
-//        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightback"));
+//        this.driveTrain = driveTrain;
+        velocityEstimates = new double[3];
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }
@@ -98,20 +91,13 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         return odo.getHeadingVelocity();
     }
 
-
+    @NonNull
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
                 encoderTicksToInches(odo.getEncoderX()),
                 encoderTicksToInches(odo.getEncoderY())
         );
-    }
-
-    public double getCorrectedVelocity(double input) {
-        double median = velocityEstimates[0] > velocityEstimates[1]
-                ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
-                : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
-        return inverseOverflow(input, median);
     }
 
     private static double inverseOverflow(double input, double estimate) {
@@ -123,6 +109,13 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         // estimate-based correction: it finds the nearest multiple of 5 to correct the upper bits by
         real += Math.round((estimate - real) / (5 * CPS_STEP)) * 5 * CPS_STEP;
         return real;
+    }
+
+    public double getCorrectedVelocity(double input) {
+        double median = velocityEstimates[0] > velocityEstimates[1]
+                ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
+                : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
+        return inverseOverflow(input, median);
     }
 
     @NonNull
