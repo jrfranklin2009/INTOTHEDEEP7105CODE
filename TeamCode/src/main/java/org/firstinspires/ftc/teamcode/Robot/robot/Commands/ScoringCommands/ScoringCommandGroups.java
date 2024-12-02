@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.Simpl
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmJohn;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHang;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalwithEncoder;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanism
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.HangingMechanism;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmExtensionPID;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmRotation;
@@ -39,16 +41,18 @@ public class ScoringCommandGroups {
 //    HangingMechanism hangingMechanism;  // hanging
 
     ClipMech clipmech;
+    JohnHanging hang;
 
     HorizontalSlides horizontalSlides;
 
     VerticalSlides verticalslides;
 
-    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides,ClipMech clipmech) {
+    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides, ClipMech clipmech, JohnHanging hang) {
         this.intake = intake;
         this.verticalslides = verticalslides;
         this.horizontalSlides = horizontalslides;
         this.clipmech = clipmech;
+        this.hang = hang;
 //        this.armExtension = armExtension;
 //        this.armRotation = armRotation;
 //        this.hangingMechanism = hangingMechanism;
@@ -110,6 +114,15 @@ public class ScoringCommandGroups {
     public Command movePivotArm(JohnsIntake.ArmStates armstates){
         return new MoveArmJohn(intake,armstates);
     }
+
+    public Command hangJohn(JohnHanging.HangStates hangstates){
+        return HangJohn(hangstates);
+    }
+
+    public MoveHang HangJohn(JohnHanging.HangStates hangstates){
+        return new MoveHang(hang, hangstates);
+    }
+
 
 //
 //    public Command outtakeSample(Input input){  // outtake sample

@@ -64,6 +64,8 @@ public class TestTridentArm extends LinearOpMode {
                 IntakeOne.setPower(-0.75);
                 IntakeTwo.setPower(-0.75);
             }
+
+
         }
 
     }

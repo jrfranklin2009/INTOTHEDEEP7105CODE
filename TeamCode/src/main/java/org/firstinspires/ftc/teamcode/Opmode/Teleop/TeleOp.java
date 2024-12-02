@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Commands.DrivetrainCommands.Ro
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.ClipMech;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "\uD83D\uDE08")
@@ -31,6 +32,10 @@ public class TeleOp extends BaseTele {
 
         robot.gamepad1.whenLeftBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.unclamp));
         robot.gamepad1.whenRightBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.clamp));
+
+        robot.gamepad2.whenCirclePressed(groups.hangJohn(JohnHanging.HangStates.HANG_FULLY));
+        robot.gamepad2.whenTrianglePressed(groups.hangJohn(JohnHanging.HangStates.NORMAL));
+
         return new MultipleCommand(new RobotRelative(robot.driveTrain,robot.gamepad1)); // drivetrain
     }
 
