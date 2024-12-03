@@ -49,8 +49,8 @@ public class MoveVerticalSlidesMultiThread extends Command {
 
     @Override
     public void shutdown() {
-        verticalSlides.getAndSetPower();
         verticalSlides.closeSLIDEThread();
+        new VerticalSlidesHoldPos(verticalSlides);
 //        verticalSlides.closeSLIDEThread();
     }
 }
