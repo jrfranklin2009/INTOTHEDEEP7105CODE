@@ -23,8 +23,10 @@ public class VerticalSlides extends Subsystem {
     private final Object slideLock = new Object();
     @GuardedBy("slideThread")
     private Thread slideThread;
-    public static double slidepos = 0, slidepower;
+    public static double slidepos = 0;
+//            , slidepower;
 //    double kp,ki,kd;
+    public static boolean closeThread = false;
 
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.0000002);
 
@@ -35,7 +37,7 @@ public class VerticalSlides extends Subsystem {
     @Override
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
-        slidepos = 0;
+//        slidepos = 0;
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
 
@@ -47,9 +49,10 @@ public class VerticalSlides extends Subsystem {
 
     @Override
     public void periodicAuto() {
-        slidepos = getSlidesPos();
+//        slidepos = getSlidesPos();
         Dashboard.addData("verticalslidepos",slidepos);
         Dashboard.addData("reference",ref);
+        Dashboard.addData("closethread",closeThread);
     }
 
     @Override
@@ -58,8 +61,8 @@ public class VerticalSlides extends Subsystem {
     }
 
     public void pidController(){
-        leftslide.setPower(controller.calculate(ref,slidepos));
-        rightslide.setPower(controller.calculate(ref,slidepos));
+        leftslide.setPower(controller.calculate(ref,getSlidesPos()));
+        rightslide.setPower(controller.calculate(ref,getSlidesPos()));
     }
 
     public void getAndSetPower(){
@@ -88,6 +91,7 @@ public class VerticalSlides extends Subsystem {
 
     public void closeSLIDEThread(){
         slideThread.interrupt();
+        closeThread = true;
     }
 
     public boolean isThreadInterrupted(){
@@ -119,7 +123,7 @@ public class VerticalSlides extends Subsystem {
     }
 
     public void resetSlides(){
-        slidepos = 0;
+//        slidepos = 0;
         leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

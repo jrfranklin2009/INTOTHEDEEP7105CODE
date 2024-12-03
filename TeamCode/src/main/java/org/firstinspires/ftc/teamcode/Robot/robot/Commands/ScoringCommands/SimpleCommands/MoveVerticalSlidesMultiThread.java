@@ -26,28 +26,31 @@ public class MoveVerticalSlidesMultiThread extends Command {
     public void init() {
         time.reset();
         verticalSlides.startSLIDEThread(opMode);
+        VerticalSlides.closeThread = false;
     }
 
     @Override
     public void periodic() {
-        if (Math.abs(verticalSlides.getSlidesError()) < 10){
+        if (Math.abs(verticalSlides.getSlidesError()) < 20){
 
         }
         else if (verticalSlides.isThreadInterrupted()) {
             verticalSlides.closeSLIDEThread();
         }
         else {
-            time.reset();
+//            time.reset();
         }
     }
 
     @Override
     public boolean completed() {
-        return Math.abs(verticalSlides.getSlidesError()) < 10 && time.seconds() > 3;
+        return Math.abs(verticalSlides.getSlidesError()) < 20;
     }
 
     @Override
     public void shutdown() {
+        verticalSlides.getAndSetPower();
+        verticalSlides.closeSLIDEThread();
 //        verticalSlides.closeSLIDEThread();
     }
 }
