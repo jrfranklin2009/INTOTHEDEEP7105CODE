@@ -77,7 +77,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 //        this.drive = drive;
 //        this.pinPointOdo = pinPointOdo;
 
-       // this.odo = hardwareMap.get(GoBildaP.class,"pinpointodo");
+    //    this.odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
 //        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftback"));
 //        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightback"));
 

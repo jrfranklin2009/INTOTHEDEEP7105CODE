@@ -32,9 +32,7 @@ public class ScoringCommandGroups {
 
     }
 
-    public ScoringCommandGroups(GirlsIntake intake, ArmExtension extention, ArmRotation rotation, ViperSlidesHanging hanging) {
 
-    }
 
 
     //public Command moveIntakeJohn(Input input){

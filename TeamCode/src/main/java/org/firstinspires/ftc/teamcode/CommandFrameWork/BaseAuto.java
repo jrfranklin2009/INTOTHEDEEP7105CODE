@@ -15,11 +15,10 @@ public abstract class BaseAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        setRobot();
-
         groups = new ScoringCommandGroups(robot.intake, robot.extention, robot.rotation);
 
         while (opModeInInit()){
+            setRobot();
         }
 
         waitForStart();
