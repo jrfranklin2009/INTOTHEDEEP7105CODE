@@ -14,7 +14,7 @@ public class HorizontalSlides extends Subsystem {
 
     ServoImplEx leftservoslide, rightservoslide;
 
-    public static double rightpos = .72, leftpos = .72,
+    public static double fullin = .24, fullout = .88,
     //TODO max and min constrains must be fixed
             maxconstraint = 13, minconstraint = 0;
 
@@ -71,16 +71,16 @@ public class HorizontalSlides extends Subsystem {
     public void setHorizontalSlides(HorizontalSlideStates horizontalslidestates){
         switch (horizontalslidestates){
             case Fully_In:
-                leftservoslide.setPosition(.15); //143
-                rightservoslide.setPosition(.15);
+                leftservoslide.setPosition(fullin); //170
+                rightservoslide.setPosition(fullin);
                 break;
             case Half_Out:
-                leftservoslide.setPosition(.445);
-                rightservoslide.setPosition(.445);
+                leftservoslide.setPosition(.56);
+                rightservoslide.setPosition(.56); //199
                 break;
             case Fully_Out:
-                leftservoslide.setPosition(leftpos); // 219
-                rightservoslide.setPosition(rightpos);
+                leftservoslide.setPosition(fullout); // 245
+                rightservoslide.setPosition(fullout);
                 break;
             case Zero_Power:
                 leftservoslide.setPwmDisable();

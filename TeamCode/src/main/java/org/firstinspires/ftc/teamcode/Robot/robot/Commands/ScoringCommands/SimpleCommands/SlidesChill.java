@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
-public class VerticalSlidesHoldPos extends Command {
+public class SlidesChill extends Command {
 
     VerticalSlides verticalslides;
 
@@ -13,31 +13,24 @@ public class VerticalSlidesHoldPos extends Command {
 
 //    boolean secondLoop = false;
 
-    public VerticalSlidesHoldPos(VerticalSlides verticalslides){
+    public SlidesChill(VerticalSlides verticalslides){
         this.verticalslides = verticalslides;
     }
 
     @Override
     public void init() {
-//       time.reset();
-//       secondLoop = false;
-        verticalslides.getAndSetPower();
+
+        verticalslides.zeroPower();
     }
 
     @Override
     public void periodic() {
-//        verticalslides.getAndSetPower();
-//        if (time.seconds() > 2 && secondLoop == false){
-//            verticalslides.closeSLIDEThread();
-//            secondLoop = true;
-//        verticalslides.getAndSetPower();
 
-            verticalslides.getAndSetPower();
     }
 
     @Override
     public boolean completed() {
-        return Math.abs(verticalslides.getSlidesError()) < 20 && verticalslides.ref == 0;
+        return true;
     }
 
     @Override

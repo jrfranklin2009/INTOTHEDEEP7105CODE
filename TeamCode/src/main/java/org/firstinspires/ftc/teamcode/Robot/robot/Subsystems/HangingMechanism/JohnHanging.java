@@ -8,12 +8,18 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 
 public class JohnHanging extends Subsystem {
 
-    DcMotorEx rightHang;
+    DcMotorEx rightHang,leftHang;
+
+    public static double unfoldpower = -1, foldpower = 1;
 
     @Override
     public void initAuto(HardwareMap hwMap) {
         rightHang = hwMap.get(DcMotorEx.class, "rightHang");
+        leftHang = hwMap.get(DcMotorEx.class, "leftHang");
         rightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
@@ -26,22 +32,36 @@ public class JohnHanging extends Subsystem {
 
     }
 
-
     public void setRightHang(HangStates hangStates){
         switch(hangStates){
-            case HANG_FULLY:
-                rightHang.setTargetPosition(200);
-                rightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightHang.setPower(0.3);
-            case NORMAL:
-                rightHang.setTargetPosition(0);
-                rightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightHang.setPower(-0.3);
+            case FOLD_UP:
+                rightHang.setPower(foldpower);
+                leftHang.setPower(foldpower);
+//                rightHang.setTargetPosition(200);
+//                rightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                rightHang.setPower(0.3);
+            break;
+            case UNFOLD:
+                rightHang.setPower(unfoldpower);
+                leftHang.setPower(unfoldpower);
+                break;
+            case ZERO_POWER:
+                rightHang.setPower(0);
+                leftHang.setPower(0);
+//                rightHang.setTargetPosition(0);
+//                rightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                rightHang.setPower(-0.3);
+                break;
         }
     }
 
+    public double getPos(){
+        return rightHang.getCurrentPosition();
+    }
+
     public enum HangStates{
-        HANG_FULLY,
-        NORMAL
+        UNFOLD,
+        FOLD_UP,
+        ZERO_POWER
     }
 }

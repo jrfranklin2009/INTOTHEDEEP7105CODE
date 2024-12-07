@@ -4,9 +4,8 @@ package org.firstinspires.ftc.teamcode.Robot.robot;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.ClipMech;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;

@@ -19,6 +19,8 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
+    public static boolean rat = true;
+
 
     private final Object slideLock = new Object();
     @GuardedBy("slideThread")
@@ -69,6 +71,11 @@ public class VerticalSlides extends Subsystem {
         double getPow = leftslide.getPower();
         leftslide.setPower(getPow);
         rightslide.setPower(getPow);
+    }
+
+    public void zeroPower(){
+        leftslide.setPower(0);
+        rightslide.setPower(0);
     }
 
 

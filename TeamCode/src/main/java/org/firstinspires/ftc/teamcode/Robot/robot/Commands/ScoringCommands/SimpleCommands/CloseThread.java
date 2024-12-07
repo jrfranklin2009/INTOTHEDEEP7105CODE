@@ -5,43 +5,40 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
-public class VerticalSlidesHoldPos extends Command {
-
+public class CloseThread extends Command {
     VerticalSlides verticalslides;
 
-//    ElapsedTime time = new ElapsedTime();
+    ElapsedTime time = new ElapsedTime();
 
-//    boolean secondLoop = false;
+    boolean secondLoop = false;
 
-    public VerticalSlidesHoldPos(VerticalSlides verticalslides){
+    public CloseThread(VerticalSlides verticalslides){
         this.verticalslides = verticalslides;
     }
 
     @Override
     public void init() {
-//       time.reset();
-//       secondLoop = false;
-        verticalslides.getAndSetPower();
+        time.reset();
+        secondLoop = false;
     }
 
     @Override
     public void periodic() {
 //        verticalslides.getAndSetPower();
-//        if (time.seconds() > 2 && secondLoop == false){
-//            verticalslides.closeSLIDEThread();
-//            secondLoop = true;
+        if (time.seconds() > 2 && secondLoop == false){
+            verticalslides.closeSLIDEThread();
+            secondLoop = true;
 //        verticalslides.getAndSetPower();
-
-            verticalslides.getAndSetPower();
+        }
     }
 
     @Override
     public boolean completed() {
-        return Math.abs(verticalslides.getSlidesError()) < 20 && verticalslides.ref == 0;
+        return secondLoop == true;
     }
 
     @Override
     public void shutdown() {
-
+//        verticalslides.zeroPower();
     }
 }

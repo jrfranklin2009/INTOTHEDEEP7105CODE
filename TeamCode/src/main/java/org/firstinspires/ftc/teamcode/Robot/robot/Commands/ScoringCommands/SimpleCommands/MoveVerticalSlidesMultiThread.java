@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands;
 
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides.rat;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -25,7 +27,9 @@ public class MoveVerticalSlidesMultiThread extends Command {
     @Override
     public void init() {
         time.reset();
+        if (rat == true){
         verticalSlides.startSLIDEThread(opMode);
+        rat = false;}
         VerticalSlides.closeThread = false;
     }
 
@@ -34,9 +38,9 @@ public class MoveVerticalSlidesMultiThread extends Command {
         if (Math.abs(verticalSlides.getSlidesError()) < 20){
 
         }
-        else if (verticalSlides.isThreadInterrupted()) {
-            verticalSlides.closeSLIDEThread();
-        }
+//        else if (verticalSlides.isThreadInterrupted()) {
+//            verticalSlides.closeSLIDEThread();
+//        }
         else {
 //            time.reset();
         }
@@ -49,8 +53,8 @@ public class MoveVerticalSlidesMultiThread extends Command {
 
     @Override
     public void shutdown() {
-        verticalSlides.closeSLIDEThread();
-        new VerticalSlidesHoldPos(verticalSlides);
+//        verticalSlides.closeSLIDEThread();
+//        new VerticalSlidesHoldPos(verticalSlides);
 //        verticalSlides.closeSLIDEThread();
     }
 }
