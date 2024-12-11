@@ -30,7 +30,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Autonomous(group = "drive")
 public class BackAndForth extends LinearOpMode {
 
-    public static double DISTANCE = 10;
+    public static double DISTANCE = 30;
     GoBildaPinpointDriver odo;
     @Override
     public void runOpMode() throws InterruptedException {

@@ -19,7 +19,7 @@ public class GirlsIntake extends Subsystem {
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        bothintake = hwMap.get(CRServo.class,"Intake");
+        bothintake = hwMap.get(CRServo.class,"bothintake");
 
         colorsensor = hwMap.get(ColorSensor.class,"colorsensor");
     }
