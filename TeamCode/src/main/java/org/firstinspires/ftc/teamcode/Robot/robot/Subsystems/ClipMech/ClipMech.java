@@ -26,6 +26,7 @@ public class ClipMech extends Subsystem {
         leftindex = hwMap.get(CRServo.class,"leftindex");
         rightmagarm = hwMap.get(Servo.class,"rightmagarm");
         leftmagarm = hwMap.get(Servo.class,"leftmagarm");
+        leftmagarm.setDirection(Servo.Direction.REVERSE);
         rightmagarm.setDirection(Servo.Direction.REVERSE);
         clipAnalog = hwMap.get(AnalogInput.class, "clipanalog");
     }

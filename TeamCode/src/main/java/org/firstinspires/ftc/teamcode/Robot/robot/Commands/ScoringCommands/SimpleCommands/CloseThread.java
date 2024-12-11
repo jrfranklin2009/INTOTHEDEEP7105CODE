@@ -25,7 +25,7 @@ public class CloseThread extends Command {
     @Override
     public void periodic() {
 //        verticalslides.getAndSetPower();
-        if (time.seconds() > 2 && secondLoop == false){
+        if (time.seconds() > 1 && secondLoop == false){
             verticalslides.closeSLIDEThread();
             secondLoop = true;
 //        verticalslides.getAndSetPower();

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.Delay;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesMultiThread;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
@@ -35,7 +36,7 @@ public class BlueAuto extends BaseAuto {
                 .lineToLinearHeading(new Pose2d(59,61, Math.toRadians(90)))
                 .build();
 
-        runpath = new MultipleCommand(RoadRunnerPathSequence(trajectory))
+        runpath = new MultipleCommand(RoadRunnerPathSequence(trajectory), moveSlides,groups.slidesSetPos())
                 .addNext(new Delay(1));
 
 

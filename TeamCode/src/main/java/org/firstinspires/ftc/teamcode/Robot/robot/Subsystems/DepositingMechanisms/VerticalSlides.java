@@ -19,12 +19,21 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static boolean rat = true;
+//    public static boolean rat = false;
 
+    LinearOpMode opMode;
 
     private final Object slideLock = new Object();
     @GuardedBy("slideThread")
-    private Thread slideThread;
+    private Thread slideThread  = new Thread(() -> {
+        while (!opMode.isStopRequested()) {
+            synchronized (slideLock) {
+//                    slidepos = getSlidesPos();
+                pidController();
+//                    imuAngle = AngleUnit.normalizeRadians(imu.getAngularOrientation().firstAngle);
+            }
+        }
+    });;
     public static double slidepos = 0;
 //            , slidepower;
 //    double kp,ki,kd;
@@ -35,6 +44,10 @@ public class VerticalSlides extends Subsystem {
     public static double ref;
 
     BasicPID controller = new BasicPID(coefficients);
+
+    public VerticalSlides(LinearOpMode opMode){
+        this.opMode = opMode;
+    }
 
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -83,16 +96,7 @@ public class VerticalSlides extends Subsystem {
         return ref - slidepos;
     }
 
-    public void startSLIDEThread(LinearOpMode opMode) {
-        slideThread = new Thread(() -> {
-            while (!opMode.isStopRequested()) {
-                synchronized (slideLock) {
-//                    slidepos = getSlidesPos();
-                    pidController();
-//                    imuAngle = AngleUnit.normalizeRadians(imu.getAngularOrientation().firstAngle);
-                }
-            }
-        });
+    public void startSLIDEThread() {
         slideThread.start();
     }
 

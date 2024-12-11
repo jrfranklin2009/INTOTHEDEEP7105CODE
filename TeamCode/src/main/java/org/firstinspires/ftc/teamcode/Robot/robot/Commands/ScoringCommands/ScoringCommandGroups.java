@@ -53,8 +53,16 @@ public class ScoringCommandGroups {
         this.clipmech = clipmech;
         this.opMode = opMode;
     }
-    public Command slidesBetter(){
-        return new MoveVerticalSlidesMultiThread(verticalslides,opMode).addNext(new CloseThread(verticalslides)).addNext(new VerticalSlidesHoldPos(verticalslides));
+    public Command slidesTeleop(){
+        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,false,0).addNext(new CloseThread(verticalslides)).addNext(new VerticalSlidesHoldPos(verticalslides));
+    }
+
+    public Command slidesSetPos(double target){
+        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,true,target).addNext(new CloseThread(verticalslides)).addNext(new VerticalSlidesHoldPos(verticalslides));
+    }
+
+    public Command moveClipMechanismsOut(double target){
+        return new MultipleCommand(slidesSetPos(target), extendHorizontalSlides_VerticalSlides());
     }
 
     public Command armOutBack(){
@@ -65,22 +73,13 @@ public class ScoringCommandGroups {
         return new MoveArmJohn(this.intake, armStates);
     }
 
-
     public Command moveGripper(JohnsIntake.GripperStates gripperStates){
         return new MoveGripper(this.intake, gripperStates);
-    }
-
-    public Command movevertSlides(){
-        return new MoveVerticalSlides(this.verticalslides);
     }
 
     public Command moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates horizontalslidestates){
         return new MoveHorizontalSlides(this.horizontalSlides,horizontalslidestates);
     }
-
-//    public Command extendHorizontalSLides(){
-//        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY),new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out)),new Delay(.3).addNext(moveArmJohn(JohnsIntake.ArmStates.forward)));
-//    }
 
     public Command fullExtendHorizontalSLides(){
         return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY),new Delay(.1).addNext(new MoveHorizontalwithEncoderOut(horizontalSlides,HorizontalSlides.HorizontalSlideStates.Fully_Out,230)).addNext(moveArmJohn(JohnsIntake.ArmStates.forward)));
@@ -90,8 +89,8 @@ public class ScoringCommandGroups {
         return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY),new Delay(.1).addNext(new MoveHorizontalwithEncoderOut(horizontalSlides,HorizontalSlides.HorizontalSlideStates.Fully_Out,188)).addNext(moveArmJohn(JohnsIntake.ArmStates.forward)));
     }
 
-    public Command bringInHorizontalSLides(){
-        return new MultipleCommand(new Delay(.6).addNext(moveClipMag(ClipMech.ArmStates.Out_The_Way)),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In));
+    public Command extendHorizontalSlides_VerticalSlides(ClipMech.ArmStates clipstate, HorizontalSlides.HorizontalSlideStates horizontalstate, double target, JohnsIntake.ArmStates armstate){
+        return new MultipleCommand(moveClipMag(clipstate),new Delay(.4).addNext(new MoveHorizontalwithEncoderOut(horizontalSlides,horizontalstate,target)).addNext(moveArmJohn(armstate)));
     }
 
     public Command bringInHorizontalSLidesBetter(){

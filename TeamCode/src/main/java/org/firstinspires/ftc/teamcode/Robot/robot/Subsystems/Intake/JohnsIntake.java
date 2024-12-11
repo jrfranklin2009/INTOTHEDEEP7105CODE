@@ -130,8 +130,10 @@ public class JohnsIntake extends Subsystem {
             case forward:
                 rightarm.setPosition(down); // 121
                 leftarm.setPosition(down);
-
-
+                break;
+            case pre_clip:
+                rightarm.setPosition(.32); // 121
+                leftarm.setPosition(.32);
                 break;
             case parallel:
                 rightarm.setPosition(.26);
@@ -169,6 +171,7 @@ public class JohnsIntake extends Subsystem {
         outback,
         snapclip,
         parallel,
-        forward
+        forward,
+        pre_clip
     }
 }

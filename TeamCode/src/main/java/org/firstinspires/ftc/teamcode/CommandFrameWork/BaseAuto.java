@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.DrivetrainCommands.FollowPath;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.DrivetrainCommands.FollowPathSequence;
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesMultiThread;
 import org.firstinspires.ftc.teamcode.Robot.robot.Robot;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -13,12 +14,14 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 public abstract class BaseAuto extends LinearOpMode {
     protected Robot robot;
     public ScoringCommandGroups groups;
+    public  MoveVerticalSlidesMultiThread moveSlides;
     @Override
     public void runOpMode() throws InterruptedException {
 
         setRobot();
 
         groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides,robot.clipmech,this);
+        moveSlides = new MoveVerticalSlidesMultiThread(robot.verticalslides,this,true,1350);
 
         while (opModeInInit()){
         }
@@ -48,7 +51,7 @@ public abstract class BaseAuto extends LinearOpMode {
 //    }
 
     public void setRobot(){
-        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
+        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2,this);
     }
 
 }

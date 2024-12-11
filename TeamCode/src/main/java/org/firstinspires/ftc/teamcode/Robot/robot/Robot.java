@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robot.robot;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -27,11 +28,11 @@ public class Robot {
     public VerticalSlides verticalslides;
     public HorizontalSlides horizontalslides;
 
-    public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
+    public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2, LinearOpMode linearOpMode) {
         // init robot
         driveTrain = new DriveTrain(hw);  // drivetrain
         clipmech = new ClipMech();
-        verticalslides = new VerticalSlides();
+        verticalslides = new VerticalSlides(linearOpMode);
         horizontalslides = new HorizontalSlides();
         limelight = new LimeLight(driveTrain);
         intake= new JohnsIntake();  // intake

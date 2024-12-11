@@ -37,7 +37,7 @@ public class VerticalSlidesHoldPos extends Command {
 
     @Override
     public boolean completed() {
-        return Math.abs(verticalslides.getSlidesError()) < 20 && verticalslides.ref == 0;
+        return verticalslides.ref == 0;
     }
 
     @Override

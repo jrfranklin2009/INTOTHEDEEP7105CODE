@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands;
 
-import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides.rat;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -16,20 +14,26 @@ public class MoveVerticalSlidesMultiThread extends Command {
 
     LinearOpMode opMode;
 
-//    double ref;
+    boolean setTarget;
 
-    public MoveVerticalSlidesMultiThread(VerticalSlides verticalSlides, LinearOpMode opMode){
+    double ref;
+
+    public MoveVerticalSlidesMultiThread(VerticalSlides verticalSlides, LinearOpMode opMode, boolean setTarget, double ref){
         this.verticalSlides = verticalSlides;
         this.opMode = opMode;
-//        this.ref = ref;
+        this.setTarget = setTarget;
+        this.ref = ref;
     }
 
     @Override
     public void init() {
+        if (setTarget){
+            VerticalSlides.ref = ref;
+        }
         time.reset();
-        if (rat == true){
-        verticalSlides.startSLIDEThread(opMode);
-        rat = false;}
+//        if (rat == true){
+        verticalSlides.startSLIDEThread();
+//        rat = false;}
         VerticalSlides.closeThread = false;
     }
 
