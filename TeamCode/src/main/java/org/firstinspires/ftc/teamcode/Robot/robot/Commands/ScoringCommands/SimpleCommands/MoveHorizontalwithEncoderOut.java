@@ -30,7 +30,7 @@ public class MoveHorizontalwithEncoderOut extends Command {
 
     @Override
     public boolean completed() {
-        return horizontalslides.getSlidePos() >= target;
+        return Math.abs(target - horizontalslides.getSlidePos()) <= 8;
     }
 
     @Override

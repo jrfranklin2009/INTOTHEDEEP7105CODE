@@ -19,8 +19,8 @@ public class TurnTest extends LinearOpMode {
     GoBildaPinpointDriver odo;
     @Override
     public void runOpMode() throws InterruptedException {
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
         waitForStart();
 
         if (isStopRequested()) return;

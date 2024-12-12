@@ -22,6 +22,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.Objects;
@@ -48,7 +52,9 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
-    private SampleMecanumDrive drive;
+    private PinPoint_MecanumDrive drive;
+
+    public GoBildaPinpointDriver odo;
 
     enum Mode {
         DRIVER_MODE,
@@ -72,7 +78,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 
-        drive = new SampleMecanumDrive(hardwareMap);
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
+        drive = new PinPoint_MecanumDrive(hardwareMap,odo);
 
         final VoltageSensor voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
@@ -120,8 +127,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     drive.setDrivePower(new Pose2d(NOMINAL_VOLTAGE / voltage * targetPower, 0, 0));
                     drive.updatePoseEstimate();
 
-                    Pose2d poseVelo = Objects.requireNonNull(drive.getPoseVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
-                    double currentVelo = poseVelo.getX();
+                    Pose2D poseVelo = Objects.requireNonNull(odo.getVelocity(), "poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.");
+                    double currentVelo = poseVelo.getX(DistanceUnit.INCH);
 
                     // update telemetry
                     telemetry.addData("targetVelocity", motionState.getV());

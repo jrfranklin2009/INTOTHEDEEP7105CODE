@@ -24,9 +24,8 @@ public class StraightTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
         Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)
                 .build();

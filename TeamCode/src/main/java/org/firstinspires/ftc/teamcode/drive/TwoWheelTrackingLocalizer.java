@@ -126,8 +126,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(getCorrectedVelocity(odo.getVelX())),
-                encoderTicksToInches(getCorrectedVelocity(odo.getVelY()))
+                encoderTicksToInches(odo.getVelX()),
+                encoderTicksToInches(odo.getVelY())
         );
     }
 }

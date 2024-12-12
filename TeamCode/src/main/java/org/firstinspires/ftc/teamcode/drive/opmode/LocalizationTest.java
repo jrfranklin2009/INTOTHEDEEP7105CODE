@@ -21,8 +21,8 @@ public class LocalizationTest extends LinearOpMode {
     GoBildaPinpointDriver odo;
     @Override
     public void runOpMode() throws InterruptedException {
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
@@ -47,15 +47,13 @@ public class LocalizationTest extends LinearOpMode {
             }
 
             drive.update();
-
-            Pose2d poseEstimate = drive.getPoseEstimate();
             telemetry.addData("leftfront",drive.leftFront.getCurrentPosition());
             telemetry.addData("leftrear",drive.leftRear.getCurrentPosition());
             telemetry.addData("rightfront",drive.rightFront.getCurrentPosition());
             telemetry.addData("rightrear",drive.rightRear.getCurrentPosition());
-            telemetry.addData("x", poseEstimate.getX());
-            telemetry.addData("y", poseEstimate.getY());
-            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("x", drive.getPoseEstimate().getX());
+            telemetry.addData("y", drive.getPoseEstimate().getY());
+            telemetry.addData("heading", drive.getPoseEstimate().getHeading());
             telemetry.update();
         }
     }

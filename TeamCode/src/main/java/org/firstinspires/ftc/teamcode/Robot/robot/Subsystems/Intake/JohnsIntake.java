@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
@@ -131,7 +130,7 @@ public class JohnsIntake extends Subsystem {
                 rightarm.setPosition(down); // 121
                 leftarm.setPosition(down);
                 break;
-            case pre_clip:
+            case preauto_clip:
                 rightarm.setPosition(.32); // 121
                 leftarm.setPosition(.32);
                 break;
@@ -172,6 +171,6 @@ public class JohnsIntake extends Subsystem {
         snapclip,
         parallel,
         forward,
-        pre_clip
+        preauto_clip
     }
 }

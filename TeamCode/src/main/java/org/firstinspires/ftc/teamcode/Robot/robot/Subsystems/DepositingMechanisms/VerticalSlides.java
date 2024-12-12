@@ -34,7 +34,7 @@ public class VerticalSlides extends Subsystem {
             }
         }
     });;
-    public static double slidepos = 0;
+    public static double slidepos = 0, lowchamber = 700, lowbasket = 1350, highbasket =2880;
 //            , slidepower;
 //    double kp,ki,kd;
     public static boolean closeThread = false;
@@ -123,9 +123,9 @@ public class VerticalSlides extends Subsystem {
         } else if (input.isLeftBumperPressed()){
             ref = ref - 1530;
         } else if (input.isRightBumperPressed() && ref == 1530){
-            ref = ref + 1350;
-        } else if (input.isLeftBumperPressed() && ref == 2880){
-            ref = ref - 1350;
+            ref = ref + lowbasket;
+        } else if (input.isLeftBumperPressed() && ref == highbasket){
+            ref = ref - lowbasket;
         }
     }
 

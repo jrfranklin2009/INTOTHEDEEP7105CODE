@@ -14,19 +14,20 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 public abstract class BaseAuto extends LinearOpMode {
     protected Robot robot;
     public ScoringCommandGroups groups;
-    public  MoveVerticalSlidesMultiThread moveSlides;
+//    MoveVerticalSlidesMultiThread moveSlides;
     @Override
     public void runOpMode() throws InterruptedException {
 
         setRobot();
 
         groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides,robot.clipmech,this);
-        moveSlides = new MoveVerticalSlidesMultiThread(robot.verticalslides,this,true,1350);
-
+//        moveSlides = new MoveVerticalSlidesMultiThread()
+        robot.getScheduler().forceCommand(groups.initRobot());
         while (opModeInInit()){
         }
 
         waitForStart();
+        robot.driveTrain.setRR_PinPoint(setXPos(),setYPos(),setHeading());
         robot.getScheduler().forceCommand(runAuto(robot.getScheduler()));
 
         while (opModeIsActive() && !isStopRequested()){
@@ -53,5 +54,8 @@ public abstract class BaseAuto extends LinearOpMode {
     public void setRobot(){
         robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2,this);
     }
+    public abstract double setYPos();
+    public abstract double setXPos();
+    public abstract double setHeading();
 
 }

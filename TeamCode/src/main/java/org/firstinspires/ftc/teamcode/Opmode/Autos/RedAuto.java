@@ -47,4 +47,19 @@ public class RedAuto extends BaseAuto {
         return runpath;
 
     }
+
+    @Override
+    public double setYPos() {
+        return 0;
+    }
+
+    @Override
+    public double setXPos() {
+        return 0;
+    }
+
+    @Override
+    public double setHeading() {
+        return 0;
+    }
 }
