@@ -52,7 +52,7 @@ public class MoveVerticalSlidesMultiThread extends Command {
 
     @Override
     public boolean completed() {
-        return Math.abs(verticalSlides.getSlidesError()) < 20;
+        return Math.abs(verticalSlides.getSlidesError()) < 20 && Math.abs(verticalSlides.getChangeRate()) < 4;
     }
 
     @Override

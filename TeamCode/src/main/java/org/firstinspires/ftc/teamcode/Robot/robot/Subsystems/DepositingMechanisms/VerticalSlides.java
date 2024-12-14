@@ -34,14 +34,11 @@ public class VerticalSlides extends Subsystem {
             }
         }
     });;
-    public static double slidepos = 0, lowchamber = 700, lowbasket = 1350, highbasket =2880;
-//            , slidepower;
-//    double kp,ki,kd;
+    public static double  lowchamber = 700, lowbasket = 1350, highbasket =2880, ref, lastSlidePosition = 0;
+    int counter = 0;
     public static boolean closeThread = false;
 
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.0000002);
-
-    public static double ref;
 
     BasicPID controller = new BasicPID(coefficients);
 
@@ -64,8 +61,7 @@ public class VerticalSlides extends Subsystem {
 
     @Override
     public void periodicAuto() {
-//        slidepos = getSlidesPos();
-        Dashboard.addData("verticalslidepos",slidepos);
+        Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
         Dashboard.addData("closethread",closeThread);
     }
@@ -91,9 +87,23 @@ public class VerticalSlides extends Subsystem {
         rightslide.setPower(0);
     }
 
+    public double getChangeRate(){
+        return getSlidesPos() - getLastSlidePos();
+    }
+
+    public double getLastSlidePos(){
+        if (counter > 2){
+            lastSlidePosition = getSlidesPos();
+            counter = 1;
+        } else {
+            counter = counter+1;
+        }
+        return lastSlidePosition;
+    }
+
 
     public double getSlidesError(){
-        return ref - slidepos;
+        return ref - getSlidesPos();
     }
 
     public void startSLIDEThread() {
