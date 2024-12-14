@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
@@ -49,12 +50,12 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void periodicAuto() {
-        Dashboard.addData("X_Pos",getXPos());
-        Dashboard.addData("Y_Pos",getYPos());
-        Dashboard.addData("Heading",getHeading());
+//        Dashboard.addData("X_Pos",getXPos());
+//        Dashboard.addData("Y_Pos",getYPos());
+//        Dashboard.addData("Heading",getHeading());
 
-        mecanumDrive.update();
-        odo.update();
+//        mecanumDrive.update();
+//        odo.update();
     }
 
     @Override

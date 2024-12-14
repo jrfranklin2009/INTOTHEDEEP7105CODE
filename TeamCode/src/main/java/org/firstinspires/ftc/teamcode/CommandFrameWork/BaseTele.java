@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.CommandFrameWork;
 
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
 
 import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlides;
 import org.firstinspires.ftc.teamcode.Robot.robot.Robot;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
 
 public abstract class BaseTele extends LinearOpMode {
@@ -17,7 +20,8 @@ public abstract class BaseTele extends LinearOpMode {
 
         robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2,this);
         groups =new ScoringCommandGroups(robot.intake, robot.verticalslides,robot.horizontalslides, robot.clipmech,this);
-        MoveIntakeJohn moveIntakeJohn = new MoveIntakeJohn(robot.gamepad1, robot.intake);
+        MoveIntakeJohn moveIntakeJohn = new MoveIntakeJohn(robot.gamepad1, robot.intake, robot.horizontalslides);
+        MoveVerticalSlides verticalSlides = new MoveVerticalSlides(robot.verticalslides,robot.gamepad2);
 //        MoveVerticalSlides moveVerticalSlides = new MoveVerticalSlides(robot.verticalslides);
 
 //        while (opModeInInit()){
@@ -31,26 +35,24 @@ public abstract class BaseTele extends LinearOpMode {
         while (opModeIsActive()){
             robot.getScheduler().forceCommand(setUpTele(robot.getScheduler()));
             moveIntakeJohn.periodic();
+            verticalSlides.periodic();
 
-            robot.verticalslides.updatePos(robot.gamepad2);
+            robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
+            robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
+            robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
 
-            robot.gamepad1.whenCrossPressed(groups.fullExtendHorizontalSLides());
-            robot.gamepad1.whenSquarePressed(groups.bringInHorizontalSLidesBetter());
-            robot.gamepad1.whenTrianglePressed(groups.extendHorizontalSLides());
-
-            robot.gamepad2.whenRightBumperPressed(groups.slidesTeleop());
-            robot.gamepad2.whenLeftBumperPressed(groups.slidesTeleop());
+            for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
+                module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+            }
+//           groups.slidesTeleop();
+//            robot.gamepad2.whenLeftBumperPressed(groups.slidesTeleop());
 //            robot.gamepad2.whenRightBumperPressed(new MoveVerticalSlidesMultiThread(robot.verticalslides, this));
 //            robot.gamepad2.whenLeftBumperPressed(new MoveVerticalSlidesMultiThread(robot.verticalslides, this));
 
 //            robot.driveTrain.RobotRelative(robot.gamepad1);//2880 1530
             robot.updateTele();
-
-
         }
-
     }
-
     public abstract Command setUpTele(CommandScheduler commandScheduler);
     public abstract double setYPos();
     public abstract double setXPos();

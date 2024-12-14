@@ -16,7 +16,7 @@ public class ClipMech extends Subsystem {
 
     CRServo rightindex,leftindex;
 
-    public static double fully_up = .9,ready = .7,outtheway = .5, down = 0;
+    public static double fully_up = .9,ready = .7,outtheway = .57, down = 0;
 
     AnalogInput clipAnalog;
 

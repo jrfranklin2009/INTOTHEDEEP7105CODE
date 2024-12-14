@@ -32,27 +32,28 @@ public class MoveVerticalSlidesMultiThread extends Command {
         }
         time.reset();
 //        if (rat == true){
-        verticalSlides.startSLIDEThread();
+//        verticalSlides.startSLIDEThread();
 //        rat = false;}
-        VerticalSlides.closeThread = false;
+//        VerticalSlides.closeThread = false;
     }
 
     @Override
     public void periodic() {
-        if (Math.abs(verticalSlides.getSlidesError()) < 20){
-
-        }
+        verticalSlides.pidController();
+//        if (Math.abs(verticalSlides.getSlidesError()) < 20){
+//
+//        }
 //        else if (verticalSlides.isThreadInterrupted()) {
 //            verticalSlides.closeSLIDEThread();
 //        }
-        else {
+//        else {
 //            time.reset();
-        }
+//        }
     }
 
     @Override
     public boolean completed() {
-        return Math.abs(verticalSlides.getSlidesError()) < 20 && Math.abs(verticalSlides.getChangeRate()) < 4;
+        return Math.abs(verticalSlides.getSlidesError()) < 10;
     }
 
     @Override

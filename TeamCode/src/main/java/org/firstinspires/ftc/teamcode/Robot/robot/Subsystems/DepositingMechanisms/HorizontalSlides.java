@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
 
-    ServoImplEx leftservoslide, rightservoslide;
+    public ServoImplEx leftservoslide, rightservoslide;
 
     public static double fullin = .24, fullout = .88,
     //TODO max and min constrains must be fixed

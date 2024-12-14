@@ -21,34 +21,35 @@ public class VerticalSlides extends Subsystem {
 
 //    public static boolean rat = false;
 
-    LinearOpMode opMode;
+//    LinearOpMode opMode;
 
-    private final Object slideLock = new Object();
-    @GuardedBy("slideThread")
-    private Thread slideThread  = new Thread(() -> {
-        while (!opMode.isStopRequested()) {
-            synchronized (slideLock) {
+//    private final Object slideLock = new Object();
+//    @GuardedBy("slideThread")
+//    private Thread slideThread  = new Thread(() -> {
+//        while (!opMode.isStopRequested()) {
+//            synchronized (slideLock) {
 //                    slidepos = getSlidesPos();
-                pidController();
+//                pidController();
 //                    imuAngle = AngleUnit.normalizeRadians(imu.getAngularOrientation().firstAngle);
-            }
-        }
-    });;
-    public static double  lowchamber = 700, lowbasket = 1350, highbasket =2880, ref, lastSlidePosition = 0;
+//            }
+//        }
+//    });;
+    public static double  lowchamber = 1210, lowbasket = 1630, highbasket =2330, ref, lastSlidePosition = 0;
     int counter = 0;
     public static boolean closeThread = false;
 
-    public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.0000002);
+    public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
 
     BasicPID controller = new BasicPID(coefficients);
 
     public VerticalSlides(LinearOpMode opMode){
-        this.opMode = opMode;
+//        this.opMode = opMode;
     }
 
     @Override
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
+        closeThread = false;
 //        slidepos = 0;
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
@@ -107,16 +108,17 @@ public class VerticalSlides extends Subsystem {
     }
 
     public void startSLIDEThread() {
-        slideThread.start();
+//        slideThread.start();
     }
 
     public void closeSLIDEThread(){
-        slideThread.interrupt();
+//        slideThread.interrupt();
         closeThread = true;
     }
 
     public boolean isThreadInterrupted(){
-        return slideThread.isInterrupted();
+//        return slideThread.isInterrupted();
+        return false;
     }
 
 //    public void updatePos(Input input){
@@ -129,13 +131,13 @@ public class VerticalSlides extends Subsystem {
 
     public void updatePos(Input input){
         if (input.isRightBumperPressed()){
-            ref = ref + 1530;
+            ref = lowchamber;
         } else if (input.isLeftBumperPressed()){
-            ref = ref - 1530;
-        } else if (input.isRightBumperPressed() && ref == 1530){
-            ref = ref + lowbasket;
-        } else if (input.isLeftBumperPressed() && ref == highbasket){
-            ref = ref - lowbasket;
+            ref = 0;
+        } else if (input.isRightBumperPressed() && ref == lowchamber){
+            ref = lowbasket;
+        } else if (input.isLeftBumperPressed() && ref == lowbasket){
+            ref = lowchamber;
         }
     }
 

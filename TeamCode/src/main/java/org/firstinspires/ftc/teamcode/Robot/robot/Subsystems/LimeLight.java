@@ -57,10 +57,10 @@ public class LimeLight extends Subsystem {
         if (result != null) {
             if (result.isValid()) {
                 botpose = result.getBotpose_MT2();
-                limelight.updateRobotOrientation(odo.getHeading());
+//                limelight.updateRobotOrientation(odo.getHeading());
 //                converter();
                 odo.mecanumDrive.setPoseEstimate(new Pose2d(getBotX(), getBotY(), getBotHeading()));
-                odo.odo.setPosition(new Pose2D(INCH, getBotX(), getBotY(), AngleUnit.DEGREES, getBotHeading()));
+//                odo.odo.setPosition(new Pose2D(INCH, getBotX(), getBotY(), AngleUnit.DEGREES, getBotHeading()));
             }
         }
     }
