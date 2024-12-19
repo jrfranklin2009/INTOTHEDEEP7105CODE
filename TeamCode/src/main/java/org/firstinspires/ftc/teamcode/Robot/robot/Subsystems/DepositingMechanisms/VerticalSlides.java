@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import net.jcip.annotations.GuardedBy;
-
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
+import org.firstinspires.ftc.teamcode.Robot.robot.Robot;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 
 @Config
@@ -34,9 +34,9 @@ public class VerticalSlides extends Subsystem {
 //            }
 //        }
 //    });;
-    public static double  lowchamber = 1210, lowbasket = 1630, highbasket =2330, ref, lastSlidePosition = 0;
+    public static double  lowchamber = 1210,lowestchamber = 1757, lowbasket = 1630, highbasket =2330, ref, lastSlidePosition = 0;
     int counter = 0;
-    public static boolean closeThread = false;
+    public static boolean closeThread = false, holdPos = false;
 
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
 
@@ -50,6 +50,7 @@ public class VerticalSlides extends Subsystem {
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
         closeThread = false;
+        holdPos = false;
 //        slidepos = 0;
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
@@ -57,14 +58,19 @@ public class VerticalSlides extends Subsystem {
         rightslide.setDirection(DcMotorSimple.Direction.REVERSE);
 
         resetSlides();
-
     }
 
     @Override
     public void periodicAuto() {
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
+        Dashboard.addData("slidepower",leftslide.getPower());
         Dashboard.addData("closethread",closeThread);
+
+        if (holdPos){
+            setPower(.075);
+        }
+
     }
 
     @Override
@@ -86,6 +92,11 @@ public class VerticalSlides extends Subsystem {
     public void zeroPower(){
         leftslide.setPower(0);
         rightslide.setPower(0);
+    }
+
+    public void setPower(double power){
+        leftslide.setPower(power);
+        rightslide.setPower(power);
     }
 
     public double getChangeRate(){
@@ -129,16 +140,29 @@ public class VerticalSlides extends Subsystem {
 //        }
 //    }
 
-    public void updatePos(Input input){
-        if (input.isRightBumperPressed()){
+    public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
+        if (input.isRightBumperPressed() && ref != lowchamber){
             ref = lowchamber;
-        } else if (input.isLeftBumperPressed()){
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isLeftBumperPressed() && ref == lowchamber){
             ref = 0;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
         } else if (input.isRightBumperPressed() && ref == lowchamber){
-            ref = lowbasket;
-        } else if (input.isLeftBumperPressed() && ref == lowbasket){
-            ref = lowchamber;
+            ref = lowestchamber;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isLeftBumperPressed() && ref == lowchamber){
+            ref = lowestchamber;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
         }
+
+
+//        else if (input.isRightBumperPressed() && ref == lowestchamber){
+//            ref = highbasket;
+//            robot.getScheduler().forceCommand(groups.slidesTeleop());
+//        } else if (input.isLeftBumperPressed() && ref == lowchamber){
+//            ref = lowestchamber;
+//            robot.getScheduler().forceCommand(groups.slidesTeleop());
+//        }
     }
 
     public double getSlidesPos(){

@@ -54,6 +54,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     GoBildaPinpointDriver odo;
 
+    double x,y;
 //    DriveTrain driveTrain;
 
     // Parallel/Perpendicular to the forward axis
@@ -63,12 +64,14 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
 //    private PinPoint_MecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(GoBildaPinpointDriver odo) {
+    public TwoWheelTrackingLocalizer(GoBildaPinpointDriver odo,double x, double y) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
         ));
 
+        this.x = x;
+        this.y = y;
         this.odo = odo;
 //        this.drive = drive;
 //        this.driveTrain = driveTrain;
@@ -83,7 +86,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     @Override
     public double getHeading() {
-        return odo.getHeading();
+        return Math.toDegrees(odo.getHeading());
     }
 
     @Override
@@ -95,8 +98,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                encoderTicksToInches(odo.getEncoderX()),
-                encoderTicksToInches(odo.getEncoderY())
+                encoderTicksToInches(x),
+                encoderTicksToInches(y)
         );
     }
 
@@ -126,8 +129,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(odo.getVelX()),
-                encoderTicksToInches(odo.getVelY())
+                encoderTicksToInches(getCorrectedVelocity(odo.getVelX())),
+                encoderTicksToInches(getCorrectedVelocity(odo.getVelY()))
         );
     }
 }

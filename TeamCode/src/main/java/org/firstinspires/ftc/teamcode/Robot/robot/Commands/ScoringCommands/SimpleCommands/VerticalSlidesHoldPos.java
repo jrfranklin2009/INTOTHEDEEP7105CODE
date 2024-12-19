@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
@@ -19,9 +17,11 @@ public class VerticalSlidesHoldPos extends Command {
 
     @Override
     public void init() {
+        verticalslides.holdPos = true;
 //       time.reset();
 //       secondLoop = false;
-        verticalslides.getAndSetPower();
+//        verticalslides.getAndSetPower();
+//        verticalslides.setPower(.074);
     }
 
     @Override
@@ -31,13 +31,13 @@ public class VerticalSlidesHoldPos extends Command {
 //            verticalslides.closeSLIDEThread();
 //            secondLoop = true;
 //        verticalslides.getAndSetPower();
-
-            verticalslides.getAndSetPower();
+//        verticalslides.setPower(.074);
+//            verticalslides.getAndSetPower();
     }
 
     @Override
     public boolean completed() {
-        return verticalslides.ref == 0;
+        return true;
     }
 
     @Override

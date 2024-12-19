@@ -1,30 +1,36 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 
+@Config
 public class JohnHanging extends Subsystem {
 
     DcMotorEx rightHang,leftHang;
 
-    public static double unfoldpower = -1, foldpower = 1;
+    public static double unfoldpower = -.5, foldpower = .5, hangUp = 3780, handDown = -2000;
+
 
     @Override
     public void initAuto(HardwareMap hwMap) {
         rightHang = hwMap.get(DcMotorEx.class, "rightHang");
         leftHang = hwMap.get(DcMotorEx.class, "leftHang");
-        rightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightHang.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
     public void periodicAuto() {
-
+        Dashboard.addData("hangpos",getPos());
     }
 
     @Override
@@ -55,8 +61,17 @@ public class JohnHanging extends Subsystem {
         }
     }
 
+    public void setPower(double power){
+        rightHang.setPower(power);
+        leftHang.setPower(power);
+    }
+
+    public double getError(double ref){
+        return ref - getPos();
+    }
+
     public double getPos(){
-        return rightHang.getCurrentPosition();
+        return leftHang.getCurrentPosition();
     }
 
     public enum HangStates{

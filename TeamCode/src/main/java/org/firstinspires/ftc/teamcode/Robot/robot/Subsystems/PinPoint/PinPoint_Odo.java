@@ -21,6 +21,8 @@ public class PinPoint_Odo extends Subsystem {
 
     private double[] velocityEstimates;
 
+    double errorX, errorY, errorH, correctedX, correctedY, correctedH;
+
 //    Telemetry telemetry;
 
     public PinPoint_Odo () {
@@ -33,7 +35,7 @@ public class PinPoint_Odo extends Subsystem {
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.optii);
         odo.setOffsets(171.25336,0);
-        resetPosAndHeading();
+//        resetPosAndHeading();
 //        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,od);
     }
 
@@ -41,9 +43,9 @@ public class PinPoint_Odo extends Subsystem {
     public void periodicAuto() {
 //        Dashboard.addData("Status", odo.getDeviceStatus());
 //        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
-//        Dashboard.addData("X_Pos",odo.getPosX());
-//        Dashboard.addData("Y_Pos",odo.getPosY());
-//        Dashboard.addData("Heading",Math.toDegrees(odo.getHeading()));
+        Dashboard.addData("X_Pos",getX());
+        Dashboard.addData("Y_Pos",getY());
+        Dashboard.addData("Heading",Math.toDegrees(getHeading()));
 //        Dashboard.addData("Heading_Radians?",odo.getHeading());
         mecanumDrive.update();
         odo.update();
@@ -66,11 +68,31 @@ public class PinPoint_Odo extends Subsystem {
         odo.resetPosAndIMU();
     }
 
+    public double getX(){
+        return mecanumDrive.getPoseEstimate().getX();
+    }
+
+    public double getY(){
+        return  mecanumDrive.getPoseEstimate().getX();
+    }
+
+    public double getHeading(){
+        return  mecanumDrive.getPoseEstimate().getHeading();
+    }
+
     public double getCorrectedVelocity(double input) {
         double median = velocityEstimates[0] > velocityEstimates[1]
                 ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
                 : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
         return inverseOverflow(input, median);
+    }
+
+    public void resetOdo(double refX, double refY, double refHeading){
+        errorX = refX - getX();
+        errorY = refY - getY();
+        errorH = refHeading - getHeading();
+
+
     }
 //
     private static double inverseOverflow(double input, double estimate) {

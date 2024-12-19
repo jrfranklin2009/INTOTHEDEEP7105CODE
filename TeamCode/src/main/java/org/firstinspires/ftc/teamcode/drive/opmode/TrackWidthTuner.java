@@ -39,7 +39,7 @@ public class TrackWidthTuner extends LinearOpMode {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo,1,1);
         // TODO: if you haven't already, set the localizer to something that doesn't depend on
         // drive encoders for computing the heading
 

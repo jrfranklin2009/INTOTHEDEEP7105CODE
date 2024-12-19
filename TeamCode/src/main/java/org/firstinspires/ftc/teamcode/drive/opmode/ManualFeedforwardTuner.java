@@ -79,7 +79,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        drive = new PinPoint_MecanumDrive(hardwareMap,odo);
+        drive = new PinPoint_MecanumDrive(hardwareMap,odo,1,1);
 
         final VoltageSensor voltageSensor = hardwareMap.voltageSensor.iterator().next();
 

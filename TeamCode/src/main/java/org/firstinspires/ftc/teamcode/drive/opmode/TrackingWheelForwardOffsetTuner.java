@@ -49,7 +49,7 @@ public class TrackingWheelForwardOffsetTuner extends LinearOpMode {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo,1,1);
 
         if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {
             RobotLog.setGlobalErrorMsg("StandardTrackingWheelLocalizer is not being set in the "

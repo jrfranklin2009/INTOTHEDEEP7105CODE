@@ -31,10 +31,12 @@ public class DriveTrain extends Subsystem {
 
    DriveSpeed driveSpeed = DriveSpeed.Fast;
 
+   double correctedX,correctedY,correctedH,errorX,errorY,errorH;
+
    boolean slow = false;
 
    public DriveTrain(HardwareMap hwMap){
-       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo);
+       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,correctedX,correctedY);
    }
 
     @Override
@@ -44,18 +46,18 @@ public class DriveTrain extends Subsystem {
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.optii);
         odo.setOffsets(171.45,0);
 //        resetPosAndHeading();
-        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo);
+        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,correctedX,correctedY);
 //        mecanumDrive.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
     }
 
     @Override
     public void periodicAuto() {
-//        Dashboard.addData("X_Pos",getXPos());
-//        Dashboard.addData("Y_Pos",getYPos());
-//        Dashboard.addData("Heading",getHeading());
+        Dashboard.addData("X_Pos",correctedX);
+        Dashboard.addData("Y_Pos",correctedY);
+        Dashboard.addData("Heading",correctedH);
 
-//        mecanumDrive.update();
-//        odo.update();
+        mecanumDrive.update();
+        odo.update();
     }
 
     @Override
@@ -70,12 +72,12 @@ public class DriveTrain extends Subsystem {
        if (driveSpeed == DriveSpeed.Fast) {
            mecanumDrive.setWeightedDrivePower(new Pose2d(
                    -input.getLeft_stick_y(),
-                   -input.getLeft_stick_x(),
+                   input.getLeft_stick_x(),
                    -input.getRight_stick_x()));
        } else if (driveSpeed == DriveSpeed.Slow) {
            mecanumDrive.setWeightedDrivePower(new Pose2d(
                    (-input.getLeft_stick_y() * .3),
-                   (-input.getLeft_stick_x() * .3),
+                   (input.getLeft_stick_x() * .3),
                    (-input.getRight_stick_x() * .3)));
            }
        }
@@ -92,8 +94,14 @@ public class DriveTrain extends Subsystem {
     }
 
     public void setRR_PinPoint(double x, double y, double heading){
-        odo.setPosition(new Pose2D(DistanceUnit.INCH,x,y, AngleUnit.DEGREES,heading));
-        mecanumDrive.setPoseEstimate(new Pose2d(x,y,heading));
+       errorX = x - getXPos();
+       errorY = y - getYPos();
+       errorH = heading - getHeading();
+       correctedX = getXPos() - errorX;
+       correctedY = getYPos() - errorY;
+       correctedH = getHeading() - errorH;
+//        odo.setPosition(new Pose2D(DistanceUnit.INCH,x,y, AngleUnit.DEGREES,heading));
+        mecanumDrive.setPoseEstimate(new Pose2d(correctedX,correctedY,correctedH));
     }
 
     public void setRR(double x, double y, double heading){
@@ -105,15 +113,15 @@ public class DriveTrain extends Subsystem {
     }
 
     public double getXPos(){
-        return odo.getPosX();
+        return mecanumDrive.getPoseEstimate().getY();
     }
 
     public double getYPos(){
-        return odo.getPosY();
+        return mecanumDrive.getPoseEstimate().getX();
     }
 
     public double getHeading(){
-        return Math.toDegrees(odo.getHeading());
+        return mecanumDrive.getPoseEstimate().getHeading();
     }
 
     public void setStatesJohn(Input input){

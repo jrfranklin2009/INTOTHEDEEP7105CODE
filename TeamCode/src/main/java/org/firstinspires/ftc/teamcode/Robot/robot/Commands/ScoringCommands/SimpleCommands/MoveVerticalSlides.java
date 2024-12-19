@@ -27,7 +27,7 @@ Input input;
 
     @Override
     public void periodic() {
-        verticalSlides.updatePos(input);
+//        verticalSlides.updatePos(input);
         if (Math.abs(verticalSlides.getSlidesError()) > 20){
             verticalSlides.pidController();
         } else if ( verticalSlides.ref == 0) {

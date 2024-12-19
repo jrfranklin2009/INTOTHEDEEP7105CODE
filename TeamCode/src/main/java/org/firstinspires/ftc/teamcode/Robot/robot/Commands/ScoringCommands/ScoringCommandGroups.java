@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands;
 
 
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging.foldpower;
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging.handDown;
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging.hangUp;
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging.unfoldpower;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
@@ -31,12 +36,14 @@ public class ScoringCommandGroups {
     ClipMech clipmech;
     HorizontalSlides horizontalSlides;
     VerticalSlides verticalslides;
+    JohnHanging hang;
     LinearOpMode opMode;
-    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides, ClipMech clipmech, LinearOpMode opMode) {
+    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides, ClipMech clipmech, JohnHanging hanging,LinearOpMode opMode) {
         this.intake = intake;
         this.verticalslides = verticalslides;
         this.horizontalSlides = horizontalslides;
         this.clipmech = clipmech;
+        this.hang = hanging;
         this.opMode = opMode;
     }
 
@@ -44,17 +51,17 @@ public class ScoringCommandGroups {
         return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),moveArmJohn(JohnsIntake.ArmStates.preauto_clip));
     }
 
-    public Command slidesTeleop(){
-//        return new MoveVerticalSlides(verticalslides);
-        return null;
-    }
-
 //    public Command slidesTeleop(){
-//        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,false,0).addNext(new CloseThread(verticalslides)).addNext(new VerticalSlidesHoldPos(verticalslides));
+////        return new MoveVerticalSlides(verticalslides);
+//        return null;
 //    }
 
+    public Command slidesTeleop(){
+        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,false,0).addNext(new CloseThread(verticalslides));
+    }
+
     public Command slidesSetPos(double target){
-        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,true,target).addNext(new CloseThread(verticalslides)).addNext(new VerticalSlidesHoldPos(verticalslides));
+        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,true,target).addNext(new CloseThread(verticalslides));
     }
 
     public Command moveClipMechanismsOut(double verticalSlidesTarget, ClipMech.ArmStates clipstate, HorizontalSlides.HorizontalSlideStates horizontalstate, double target, JohnsIntake.ArmStates armstate){
@@ -110,13 +117,11 @@ public class ScoringCommandGroups {
         return new MoveClipMech(clipmech,armstates);
     }
 
-    public Command hangJohn(JohnHanging.HangStates hangstates){
-        return HangJohn(hangstates);
+    public Command pullUp(){
+        return new MoveHang(hang, foldpower, hangUp);
     }
 
-    public MoveHang HangJohn(JohnHanging.HangStates hangstates){
-//        return new MoveHang(hang, hangstates);
-        return null;
+    public Command pullDown(){
+        return new MoveHang(hang, unfoldpower, handDown);
     }
-
 }

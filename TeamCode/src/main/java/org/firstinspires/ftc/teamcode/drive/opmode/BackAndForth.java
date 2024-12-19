@@ -35,7 +35,7 @@ public class BackAndForth extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo,1,1);
 
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)
