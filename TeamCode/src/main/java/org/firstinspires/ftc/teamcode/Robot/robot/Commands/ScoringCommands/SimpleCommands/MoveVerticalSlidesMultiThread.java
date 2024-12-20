@@ -27,6 +27,7 @@ public class MoveVerticalSlidesMultiThread extends Command {
 
     @Override
     public void init() {
+        verticalSlides.holdPos = false;
         if (setTarget){
             VerticalSlides.ref = ref;
         }
@@ -58,6 +59,7 @@ public class MoveVerticalSlidesMultiThread extends Command {
 
     @Override
     public void shutdown() {
+        verticalSlides.holdPos = true;
 //        verticalSlides.closeSLIDEThread();
 //        new VerticalSlidesHoldPos(verticalSlides);
 //        verticalSlides.closeSLIDEThread();

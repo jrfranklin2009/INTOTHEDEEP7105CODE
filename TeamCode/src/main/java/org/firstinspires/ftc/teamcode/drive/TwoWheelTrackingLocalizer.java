@@ -2,14 +2,12 @@ package org.firstinspires.ftc.teamcode.drive;
 
 import androidx.annotation.NonNull;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-
-import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
+import org.firstinspires.ftc.teamcode.util.Encoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +33,6 @@ import java.util.List;
  *    \--------------/
  *
  */
-@Config
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 4096;
     public static double WHEEL_RADIUS = 0.6889764; // in
@@ -43,39 +40,28 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     public static double PARALLEL_X = 0; // X is the up and down direction
     public static double PARALLEL_Y = 6.75; // Y is the strafe direction
+    // xEncoder
 
     public static double PERPENDICULAR_X = 0;
-    public static double PERPENDICULAR_Y = 0;
-
-
-    private final static int CPS_STEP = 0x10000;
-
-    public double[] velocityEstimates;
-
-    GoBildaPinpointDriver odo;
-
-    double x,y;
-//    DriveTrain driveTrain;
+    public static double PERPENDICULAR_Y = 0; //yEncoder
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis
-//    private Encoder parallelEncoder, perpendicularEncoder; // The parallel wheel is the X wheel. The perpendicular wheel measures the Y;
+    private Encoder xEncoder, yEncoder;
 
-//    private PinPoint_MecanumDrive drive;
+    private PinPoint_MecanumDrive drive;
 
-    public TwoWheelTrackingLocalizer(GoBildaPinpointDriver odo,double x, double y) {
+    public TwoWheelTrackingLocalizer(HardwareMap hardwareMap, PinPoint_MecanumDrive drive) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
         ));
 
-        this.x = x;
-        this.y = y;
-        this.odo = odo;
-//        this.drive = drive;
-//        this.driveTrain = driveTrain;
-        velocityEstimates = new double[3];
+        this.drive = drive;
+
+        xEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "xEncoder")); //xEncoder
+        yEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "yEncoder")); //yEncoder
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }
@@ -86,39 +72,21 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
     @Override
     public double getHeading() {
-        return Math.toDegrees(odo.getHeading());
+        return drive.getRawExternalHeading();
     }
 
     @Override
     public Double getHeadingVelocity() {
-        return odo.getHeadingVelocity();
+        return drive.getExternalHeadingVelocity();
     }
 
     @NonNull
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                encoderTicksToInches(x),
-                encoderTicksToInches(y)
+                encoderTicksToInches(xEncoder.getCurrentPosition()),
+                encoderTicksToInches(yEncoder.getCurrentPosition())
         );
-    }
-
-    private static double inverseOverflow(double input, double estimate) {
-        // convert to uint16
-        int real = (int) input & 0xffff;
-        // initial, modulo-based correction: it can recover the remainder of 5 of the upper 16 bits
-        // because the velocity is always a multiple of 20 cps due to Expansion Hub's 50ms measurement window
-        real += ((real % 20) / 4) * CPS_STEP;
-        // estimate-based correction: it finds the nearest multiple of 5 to correct the upper bits by
-        real += Math.round((estimate - real) / (5 * CPS_STEP)) * 5 * CPS_STEP;
-        return real;
-    }
-
-    public double getCorrectedVelocity(double input) {
-        double median = velocityEstimates[0] > velocityEstimates[1]
-                ? Math.max(velocityEstimates[1], Math.min(velocityEstimates[0], velocityEstimates[2]))
-                : Math.max(velocityEstimates[0], Math.min(velocityEstimates[1], velocityEstimates[2]));
-        return inverseOverflow(input, median);
     }
 
     @NonNull
@@ -129,8 +97,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(getCorrectedVelocity(odo.getVelX())),
-                encoderTicksToInches(getCorrectedVelocity(odo.getVelY()))
+                encoderTicksToInches(xEncoder.getCorrectedVelocity()),
+                encoderTicksToInches(yEncoder.getCorrectedVelocity())
         );
     }
 }

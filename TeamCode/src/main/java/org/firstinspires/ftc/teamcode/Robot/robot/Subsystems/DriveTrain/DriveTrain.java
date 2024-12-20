@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain;
 
+import androidx.annotation.GuardedBy;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.util.Angle;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -25,37 +29,39 @@ public class DriveTrain extends Subsystem {
    public static double headingP = 1;
    public static double xyP = 1;
 
-    public GoBildaPinpointDriver odo;
-
     public PinPoint_MecanumDrive mecanumDrive;
+
+    public static boolean usingThread = true;
 
    DriveSpeed driveSpeed = DriveSpeed.Fast;
 
-   double correctedX,correctedY,correctedH,errorX,errorY,errorH;
+//   double correctedX,correctedY,correctedH,errorX,errorY,errorH;
+    double setX, setY,imuAngle;
+
+//    private final Object imuLock = new Object();
+//    @GuardedBy("imuLock")
+//    public IMU imu;
+//    private Thread imuThread;
 
    boolean slow = false;
 
    public DriveTrain(HardwareMap hwMap){
-       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,correctedX,correctedY);
+       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,setX,setY);
    }
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        odo = hwMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.optii);
-        odo.setOffsets(171.45,0);
-//        resetPosAndHeading();
-        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,correctedX,correctedY);
+//        imu = hwMap.get(IMU.class,"imu");
+        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap,odo,setX,setY);
 //        mecanumDrive.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
     }
 
     @Override
     public void periodicAuto() {
-        Dashboard.addData("X_Pos",correctedX);
-        Dashboard.addData("Y_Pos",correctedY);
-        Dashboard.addData("Heading",correctedH);
-
+//        Dashboard.addData("X_Pos",correctedX);
+//        Dashboard.addData("Y_Pos",correctedY);
+//        Dashboard.addData("Heading",correctedH);
+        Dashboard.addData("imu",imuAngle);
         mecanumDrive.update();
         odo.update();
     }
@@ -63,6 +69,23 @@ public class DriveTrain extends Subsystem {
     @Override
     public void shutdown() {
         mecanumDrive.setMotorPowers(0,0,0,0);
+    }
+
+    public void startIMUThread(LinearOpMode opMode) {
+//        if (Globals.USING_IMU) {
+//        if (usingThread) {
+//            imuThread = new Thread(() -> {
+//                while (!opMode.isStopRequested() && opMode.opModeIsActive()) {
+//                    synchronized (imuLock) {
+//                        imuAngle = imu.getRobotYawPitchRollAngles().getYaw();
+//                    }
+//                }
+//            });
+//            imuThread.start();
+//        } else {
+//            imuAngle = imu.getRobotYawPitchRollAngles().getYaw();
+//        }
+//        }
     }
 
     public void setMotorPower(float x) {
@@ -94,14 +117,19 @@ public class DriveTrain extends Subsystem {
     }
 
     public void setRR_PinPoint(double x, double y, double heading){
-       errorX = x - getXPos();
-       errorY = y - getYPos();
-       errorH = heading - getHeading();
-       correctedX = getXPos() - errorX;
-       correctedY = getYPos() - errorY;
-       correctedH = getHeading() - errorH;
+       setX = x;
+       setY = y;
+//       heading =
+//       errorX = x - getXPos();
+//       errorY = y - getYPos();
+//       errorH = heading - getHeading();
+//       correctedX = getXPos() - errorX;
+//       correctedY = getYPos() - errorY;
+//       correctedH = getHeading() - errorH;
 //        odo.setPosition(new Pose2D(DistanceUnit.INCH,x,y, AngleUnit.DEGREES,heading));
-        mecanumDrive.setPoseEstimate(new Pose2d(correctedX,correctedY,correctedH));
+//        mecanumDrive.setPoseEstimate(new Pose2d(
+//                correctedX,correctedY,correctedH
+//        ));
     }
 
     public void setRR(double x, double y, double heading){
