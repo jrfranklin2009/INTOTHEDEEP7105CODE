@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain;
 
+import static org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive.imuAngle;
+
 import androidx.annotation.GuardedBy;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -27,7 +29,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Config
 public class DriveTrain extends Subsystem {
 //   public SampleMecanumDrive mecanumDrive;
-   public static double headingP = 1,xyP = 1,imuAngle, imuOffSet = 0, imuVelocity = 0;
+   public static double headingP = 1,xyP = 1;
 
     public PinPoint_MecanumDrive mecanumDrive;
 
@@ -39,7 +41,7 @@ public class DriveTrain extends Subsystem {
 
 //    private final Object imuLock = new Object();
 //    @GuardedBy("imuLock")
-//    public IMU imu;`
+//    public IMU imu;
 //    private Thread imuThread;
 
    boolean slow = false;
@@ -51,7 +53,7 @@ public class DriveTrain extends Subsystem {
     @Override
     public void initAuto(HardwareMap hwMap) {
 //        imu = hwMap.get(IMU.class,"imu");
-        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap);
+//        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap);
     }
 
     @Override
@@ -64,23 +66,6 @@ public class DriveTrain extends Subsystem {
     public void shutdown() {
         mecanumDrive.setMotorPowers(0,0,0,0);
     }
-
-//    public void startIMUThread(LinearOpMode opMode) {
-//        if (usingThread) {
-//            imuThread = new Thread(() -> {
-//                while (!opMode.isStopRequested() && opMode.opModeIsActive()) {
-//                    synchronized (imuLock) {
-//                        imuAngle = imu.getRobotYawPitchRollAngles().getYaw() - imuOffSet;
-//                        imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
-//                    }
-//                }
-//            });
-//            imuThread.start();
-//        } else {
-//            imuAngle = imu.getRobotYawPitchRollAngles().getYaw() - imuOffSet;
-//            imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
-//        }
-//    }
 
     public void setMotorPower(float x) {
        mecanumDrive.setMotorPowers(x,x,x,x);

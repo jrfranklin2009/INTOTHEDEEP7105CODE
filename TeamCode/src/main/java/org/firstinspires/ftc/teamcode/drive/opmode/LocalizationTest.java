@@ -25,6 +25,8 @@ public class LocalizationTest extends LinearOpMode {
 
         waitForStart();
 
+        drive.startIMUThread(this);
+
         while (!isStopRequested()) {
             drive.setWeightedDrivePower(
                     new Pose2d(
@@ -35,11 +37,11 @@ public class LocalizationTest extends LinearOpMode {
             );
 
             if (gamepad1.a){
-                drive.leftRear.setPower(1);
+                drive.leftRear.setPower(1); //leftfront
             } else if (gamepad1.b) {
-                drive.leftFront.setPower(1);
+                drive.leftFront.setPower(1);  //leftback
             } else if (gamepad1.y) {
-                drive.rightRear.setPower(1);
+                drive.rightRear.setPower(1);  //rightfront
             } else if (gamepad1.x){
                 drive.rightFront.setPower(1);
             }
