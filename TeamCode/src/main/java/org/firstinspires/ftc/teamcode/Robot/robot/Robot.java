@@ -30,12 +30,12 @@ public class Robot {
     public HorizontalSlides horizontalslides;
     public JohnHanging hang;
 
-    public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2,LinearOpMode linearOpMode) {
+    public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
         // init robot
         driveTrain = new DriveTrain(hw);  // drivetrain
         clipmech = new ClipMech();
         hang = new JohnHanging();
-        verticalslides = new VerticalSlides(linearOpMode);
+        verticalslides = new VerticalSlides();
         horizontalslides = new HorizontalSlides();
         limelight = new LimeLight(driveTrain);
         intake= new JohnsIntake();  // intake

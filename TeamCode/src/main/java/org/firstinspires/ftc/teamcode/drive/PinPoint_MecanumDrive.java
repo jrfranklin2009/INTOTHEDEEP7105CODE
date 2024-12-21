@@ -303,12 +303,12 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        return imuAngle;
+        return 0;
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        return imuVelocity;
+        return (double) 0;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {

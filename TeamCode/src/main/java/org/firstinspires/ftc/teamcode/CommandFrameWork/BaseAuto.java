@@ -51,6 +51,6 @@ public abstract class BaseAuto extends LinearOpMode {
 //    }
 
     public void setRobot(){
-        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2,this);
+        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
     }
 }

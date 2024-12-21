@@ -18,7 +18,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double outback = .78, down = 0.155;
+    public static double outback = .7, down = 0.15;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -103,8 +103,8 @@ public class JohnsIntake extends Subsystem {
                 leftintake.setPower(1);
                 break;
             case outtake:
-                rightintake.setPower(-.8);
-                leftintake.setPower(-.8);
+                rightintake.setPower(-.3);
+                leftintake.setPower(-.3);
                 break;
             case stop:
                 rightintake.setPower(0);
@@ -153,13 +153,13 @@ public class JohnsIntake extends Subsystem {
         }
     }
 
-    public enum SampleStates{
-        BLUE,
-        RED,
-        YELLOW,
-        READ,
-        SHUT_OFF
-    }
+//    public enum SampleStates{
+//        BLUE,
+//        RED,
+//        YELLOW,
+//        READ,
+//        SHUT_OFF
+//    }
 
     public enum IntakeStates{
         intake,
