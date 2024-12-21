@@ -64,7 +64,7 @@ public class VerticalSlides extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
         Dashboard.addData("slidepower",leftslide.getPower());

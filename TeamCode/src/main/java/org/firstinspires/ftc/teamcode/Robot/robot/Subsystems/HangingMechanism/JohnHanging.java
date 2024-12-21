@@ -29,7 +29,7 @@ public class JohnHanging extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         Dashboard.addData("hangpos",getPos());
     }
 

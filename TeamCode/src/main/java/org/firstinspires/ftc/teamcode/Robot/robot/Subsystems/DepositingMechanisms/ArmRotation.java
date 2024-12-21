@@ -36,7 +36,7 @@ public class ArmRotation extends Subsystem {
         resetArmRotation();
     }
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         Dashboard.addData("armrotationpos",armrotation.getCurrentPosition());
         armRotationPID_Ticks(ref);
     }

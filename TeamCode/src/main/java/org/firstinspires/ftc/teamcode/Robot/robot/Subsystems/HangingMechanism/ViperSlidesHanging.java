@@ -52,7 +52,7 @@ public class ViperSlidesHanging extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
 
     }
 

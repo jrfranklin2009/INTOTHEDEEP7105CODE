@@ -53,12 +53,12 @@ public class Robot {
     public void update() {  // update everything
         updateGamepads();  // update gamepads
         driveTrain.mecanumDrive.update();  // update mecanum drive
-        scheduler.runAuto();  // it says run auto but this really just updates the scheduler and runs everything there
+        scheduler.run();  // it says run auto but this really just updates the scheduler and runs everything there
     }
 
     public void updateTele() {  // update everything but tele specific
         updateGamepads();  // update gamepads
-        scheduler.runAuto(); // it says run auto but this really just updates the scheduler and runs everything there
+        scheduler.run(); // it says run auto but this really just updates the scheduler and runs everything there
     }
 
     public void shutdown() {
@@ -70,8 +70,8 @@ public class Robot {
     }
 
     public void updateGamepads(){
-        gamepad1.periodicAuto();
-        gamepad2.periodicAuto();
+        gamepad1.periodic();
+        gamepad2.periodic();
     }
 
     public enum OpMode {

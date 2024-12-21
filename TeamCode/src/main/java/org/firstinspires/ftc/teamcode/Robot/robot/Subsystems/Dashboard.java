@@ -12,8 +12,6 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 public class Dashboard extends Subsystem {
     public static TelemetryPacket packet = new TelemetryPacket();
     FtcDashboard dash = FtcDashboard.getInstance();
-//    public static Telemetry telemetry;
-//    static OpMode opMode;
     ElapsedTime time = new ElapsedTime();
 
     @Override
@@ -22,11 +20,10 @@ public class Dashboard extends Subsystem {
         packet = new TelemetryPacket();
     }
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         dash.sendTelemetryPacket(packet);
         packet = new TelemetryPacket();
 
-//        packet.put("Loop Time",time.seconds());
         addData("Loop Time",time.seconds());
         time.reset();
     }
@@ -36,13 +33,9 @@ public class Dashboard extends Subsystem {
     }
     public static void addData(String string, Object object){
         packet.put(string,object);
-//        opMode.telemetry.addData(string,object);
-//        opMode.updateTelemetry(opMode.telemetry);
     }
     public static void addLine(String string){
         packet.addLine(string);
-//        opMode.telemetry.addLine(string);
-//        opMode.updateTelemetry(opMode.telemetry);
     }
 
 

@@ -15,11 +15,9 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  */
 @Autonomous(group = "drive")
 public class SplineTest extends LinearOpMode {
-    GoBildaPinpointDriver odo;
     @Override
     public void runOpMode() throws InterruptedException {
-        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap,odo,1,1);
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap);
 
         waitForStart();
 

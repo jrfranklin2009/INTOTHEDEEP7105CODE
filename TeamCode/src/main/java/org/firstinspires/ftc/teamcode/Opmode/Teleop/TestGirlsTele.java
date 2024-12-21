@@ -30,7 +30,7 @@ public class TestGirlsTele extends LinearOpMode {
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         righthang = hardwareMap.get(DcMotor.class,"righthang");
         lefthang = hardwareMap.get(DcMotor.class,"lefthang");
-        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap, odo,1,1);
+        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap);
         righthang.setDirection(DcMotorSimple.Direction.REVERSE);
 
 

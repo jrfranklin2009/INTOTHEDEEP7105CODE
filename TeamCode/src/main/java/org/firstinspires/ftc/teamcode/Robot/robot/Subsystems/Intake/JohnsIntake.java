@@ -40,7 +40,7 @@ public class JohnsIntake extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
 //        Dashboard.addData("blue",getBlue());
 //        Dashboard.addData("red",getRed());
 //        Dashboard.addData("green",getGreen());

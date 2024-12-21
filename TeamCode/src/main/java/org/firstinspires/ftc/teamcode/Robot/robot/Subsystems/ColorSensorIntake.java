@@ -22,7 +22,7 @@ public class ColorSensorIntake extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
 
         double yellow = colorSensorIntake.red()+colorSensorIntake.green();
         double red = colorSensorIntake.red();

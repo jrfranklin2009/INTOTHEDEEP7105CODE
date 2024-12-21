@@ -40,7 +40,7 @@ public class PinPoint_Odo extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
 //        Dashboard.addData("Status", odo.getDeviceStatus());
 //        Dashboard.addData("Pinpoint Frequency", odo.getFrequency());
         Dashboard.addData("X_Pos",getX());

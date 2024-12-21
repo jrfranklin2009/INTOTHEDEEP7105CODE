@@ -14,11 +14,27 @@ public class Dashboard extends BetterSubsystems{
 
     @Override
     public void init() {
-
+        dash.sendTelemetryPacket(packet);
+        packet = new TelemetryPacket();
     }
 
     @Override
     public void periodic() {
+        dash.sendTelemetryPacket(packet);
+        packet = new TelemetryPacket();
+        addData("Loop Time",time.seconds());
+        time.reset();
+    }
 
+    @Override
+    public void shutdown() {
+
+    }
+
+    public static void addData(String string, Object object){
+        packet.put(string,object);
+    }
+    public static void addLine(String string){
+        packet.addLine(string);
     }
 }

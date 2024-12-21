@@ -18,11 +18,9 @@ import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
  */
 @TeleOp(group = "drive")
 public class LocalizationTest extends LinearOpMode {
-    GoBildaPinpointDriver odo;
     @Override
     public void runOpMode() throws InterruptedException {
-        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo,1,1);
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();

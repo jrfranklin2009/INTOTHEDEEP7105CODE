@@ -52,7 +52,7 @@ public class LimeLight extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         result = limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {

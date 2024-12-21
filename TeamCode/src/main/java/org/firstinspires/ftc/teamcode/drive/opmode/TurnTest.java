@@ -16,11 +16,9 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;import org.firsti
 public class TurnTest extends LinearOpMode {
     public static double ANGLE = 90; // deg
 
-    GoBildaPinpointDriver odo;
     @Override
     public void runOpMode() throws InterruptedException {
-        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo,1,1);
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap);
         waitForStart();
 
         if (isStopRequested()) return;

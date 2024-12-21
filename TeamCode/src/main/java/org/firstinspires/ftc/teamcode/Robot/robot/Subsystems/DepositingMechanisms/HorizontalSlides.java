@@ -34,7 +34,7 @@ public class HorizontalSlides extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         Dashboard.addData("horizontalslides",getSlidePos());
     }
 

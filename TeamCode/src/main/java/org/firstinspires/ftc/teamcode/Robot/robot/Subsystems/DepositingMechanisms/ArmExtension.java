@@ -29,7 +29,7 @@ public class ArmExtension extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         Dashboard.addData("armextensionpos",armextension.getCurrentPosition());
     }
 

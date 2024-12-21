@@ -31,10 +31,10 @@ public class CommandScheduler {
 			subsystem.shutdown();
 	}
 
-	public void runAuto() {
+	public void run() {
 		for (Subsystem subsystem : subsystems) {
 			subsystem.startTimer();
-			subsystem.periodicAuto();
+			subsystem.periodic();
 			subsystem.stopTimer();
 		}
 

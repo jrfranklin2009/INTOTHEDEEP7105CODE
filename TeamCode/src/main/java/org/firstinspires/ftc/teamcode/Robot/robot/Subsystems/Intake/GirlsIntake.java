@@ -25,7 +25,7 @@ public class GirlsIntake extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
 
     }
 

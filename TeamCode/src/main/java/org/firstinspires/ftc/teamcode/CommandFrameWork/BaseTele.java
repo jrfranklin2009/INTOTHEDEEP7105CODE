@@ -26,7 +26,6 @@ public abstract class BaseTele extends LinearOpMode {
         waitForStart();
         robot.driveTrain.startIMUThread(this);
 //        robot.driveTrain.setRR_PinPoint(5,5,0);
-        robot.driveTrain.resetPosAndHeading();
         robot.getScheduler().forceCommand(setUpTele(robot.getScheduler()));
         while (opModeIsActive()){
             moveIntakeJohn.periodic();

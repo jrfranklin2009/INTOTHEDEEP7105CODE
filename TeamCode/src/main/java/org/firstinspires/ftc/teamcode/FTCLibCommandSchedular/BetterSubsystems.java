@@ -7,6 +7,7 @@ public abstract class BetterSubsystems extends SubsystemBase {
 //    SubsystemBase base;
     public abstract void init();
     public abstract void periodic();
+    public abstract void shutdown();
 
     public BetterSubsystems() {
         CommandScheduler.getInstance().registerSubsystem(this);

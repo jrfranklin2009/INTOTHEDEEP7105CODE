@@ -45,19 +45,4 @@ public class BlueAuto extends BaseAuto {
         return runpath;
     }
 
-    @Override
-    public double setYPos() {
-        return -59.7;
-    }
-
-    @Override
-    public double setXPos() {
-        return -15.8;
-    }
-
-    @Override
-    public double setHeading() {
-        return 90;
-    }
-
 }

@@ -27,7 +27,6 @@ public abstract class BaseAuto extends LinearOpMode {
         }
 
         waitForStart();
-        robot.driveTrain.setRR_PinPoint(setXPos(),setYPos(),setHeading());
         robot.getScheduler().forceCommand(runAuto(robot.getScheduler()));
 
         while (opModeIsActive() && !isStopRequested()){
@@ -54,8 +53,4 @@ public abstract class BaseAuto extends LinearOpMode {
     public void setRobot(){
         robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2,this);
     }
-    public abstract double setYPos();
-    public abstract double setXPos();
-    public abstract double setHeading();
-
 }

@@ -41,7 +41,7 @@ public class Intake extends Subsystem {
 
     }
     @Override
-    public void periodicAuto() {
+    public void periodic() {
 
     }
 
