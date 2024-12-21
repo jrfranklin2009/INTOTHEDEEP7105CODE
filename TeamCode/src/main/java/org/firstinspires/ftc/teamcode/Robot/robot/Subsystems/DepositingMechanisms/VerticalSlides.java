@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import net.jcip.annotations.GuardedBy;
-
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
+import org.firstinspires.ftc.teamcode.Robot.robot.Robot;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 
 @Config
@@ -21,53 +21,67 @@ public class VerticalSlides extends Subsystem {
 
 //    public static boolean rat = false;
 
-    LinearOpMode opMode;
+//    LinearOpMode opMode;
 
-    private final Object slideLock = new Object();
-    @GuardedBy("slideThread")
-    private Thread slideThread  = new Thread(() -> {
-        while (!opMode.isStopRequested()) {
-            synchronized (slideLock) {
+//    private final Object slideLock = new Object();
+//    @GuardedBy("slideThread")
+//    private Thread slideThread  = new Thread(() -> {
+//        while (!opMode.isStopRequested()) {
+//            synchronized (slideLock) {
 //                    slidepos = getSlidesPos();
-                pidController();
+//                pidController();
 //                    imuAngle = AngleUnit.normalizeRadians(imu.getAngularOrientation().firstAngle);
-            }
-        }
-    });;
-    public static double slidepos = 0;
-//            , slidepower;
-//    double kp,ki,kd;
-    public static boolean closeThread = false;
+//            }
+//        }
+//    });;
 
-    public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.0000002);
+    Input inputmanual;
+    public static double  lowchamber = 1210,lowestchamber = 1757, hangPos = 2030, lowbasket = 1630, highbasket =2875, ref, down = -.3;
+    public static boolean closeThread = false, holdPos = false;
 
-    public static double ref;
+    public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
 
     BasicPID controller = new BasicPID(coefficients);
 
+    double calculate;
+
     public VerticalSlides(LinearOpMode opMode){
-        this.opMode = opMode;
+//        this.opMode = opMode;
+//        this.inputmanual = inputmanual;
     }
 
     @Override
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
-//        slidepos = 0;
+        closeThread = false;
+        holdPos = false;
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
 
         rightslide.setDirection(DcMotorSimple.Direction.REVERSE);
 
         resetSlides();
-
     }
 
     @Override
-    public void periodicAuto() {
-//        slidepos = getSlidesPos();
-        Dashboard.addData("verticalslidepos",slidepos);
+    public void periodic() {
+        Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
+        Dashboard.addData("slidepower",leftslide.getPower());
         Dashboard.addData("closethread",closeThread);
+
+
+        if (holdPos && ref != 0 && inputmanual.getLeft_stick_y() < .7){
+//            setPower(.075);
+            leftslide.setPower(.128);
+            rightslide.setPower(.128);
+        } else if (ref == 0 && inputmanual.getLeft_stick_y() < .7){
+            holdPos = false;
+            zeroPower();
+        } else {
+
+        }
+
     }
 
     @Override
@@ -76,8 +90,9 @@ public class VerticalSlides extends Subsystem {
     }
 
     public void pidController(){
-        leftslide.setPower(controller.calculate(ref,getSlidesPos()));
-        rightslide.setPower(controller.calculate(ref,getSlidesPos()));
+        calculate = controller.calculate(ref,getSlidesPos());
+        leftslide.setPower(calculate);
+        rightslide.setPower(calculate);
     }
 
     public void getAndSetPower(){
@@ -91,41 +106,52 @@ public class VerticalSlides extends Subsystem {
         rightslide.setPower(0);
     }
 
-
+    public void setPower(double power){
+        leftslide.setPower(power);
+        rightslide.setPower(power);
+    }
     public double getSlidesError(){
-        return ref - slidepos;
+        return ref - getSlidesPos();
     }
 
     public void startSLIDEThread() {
-        slideThread.start();
+//        slideThread.start();
     }
 
     public void closeSLIDEThread(){
-        slideThread.interrupt();
+//        slideThread.interrupt();
         closeThread = true;
     }
 
-    public boolean isThreadInterrupted(){
-        return slideThread.isInterrupted();
-    }
-
-//    public void updatePos(Input input){
-//        if (input.isRightBumperPressed() && getSlidesPos() <= 2400){
-//            ref = ref + 300;
-//        } else if (input.isLeftBumperPressed() && getSlidesPos() >= 150){
-//            ref = ref - 300;
-//        }
-//    }
-
-    public void updatePos(Input input){
-        if (input.isRightBumperPressed()){
-            ref = ref + 1530;
-        } else if (input.isLeftBumperPressed()){
-            ref = ref - 1530;
-        } else if (input.isRightBumperPressed() && ref == 1530){
-            ref = ref + 1350;
-        } else if (input.isLeftBumperPressed() && ref == 2880){
-            ref = ref - 1350;
+    public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
+        inputmanual = input;
+        if (input.isRightBumperPressed() && ref == 0){
+            ref = lowchamber;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isLeftBumperPressed() && ref == lowchamber){
+            ref = 0;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isRightBumperPressed() && ref == lowchamber){
+            ref = lowestchamber;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isLeftBumperPressed() && ref == lowestchamber){
+            ref = lowchamber;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isRightBumperPressed() && ref == lowestchamber){
+            ref = highbasket;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isLeftBumperPressed() && ref == highbasket){
+            ref = lowestchamber;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isRightStickButtonPressed()){
+            ref = hangPos;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.isLeftStickButtonPressed()){
+            ref = 0;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (inputmanual.getLeft_stick_y() > .7){
+            leftslide.setPower(down);
+            rightslide.setPower(down);
         }
     }
 

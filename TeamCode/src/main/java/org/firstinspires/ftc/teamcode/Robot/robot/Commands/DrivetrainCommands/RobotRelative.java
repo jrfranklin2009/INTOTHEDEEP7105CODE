@@ -26,7 +26,7 @@ public class RobotRelative extends Command {
     public void periodic() {
         driveTrain.mecanumDrive.setWeightedDrivePower(new Pose2d(
                 -input.getLeft_stick_y(),
-                -input.getLeft_stick_x(),
+                input.getLeft_stick_x(),
                 -input.getRight_stick_x()));
     }
 

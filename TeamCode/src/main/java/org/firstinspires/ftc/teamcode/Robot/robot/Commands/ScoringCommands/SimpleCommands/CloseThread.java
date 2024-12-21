@@ -25,6 +25,10 @@ public class CloseThread extends Command {
     @Override
     public void periodic() {
 //        verticalslides.getAndSetPower();
+        //TODO: Check to see if we can remove the timer
+//        verticalslides
+//        verticalslides.setPower(.074);
+//        verticalslides.holdPos = true;
         if (time.seconds() > 1 && secondLoop == false){
             verticalslides.closeSLIDEThread();
             secondLoop = true;

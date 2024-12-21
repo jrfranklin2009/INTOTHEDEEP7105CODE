@@ -8,19 +8,22 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.Jo
 public class MoveHang extends Command {
     JohnHanging hanging;
     JohnHanging.HangStates hangStates;
-    ElapsedTime timer = new ElapsedTime();
+//    ElapsedTime timer = new ElapsedTime();
 
-    public MoveHang(JohnHanging hanging, JohnHanging.HangStates hangStates){
+    double ref, power;
+
+    public MoveHang(JohnHanging hanging, double power, double ref){
         this.hanging = hanging;
-        this.hangStates = hangStates;
-
-
+//        this.hangStates = hangStates;
+        this.power = power;
+        this.ref = ref;
     }
 
     @Override
     public void init() {
-        hanging.setRightHang(hangStates);
-        timer.reset();
+//        hanging.setRightHang(hangStates);
+        hanging.setPower(power);
+//        timer.reset();
     }
 
     @Override
@@ -30,11 +33,12 @@ public class MoveHang extends Command {
 
     @Override
     public boolean completed() {
-        return (timer.seconds() > 5.0);
+        return Math.abs(hanging.getError(ref)) < 10;
     }
 
     @Override
     public void shutdown() {
-
+//        hanging.setRightHang(JohnHanging.HangStates.ZERO_POWER);
+        hanging.setPower(0);
     }
 }

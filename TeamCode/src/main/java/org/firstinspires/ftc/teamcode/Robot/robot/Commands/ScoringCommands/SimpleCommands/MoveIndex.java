@@ -30,7 +30,7 @@ public class MoveIndex extends Command {
 
     @Override
     public boolean completed() {
-        return time.seconds() > .3;
+        return time.seconds() > .1;
     }
 
     @Override

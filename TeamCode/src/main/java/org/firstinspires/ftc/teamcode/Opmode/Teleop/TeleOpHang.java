@@ -25,7 +25,7 @@ public class TeleOpHang extends LinearOpMode {
         righthang = hardwareMap.get(DcMotor.class,"righthang");
         lefthang = hardwareMap.get(DcMotor.class,"lefthang");
 
-        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap, odo);
+        PinPoint_MecanumDrive mecanumDrive = new PinPoint_MecanumDrive(hardwareMap);
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
         righthang.setDirection(DcMotorSimple.Direction.REVERSE);
 

@@ -1,96 +1,127 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands;
 
 
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging.foldpower;
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging.handDown;
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging.hangUp;
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging.unfoldpower;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 
-import org.firstinspires.ftc.teamcode.Robot.robot.Input;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmExtension;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.ArmRotation;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.ViperSlidesHanging;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.GirlsIntake;
-
+import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.CloseThread;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.Delay;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveArmJohn;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHang;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlidesEncoder;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlides;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesMultiThread;
+import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.VerticalSlidesHoldPos;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.ClipMech.ClipMech;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.HangingMechanism.JohnHanging;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
 
 /** This contains all of the commands used in our robot.
  * Most commands are used in tele.
  */
 
 public class ScoringCommandGroups {
-    GirlsIntake intake;  // intake
-
-   ArmExtension extension;  // scoring mechanism
-
-   ArmRotation rotation;
-
-   ViperSlidesHanging hang;  // hanging
-
-
-    public ScoringCommandGroups(GirlsIntake intake, ArmExtension extention, ArmRotation rotation) {
+    JohnsIntake intake;  // intake
+    ClipMech clipmech;
+    HorizontalSlides horizontalSlides;
+    VerticalSlides verticalslides;
+    JohnHanging hang;
+    LinearOpMode opMode;
+    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides, ClipMech clipmech, JohnHanging hanging,LinearOpMode opMode) {
         this.intake = intake;
-        this.extension = extension;
-        this.rotation = this.rotation;
-        this.hang = hang;
+        this.verticalslides = verticalslides;
+        this.horizontalSlides = horizontalslides;
+        this.clipmech = clipmech;
+        this.hang = hanging;
+        this.opMode = opMode;
+    }
 
+    public Command initRobot(){
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),moveArmJohn(JohnsIntake.ArmStates.preauto_clip));
+    }
+
+//    public Command slidesTeleop(){
+////        return new MoveVerticalSlides(verticalslides);
+//        return null;
+//    }
+
+    public Command slidesTeleop(){
+        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,false,0).addNext(new CloseThread(verticalslides));
+    }
+
+    public Command slidesSetPos(double target){
+        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,true,target).addNext(new CloseThread(verticalslides));
+    }
+
+    public Command moveClipMechanismsOut(double verticalSlidesTarget, ClipMech.ArmStates clipstate, HorizontalSlides.HorizontalSlideStates horizontalstate, double target, JohnsIntake.ArmStates armstate){
+        return new MultipleCommand(slidesSetPos(verticalSlidesTarget),extendHorizontalSlides_VerticalSlides(clipstate,horizontalstate,target,armstate));
+    }
+
+    public Command armOutBack(){
+        return new MultipleCommand(moveArmJohn(JohnsIntake.ArmStates.outback),moveGripper(JohnsIntake.GripperStates.unclamp));
+    }
+
+    public Command armOutFront(){
+        return new MultipleCommand(moveArmJohn(JohnsIntake.ArmStates.forward),moveGripper(JohnsIntake.GripperStates.unclamp));
     }
 
 
-
-
-    //public Command moveIntakeJohn(Input input){
-     //   return new MoveIntakeGirls(input,this.intake);
+    public Command moveArmJohn(JohnsIntake.ArmStates armStates){
+        return new MoveArmJohn(this.intake, armStates);
     }
 
+    public Command moveGripper(JohnsIntake.GripperStates gripperStates){
+        return new MoveGripper(this.intake, gripperStates);
+    }
 
+    public Command moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates horizontalslidestates, double target){
+        return new MoveHorizontalSlidesEncoder(this.horizontalSlides,horizontalslidestates,target);
+    }
 
+    public Command fullExtendHorizontalSLides(){
+        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY),
+                new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_Out,245)));
+//                                .addNext(moveArmJohn(JohnsIntake.ArmStates.forward)));
+    }
 
+    public Command clipClip(){
+        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.Out_The_Way),moveArmJohn(JohnsIntake.ArmStates.preauto_clip),new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,190)).addNext(moveArmJohn(JohnsIntake.ArmStates.posauto_clip).addNext(moveGripper(JohnsIntake.GripperStates.unclamp))));
+    }
 
-//    public Command intakeSample(Input input){ // intake a sample
-//        return setIntake(Intake.IntakePower.Intake, Intake.Wrist.IntakeSample, Intake.Twist.IntakeSample, input);
-//    }
-//
-//    public Command outtakeSample(Input input){  // outtake sample
-//        return setIntake(Intake.IntakePower.Outtake, Intake.Wrist.OuttakeSample, Intake.Twist.OuttakeSample, input);
-//    }
-//
-//    public Command outtakeSpecimen(Input input){  // outtake specimen (place on bar)
-//        return setIntake(Intake.IntakePower.Stop, Intake.Wrist.PlacingSpecimin, Intake.Twist.PlacingSpecimin, input);
-//    }
-//
-//    public Command setIntakeRest(Input input){  // set the intake to its default
-//        return setIntake(Intake.IntakePower.Stop, Intake.Wrist.Rest, Intake.Twist.Rest, input);
-//    }
+    public Command extendHorizontalSLides(){
+        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY)
+                ,new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,190)));
+//                .addNext(moveArmJohn(JohnsIntake.ArmStates.forward)));
+    }
 
+    public Command extendHorizontalSlides_VerticalSlides(ClipMech.ArmStates clipstate, HorizontalSlides.HorizontalSlideStates horizontalstate, double target, JohnsIntake.ArmStates armstate){
+        return new MultipleCommand(moveClipMag(clipstate),new Delay(.4).addNext(moveHorizontalSlides(horizontalstate,target)).addNext(moveArmJohn(armstate)));
+    }
 
-//    public MoveIntake setIntake(Intake.IntakePower intakePower, Intake.Wrist wrist, Intake.Twist twist, Input input){  // set the intake based on inputs
-//        return new MoveIntake(intake,intakePower, wrist, twist, input);
-//    }
+    public Command bringInHorizontalSLidesBetter(){
+        return new MultipleCommand(new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.Fully_In,170).addNext(moveClipMag(ClipMech.ArmStates.Out_The_Way)),moveArmJohn(JohnsIntake.ArmStates.parallel));
+    }
 
-//    public MoveArmExtensionPID moveArmExtensionPID(ArmExtension.ArmExtensionStates armExtension){  // move the arm w/ PID.
-//        return new MoveArmExtensionPID(this.armExtension,armExtension);
-//    }
-//
-//    public MoveArmRotation moveArmRotationPID(ArmRotation.ArmRotationStates turnStates) {
-//        return new MoveArmRotation(this.armRotation, turnStates);
-//    }
+    public Command moveClipMag(ClipMech.ArmStates armstates){
+        return new MoveClipMech(clipmech,armstates);
+    }
 
-//    public Command moveJohn
+    public Command pullUp(){
+        return new MoveHang(hang, foldpower, hangUp);
+    }
 
-//    public Command getReadyToHang(Input input){
-//        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.Down, input);  // get ready to hang by turning the lead screws
-//    }
-//
-//    public Command HookOnBar(Input input) {
-//        return setHang(HangingMechanism.LeadScrewTurnStates.Hang, HangingMechanism.LeadScrewStates.HangFirstLevel, input);  // hook on the first level bar by moving the hooks on the lead screws up
-//    }
-//
-//    public Command Hang(Input input){
-//        return setHang(HangingMechanism.LeadScrewTurnStates.Coast, HangingMechanism.LeadScrewStates.Down, input);  // hang by pulling them back down.  Also set the servos to coast
-//    }
-//
-//    public Command ResetHanging(Input input){
-//        return setHang(HangingMechanism.LeadScrewTurnStates.Normal, HangingMechanism.LeadScrewStates.Down, input);  // reset the hanging in case we do something wrong
-//    }
-
-//    public Command setHang(HangingMechanism.LeadScrewTurnStates leadscrewturnstate, HangingMechanism.LeadScrewStates leadscrewstate, Input input){  // set the hanging position
-//        return new MoveHang(hangingMechanism, leadscrewturnstate, leadscrewstate, input);
-//    }
-
+    public Command pullDown(){
+        return new MoveHang(hang, unfoldpower, handDown);
+    }
+}

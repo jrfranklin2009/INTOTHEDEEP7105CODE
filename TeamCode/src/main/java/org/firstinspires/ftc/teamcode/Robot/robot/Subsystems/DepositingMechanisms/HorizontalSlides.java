@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
 
-    ServoImplEx leftservoslide, rightservoslide;
+    public ServoImplEx leftservoslide, rightservoslide;
 
     public static double fullin = .24, fullout = .88,
     //TODO max and min constrains must be fixed
@@ -20,6 +20,8 @@ public class HorizontalSlides extends Subsystem {
 
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
+
+//    public static boolean done = false,
 
     //13 inches
 
@@ -32,7 +34,7 @@ public class HorizontalSlides extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         Dashboard.addData("horizontalslides",getSlidePos());
     }
 
@@ -70,15 +72,15 @@ public class HorizontalSlides extends Subsystem {
 
     public void setHorizontalSlides(HorizontalSlideStates horizontalslidestates){
         switch (horizontalslidestates){
-            case Fully_In:
+            case Fully_In:                         //161
                 leftservoslide.setPosition(fullin); //170
                 rightservoslide.setPosition(fullin);
                 break;
             case Half_Out:
-                leftservoslide.setPosition(.56);
+                leftservoslide.setPosition(.56);// 190
                 rightservoslide.setPosition(.56); //199
                 break;
-            case Fully_Out:
+            case Fully_Out:                         // 236
                 leftservoslide.setPosition(fullout); // 245
                 rightservoslide.setPosition(fullout);
                 break;

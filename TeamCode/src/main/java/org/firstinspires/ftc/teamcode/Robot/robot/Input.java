@@ -173,7 +173,7 @@ public class Input extends Subsystem {
     }
 
     @Override
-    public void periodicAuto() {
+    public void periodic() {
         updatePrevious();
         readGamepad();
         callHandlers();

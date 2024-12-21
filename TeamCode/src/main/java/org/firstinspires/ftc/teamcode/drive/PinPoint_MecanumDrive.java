@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain.imuAngle;
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain.imuVelocity;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ACCEL;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_ACCEL;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL;
@@ -31,10 +33,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -53,13 +57,10 @@ import java.util.List;
 public class PinPoint_MecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(12, 0, .3);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, .2);
-    GoBildaPinpointDriver odo;
 
     public static double LATERAL_MULTIPLIER = 1;
 
-    public static double VX_WEIGHT = 1;
-    public static double VY_WEIGHT = 1;
-    public static double OMEGA_WEIGHT = 1;
+    public static double VX_WEIGHT = 1,VY_WEIGHT = 1,OMEGA_WEIGHT = 1,robotHeading,robotHeadingVelocity;
 
     private TrajectorySequenceRunner trajectorySequenceRunner;
 
@@ -70,23 +71,18 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     public DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
-
-    //    private IMU imu;
     private VoltageSensor batteryVoltageSensor;
 
     private List<Integer> lastEncPositions = new ArrayList<>();
     private List<Integer> lastEncVels = new ArrayList<>();
 
-    public PinPoint_MecanumDrive(HardwareMap hardwareMap, GoBildaPinpointDriver odo) {
+    public PinPoint_MecanumDrive(HardwareMap hardwareMap) {
         super(DriveConstants.kV, DriveConstants.kA, DriveConstants.kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
                 new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5);
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
-
-        this.odo = odo;
-//        this.driveTrain = driveTrain;
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
@@ -128,7 +124,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         List<Integer> lastTrackingEncVels = new ArrayList<>();
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        setLocalizer(new TwoWheelTrackingLocalizer(odo));
+        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap,this));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
                 follower, HEADING_PID, batteryVoltageSensor,
@@ -307,14 +303,12 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        return odo.getHeading();
-//        return 0;
+        return imuAngle;
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        return odo.getHeadingVelocity();
-//        return null;
+        return imuVelocity;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {

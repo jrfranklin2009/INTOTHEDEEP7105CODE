@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.Simp
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 
-public class MoveHorizontalwithEncoderOut extends Command {
+public class MoveHorizontalSlidesEncoder extends Command {
 
     HorizontalSlides horizontalslides;
 
@@ -11,7 +11,7 @@ public class MoveHorizontalwithEncoderOut extends Command {
 
     double target;
 
-    public MoveHorizontalwithEncoderOut(HorizontalSlides horizontalslides, HorizontalSlides.HorizontalSlideStates horizontalslidestates, double target){
+    public MoveHorizontalSlidesEncoder(HorizontalSlides horizontalslides, HorizontalSlides.HorizontalSlideStates horizontalslidestates, double target){
         this.horizontalslides = horizontalslides;
         this.horizontalslidestates = horizontalslidestates;
         this.target = target;
@@ -30,7 +30,7 @@ public class MoveHorizontalwithEncoderOut extends Command {
 
     @Override
     public boolean completed() {
-        return horizontalslides.getSlidePos() >= target;
+        return Math.abs(target - horizontalslides.getSlidePos()) <= 8;
     }
 
     @Override

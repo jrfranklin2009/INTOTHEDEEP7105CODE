@@ -14,7 +14,7 @@ public abstract class Subsystem {
 		initAuto(hwMap);
 	}
 
-	public abstract void periodicAuto();
+	public abstract void periodic();
 
 //	public void periodicTele() {
 //		periodicAuto();

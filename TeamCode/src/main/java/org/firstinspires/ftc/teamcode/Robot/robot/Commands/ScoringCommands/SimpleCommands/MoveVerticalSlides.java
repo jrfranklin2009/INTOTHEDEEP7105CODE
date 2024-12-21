@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.Simp
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
+import org.firstinspires.ftc.teamcode.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
 public class MoveVerticalSlides extends Command {
@@ -12,9 +13,10 @@ public class MoveVerticalSlides extends Command {
     ElapsedTime time = new ElapsedTime();
 
 //    double ref;
-
-    public MoveVerticalSlides(VerticalSlides verticalSlides){
+Input input;
+    public MoveVerticalSlides(VerticalSlides verticalSlides, Input input){
         this.verticalSlides = verticalSlides;
+        this.input = input;
 //        this.ref = ref;
     }
 
@@ -25,17 +27,21 @@ public class MoveVerticalSlides extends Command {
 
     @Override
     public void periodic() {
-        verticalSlides.pidController();
-        if (Math.abs(verticalSlides.getSlidesError()) < 10){
-
+//        verticalSlides.updatePos(input);
+        if (Math.abs(verticalSlides.getSlidesError()) > 20){
+            verticalSlides.pidController();
+        } else if ( verticalSlides.ref == 0) {
+//            verticalSlides.getAndSetPower();
+            verticalSlides.zeroPower();
         } else {
-            time.reset();
+            verticalSlides.getAndSetPower();
+//            time.reset();
         }
     }
 
     @Override
     public boolean completed() {
-        return Math.abs(verticalSlides.getSlidesError()) < 10 && time.seconds() > 3;
+        return verticalSlides.ref == 0;
     }
 
     @Override

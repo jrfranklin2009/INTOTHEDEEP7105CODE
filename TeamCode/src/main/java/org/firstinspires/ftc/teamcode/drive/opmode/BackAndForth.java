@@ -30,12 +30,10 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Autonomous(group = "drive")
 public class BackAndForth extends LinearOpMode {
 
-    public static double DISTANCE = 30;
-    GoBildaPinpointDriver odo;
+    public static double DISTANCE = 10;
     @Override
     public void runOpMode() throws InterruptedException {
-        odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpointodo");
-        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap, odo);
+        PinPoint_MecanumDrive drive = new PinPoint_MecanumDrive(hardwareMap);
 
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)
