@@ -32,12 +32,12 @@ import java.util.List;
 public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
 
 //    public static boolean kalmanfilterenable = false;
-    public static double TICKS_PER_REV = 8192;
-    public static double WHEEL_RADIUS = 0.94488; // in
+    public static double TICKS_PER_REV = 4096;
+    public static double WHEEL_RADIUS = 0.6889764; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 6.946; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 0.125; // in; offset of the lateral wheel
+    public static double LATERAL_DISTANCE = 13.625; // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = 0; // in; offset of the lateral wheel
 
     public static double X_MULTIPLIER = 0.992, Y_MULTIPLIER = 1;
 
@@ -55,9 +55,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         lastEncPositions = lastTrackingEncPositions;
         lastEncVels = lastTrackingEncVels;
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lf"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "odo")); // this is port rb on the new bot but lb on the old one
-        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lb"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lb"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftHang")); // this is port rb on the new bot but lb on the old one
+        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "lf"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
 //        leftEncoder.setDirection(Encoder.Direction.REVERSE);

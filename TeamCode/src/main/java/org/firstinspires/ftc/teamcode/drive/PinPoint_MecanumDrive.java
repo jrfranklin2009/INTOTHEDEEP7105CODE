@@ -29,6 +29,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationCon
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -79,7 +80,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     private final Object imuLock = new Object();
     @GuardedBy("imuLock")
-    public BHI260IMU imu;
+    public IMU imu;
     private Thread imuThread;
 
 
@@ -98,12 +99,16 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 //            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
 //                    DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
 //            imu.initialize(parameters);
+        imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
+        imu.initialize(parameters);
+
 
         leftFront = hardwareMap.get(DcMotorEx.class, "lf");
         leftRear = hardwareMap.get(DcMotorEx.class, "lb");
         rightRear = hardwareMap.get(DcMotorEx.class, "rb");
         rightFront = hardwareMap.get(DcMotorEx.class, "rf");
-        imu = hardwareMap.get(BHI260IMU.class,"imu");
 
 
 
@@ -134,7 +139,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         List<Integer> lastTrackingEncVels = new ArrayList<>();
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap,this));
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap,lastTrackingEncPositions,lastTrackingEncVels));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(
                 follower, HEADING_PID, batteryVoltageSensor,
@@ -189,7 +194,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
                 while (!opMode.isStopRequested() && opMode.opModeIsActive()) {
                     synchronized (imuLock) {
                         imuAngle = Math.toRadians(imu.getRobotYawPitchRollAngles().getYaw()) - imuOffSet;
-                        imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
+//                        imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
                     }
                 }
             });
@@ -197,7 +202,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         } else {
             imuAngle =
             imu.getRobotYawPitchRollAngles().getYaw() - imuOffSet;
-            imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
+//            imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
 //                    imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
         }
     }
@@ -230,9 +235,14 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
     }
 
     public void update() {
+        updateIMU();
         updatePoseEstimate();
         DriveSignal signal = trajectorySequenceRunner.update(getPoseEstimate(), getPoseVelocity());
         if (signal != null) setDriveSignal(signal);
+    }
+
+    public void updateIMU(){
+        imuAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 
     public void waitForIdle() {
@@ -261,6 +271,16 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         rightFront.setPower(0);
         leftRear.setPower(0);
         rightRear.setPower(0);
+    }
+
+    public synchronized void resetImu(){
+        imu.resetDeviceConfigurationForOpMode();
+//        imuOffset = 0;
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.DOWN
+        ));
+        imu.initialize(parameters);
+        imu.resetYaw();
     }
 
     public void setPIDFCoefficients(DcMotor.RunMode runMode, PIDFCoefficients coefficients) {
@@ -332,12 +352,12 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        return imuAngle;
+        return 0;
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        return imuVelocity;
+        return 0.0;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
