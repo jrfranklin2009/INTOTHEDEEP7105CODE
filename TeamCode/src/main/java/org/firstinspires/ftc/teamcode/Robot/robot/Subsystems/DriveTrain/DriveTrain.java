@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
+import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 import org.firstinspires.ftc.teamcode.drive.PinPoint_MecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -36,10 +37,10 @@ public class DriveTrain extends Subsystem {
 
 //   double correctedX,correctedY,correctedH,errorX,errorY,errorH;
 
-    private final Object imuLock = new Object();
-    @GuardedBy("imuLock")
-    public IMU imu;
-    private Thread imuThread;
+//    private final Object imuLock = new Object();
+//    @GuardedBy("imuLock")
+//    public IMU imu;`
+//    private Thread imuThread;
 
    boolean slow = false;
 
@@ -49,14 +50,14 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        imu = hwMap.get(IMU.class,"imu");
+//        imu = hwMap.get(IMU.class,"imu");
         this.mecanumDrive = new PinPoint_MecanumDrive(hwMap);
     }
 
     @Override
     public void periodic() {
         Dashboard.addData("imu",getHeading(0));
-        mecanumDrive.update();
+//        mecanumDrive.update();
     }
 
     @Override
@@ -64,22 +65,22 @@ public class DriveTrain extends Subsystem {
         mecanumDrive.setMotorPowers(0,0,0,0);
     }
 
-    public void startIMUThread(LinearOpMode opMode) {
-        if (usingThread) {
-            imuThread = new Thread(() -> {
-                while (!opMode.isStopRequested() && opMode.opModeIsActive()) {
-                    synchronized (imuLock) {
-                        imuAngle = imu.getRobotYawPitchRollAngles().getYaw() - imuOffSet;
-                        imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
-                    }
-                }
-            });
-            imuThread.start();
-        } else {
-            imuAngle = imu.getRobotYawPitchRollAngles().getYaw() - imuOffSet;
-            imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
-        }
-    }
+//    public void startIMUThread(LinearOpMode opMode) {
+//        if (usingThread) {
+//            imuThread = new Thread(() -> {
+//                while (!opMode.isStopRequested() && opMode.opModeIsActive()) {
+//                    synchronized (imuLock) {
+//                        imuAngle = imu.getRobotYawPitchRollAngles().getYaw() - imuOffSet;
+//                        imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
+//                    }
+//                }
+//            });
+//            imuThread.start();
+//        } else {
+//            imuAngle = imu.getRobotYawPitchRollAngles().getYaw() - imuOffSet;
+//            imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
+//        }
+//    }
 
     public void setMotorPower(float x) {
        mecanumDrive.setMotorPowers(x,x,x,x);
@@ -97,16 +98,12 @@ public class DriveTrain extends Subsystem {
                    (-input.getRight_stick_x() * .3)));
            }
        }
-    public void setStates(Input input){
-       if (input.isCrossPressed() && slow){
-           slow = false;
-       } else if (input.isCrossPressed() && !slow) {
-           slow = true;
-       } else if (slow) {
-           driveSpeed = DriveSpeed.Slow;
-       } else if (!slow) {
-           driveSpeed = DriveSpeed.Fast;
-       }
+    public void setStates(VerticalSlides verticalSlides){
+//       if (input.isCrossPressed() && slow){
+//           slow = false;
+//       } else if (input.isCrossPressed() && !slow) {
+//           slow = true;
+//       }
     }
 
     public void setRR(double x, double y, double heading){

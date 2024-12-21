@@ -20,11 +20,11 @@ public abstract class BaseTele extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2,this);
+        robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2);
         groups =new ScoringCommandGroups(robot.intake, robot.verticalslides,robot.horizontalslides, robot.clipmech,robot.hang,this);
         MoveIntakeJohn moveIntakeJohn = new MoveIntakeJohn(robot.gamepad1, robot.intake, robot.horizontalslides);
         waitForStart();
-        robot.driveTrain.startIMUThread(this);
+//        robot.driveTrain.startIMUThread(this);
 //        robot.driveTrain.setRR_PinPoint(5,5,0);
         robot.getScheduler().forceCommand(setUpTele(robot.getScheduler()));
         while (opModeIsActive()){
@@ -36,7 +36,7 @@ public abstract class BaseTele extends LinearOpMode {
             robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
             robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
 
-            for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
+            for (LynxModule module : hardwareMap.   getAll(LynxModule.class)) {
                 module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
             }
 
