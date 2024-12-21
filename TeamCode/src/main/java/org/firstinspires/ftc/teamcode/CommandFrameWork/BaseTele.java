@@ -24,7 +24,7 @@ public abstract class BaseTele extends LinearOpMode {
         groups =new ScoringCommandGroups(robot.intake, robot.verticalslides,robot.horizontalslides, robot.clipmech,robot.hang,this);
         MoveIntakeJohn moveIntakeJohn = new MoveIntakeJohn(robot.gamepad1, robot.intake, robot.horizontalslides);
         waitForStart();
-//        robot.driveTrain.startIMUThread(this);
+        robot.driveTrain.mecanumDrive.startIMUThread(this);
 //        robot.driveTrain.setRR_PinPoint(5,5,0);
         robot.getScheduler().forceCommand(setUpTele(robot.getScheduler()));
         while (opModeIsActive()){

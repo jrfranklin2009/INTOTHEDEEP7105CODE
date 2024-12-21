@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.drive;
 
-
-import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain.imuAngle;
-import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain.imuVelocity;
+import static org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DriveTrain.DriveTrain.usingThread;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ACCEL;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_ACCEL;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL;
@@ -12,6 +10,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCO
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
 import static org.firstinspires.ftc.teamcode.drive.TwoWheelTrackingLocalizer.encoderTicksToInches;
 
+import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -29,6 +28,8 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
+import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -60,7 +61,7 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     public static double LATERAL_MULTIPLIER = 1;
 
-    public static double VX_WEIGHT = 1,VY_WEIGHT = 1,OMEGA_WEIGHT = 1,robotHeading,robotHeadingVelocity;
+    public static double VX_WEIGHT = 1,VY_WEIGHT = 1,OMEGA_WEIGHT = 1,imuAngle, imuOffSet = 0, imuVelocity = 0;
 
     private TrajectorySequenceRunner trajectorySequenceRunner;
 
@@ -75,6 +76,12 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     private List<Integer> lastEncPositions = new ArrayList<>();
     private List<Integer> lastEncVels = new ArrayList<>();
+
+    private final Object imuLock = new Object();
+    @GuardedBy("imuLock")
+    public BHI260IMU imu;
+    private Thread imuThread;
+
 
     public PinPoint_MecanumDrive(HardwareMap hardwareMap) {
         super(DriveConstants.kV, DriveConstants.kA, DriveConstants.kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
@@ -96,6 +103,9 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "lb");
         rightRear = hardwareMap.get(DcMotorEx.class, "rb");
         rightFront = hardwareMap.get(DcMotorEx.class, "rf");
+        imu = hardwareMap.get(BHI260IMU.class,"imu");
+
+
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -171,6 +181,25 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
                         .addTrajectory(trajectory)
                         .build()
         );
+    }
+
+    public void startIMUThread(LinearOpMode opMode) {
+        if (usingThread) {
+            imuThread = new Thread(() -> {
+                while (!opMode.isStopRequested() && opMode.opModeIsActive()) {
+                    synchronized (imuLock) {
+                        imuAngle = Math.toRadians(imu.getRobotYawPitchRollAngles().getYaw()) - imuOffSet;
+                        imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
+                    }
+                }
+            });
+            imuThread.start();
+        } else {
+            imuAngle =
+            imu.getRobotYawPitchRollAngles().getYaw() - imuOffSet;
+            imuVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
+//                    imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
+        }
     }
 
 
@@ -303,12 +332,12 @@ public class PinPoint_MecanumDrive extends MecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        return 0;
+        return imuAngle;
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        return (double) 0;
+        return imuVelocity;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
