@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.NewRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.robot.Input;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.VerticalSlides;
@@ -31,7 +32,7 @@ public class DriveTrain extends Subsystem {
 //   public SampleMecanumDrive mecanumDrive;
    public static double headingP = 1,xyP = 1;
 
-    public PinPoint_MecanumDrive mecanumDrive;
+    public MecanumDrive mecanumDrive;
 
     public static boolean usingThread = true;
 
@@ -47,7 +48,7 @@ public class DriveTrain extends Subsystem {
    boolean slow = false;
 
    public DriveTrain(HardwareMap hwMap){
-       this.mecanumDrive = new PinPoint_MecanumDrive(hwMap);
+       this.mecanumDrive = new MecanumDrive(hwMap,);
    }
 
     @Override

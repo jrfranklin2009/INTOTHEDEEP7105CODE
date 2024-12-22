@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Robot.robot.Commands.DrivetrainCommands;
 
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 
 
@@ -13,9 +14,9 @@ public class FollowPath extends Command {
 
     Dashboard dashboard;
 
-    Trajectory traj;
+    Action traj;
 
-    public FollowPath(Trajectory traj,Robot robot, Dashboard dashboard){
+    public FollowPath(Action traj,Robot robot, Dashboard dashboard){
         this.robot = robot;
         this.dashboard = dashboard;
         this.traj = traj;
