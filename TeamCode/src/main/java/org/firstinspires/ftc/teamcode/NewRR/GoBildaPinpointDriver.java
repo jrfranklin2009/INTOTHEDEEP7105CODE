@@ -20,10 +20,12 @@
  *   SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.NewRR;
 
 import static com.qualcomm.robotcore.util.TypeConversion.byteArrayToInt;
 
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.qualcomm.hardware.lynx.LynxI2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchDevice;
@@ -517,6 +519,10 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynchSi
                 hOrientation);
     }
 
+//    public Pose2d getPosition(){
+//        return new Pose2d(xPosition,yPosition,hOrientation);
+//    }
+
 
 
     /**
@@ -529,6 +535,9 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynchSi
                 AngleUnit.RADIANS,
                 hVelocity);
     }
+//    public PoseVelocity2d getVelocity(){
+//        return new PoseVelocity2d(xVelocity, yVelocity, hVelocity);
+//    }
 
 
 

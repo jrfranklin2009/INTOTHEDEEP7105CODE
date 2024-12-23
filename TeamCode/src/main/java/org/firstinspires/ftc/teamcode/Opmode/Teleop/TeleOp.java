@@ -5,12 +5,7 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.BaseTele;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.DrivetrainCommands.RobotRelative;
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
-import org.firstinspires.ftc.teamcode.Robot.robot.Commands.ScoringCommands.SimpleCommands.MoveIndex;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.ClipMech.ClipMech;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.Cyliis.Robot.robot.Commands.DrivetrainCommands.RobotRelative;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "\uD83D\uDE08")
 public class TeleOp extends BaseTele {

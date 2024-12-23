@@ -3,12 +3,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.BaseAuto;
-import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
-import org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler;
-import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.ClipMech.ClipMech;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
-import org.firstinspires.ftc.teamcode.Robot.robot.Subsystems.Intake.JohnsIntake;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Config
 @Autonomous
